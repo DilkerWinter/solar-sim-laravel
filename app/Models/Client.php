@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $fillable = [
-        'nome',
-        'telefone',
+        'name',
+        'phone',
         'email',
-        'rua',
-        'numero',
-        'bairro',
-        'cidade',
-        'estado',
-        'consumo_medio_mensal_kwh',
-        'consumo_medio_anual_kwh',
-        'valor_medio_conta',
-        'distribuidora',
-        'tipo_instalacao',
-        'tipo_telhado',
-        'observacoes'
+        'street',
+        'number',
+        'neighborhood',
+        'city',
+        'state',
+        'average_monthly_consumption_kwh',
+        'average_annual_consumption_kwh',
+        'average_energy_bill',
+        'energy_provider',
+        'installation_type',
+        'roof_type',
+        'notes'
     ];
 }
