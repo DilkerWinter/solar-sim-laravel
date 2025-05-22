@@ -1,6 +1,6 @@
-# 🛠️ Nome do Projeto
+# 🛠️ Solar Sim
 
-Descrição breve do projeto, explicando sua funcionalidade principal, público-alvo e tecnologias utilizadas.
+Aplicativo desenvolvido para empresas do setor de energia solar, com o objetivo de facilitar a criação de kits personalizados para venda. Ele permite verificar a compatibilidade entre os kits disponíveis e as necessidades específicas de cada cliente, otimizando o processo de proposta comercial.
 
 ---
 
@@ -110,9 +110,13 @@ O projeto segue a arquitetura padrão Laravel com Inertia.js:
 Este projeto está sob a licença [MIT](LICENSE).
 
 ---
-## 🤖 Tecnologias
-![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)![PostgreSQL](https://img.shields.io/badge/PostgreSQL-000?style=for-the-badge&logo=postgresql)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
----
+
 ## ✨ Autor
 
-Desenvolvido por [Bruno Winter](https://github.com/DilkerWinter) 🚀
+Desenvolvido por [Bruno Winter](https://github.com/DilkerWinter) 
+
+---
+
+
+## 🤖 Tecnologias
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)![PostgreSQL](https://img.shields.io/badge/PostgreSQL-000?style=for-the-badge&logo=postgresql)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
