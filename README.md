@@ -107,7 +107,7 @@ O projeto segue a arquitetura padrão Laravel com Inertia.js:
 
 ## 📄 Licença
 
-Este projeto está sob a licença [MIT](LICENSE).
+Este projeto está sob a licença [MIT](.github/LICENSE).
 
 ---
 
