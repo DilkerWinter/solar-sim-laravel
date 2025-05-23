@@ -14,7 +14,7 @@ class Product extends Model
         'description',
         'price',
         'brand',
-        'category', //Type of product (e.g., solar panel, inverter, cable)
+        'category', //Category of product (e.g., solar panel, inverter, cable)
         'data' // Additional product attributes in JSON
      ];
 
