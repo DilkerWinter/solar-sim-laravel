@@ -8,6 +8,7 @@ class Kit extends Model
 {
      protected $fillable = [
         'name',
+        'description',
         'totalPrice',
         'maxPotencyKw',
      ];
