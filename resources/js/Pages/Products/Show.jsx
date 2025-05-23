@@ -1,5 +1,4 @@
 import React from 'react';
-import { Inertia } from '@inertiajs/inertia';
 
 export default function Show({ product }) {
   return (
