@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Relational Table to link Products to a Kit
@@ -18,6 +17,6 @@ class KitItems extends Model
 
     public function product()
     {
-        return $this->HasOne(Product::class);
+        return $this->belongsTo(Product::class);
     }
 }

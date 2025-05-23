@@ -23,8 +23,9 @@ class KitPowerCalculatorService
             throw new \Exception("Kit must contain both a solar panel and an inverter");
         }
 
-        $dataInverter = $inverter->data;
-        $dataPanel = $solarPanel->data;
+        $dataInverter = json_decode($inverter->data, true);
+        $dataPanel = json_decode($solarPanel->data, true);
+
 
         $maxInputPower = $dataInverter['Pinmax'];
         $maxInputVoltage = $dataInverter['Vinmax'];
@@ -53,10 +54,10 @@ class KitPowerCalculatorService
 
         $finalTotalPower = $panelsToUse * $nominalPower;
 
-        $kit->totalKw = $finalTotalPower / 1000;
+        $kit->maxPotencyKw = $finalTotalPower / 1000;
         $kit->save();
 
-        return $kit->totalKw;
+        return $kit->maxPotencyKw;
     }
 }
 
