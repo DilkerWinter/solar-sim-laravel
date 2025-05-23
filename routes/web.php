@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\KitController;
@@ -33,3 +34,6 @@ Route::resource('products', ProductController::class);
 
 //All routes for Kits
 Route::resource('kits', KitController::class);
+
+//All routes for Costumer
+Route::resource('customers', CustomerController::class);

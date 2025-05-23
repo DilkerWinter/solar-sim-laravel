@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ClientController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $clients = Client::all();
-        return Inertia::render('Clients/Index', ['clients' => $clients]);
+        $customers = Customer::all();
+        return Inertia::render('Customers/Index', ['Customers' => $customers]);
     }
 
     /**
@@ -22,7 +22,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Clients/Create');
+        return Inertia::render('Customers/Create');
     }
 
     /**
@@ -48,9 +48,9 @@ class ClientController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        Client::create($validated);
+        Customer::create($validated);
 
-        return redirect()->route('clients.index')->with('success', 'Client created successfuly.');
+        return redirect()->route('Customers.index')->with('success', 'Customer created successfuly.');
     }
 
     /**
@@ -58,10 +58,10 @@ class ClientController extends Controller
      */
     public function show(string $id)
     {
-        $client = Client::findOrFail($id);
+        $customer = Customer::findOrFail($id);
 
-        return Inertia::render('Clients/Show', props: [
-            'client' => $client,
+        return Inertia::render('Customers/Show', props: [
+            'Customer' => $customer,
         ]);
     }
 
@@ -70,10 +70,10 @@ class ClientController extends Controller
      */
     public function edit(string $id)
     {
-        $client = Client::findOrFail($id);
+        $customer = Customer::findOrFail($id);
 
-        return Inertia::render('Clients/Edit', [
-            'client' => $client,
+        return Inertia::render('Customers/Edit', [
+            'Customer' => $customer,
         ]);
     }
 
@@ -82,7 +82,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $client = Client::findOrFail($id);
+        $customer = Customer::findOrFail($id);
         
         $validated = $request->validate([
                 'name' => 'required|string|max:255',
@@ -102,9 +102,9 @@ class ClientController extends Controller
                 'notes' => 'nullable|string',
             ]);
 
-        $client::update($validated);
+        $customer::update($validated);
 
-        return redirect()->route('clients.index')->with('success', 'Client updated successfuly.');
+        return redirect()->route('Customers.index')->with('success', 'Customer updated successfuly.');
     }
 
     /**
@@ -112,9 +112,9 @@ class ClientController extends Controller
      */
     public function destroy(string $id)
     {
-        $client = Client::findOrFail($id);
-        $client->delete();
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
 
-        return redirect()->route('clients.index')->with('success', 'Client deleted successfully.');
+        return redirect()->route('Customers.index')->with('success', 'Customer deleted successfully.');
     }
 }
