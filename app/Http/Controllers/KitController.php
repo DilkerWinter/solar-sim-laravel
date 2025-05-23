@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Kit;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Services\KitPowerCalculatorService;
 
 class KitController extends Controller
 {
+    protected $calculator;
+
+    public function __construct(KitPowerCalculatorService $calculator)
+    {
+        $this->calculator = $calculator;
+    }
+
     public function index()
     {
         return Inertia::render('Kits/Index', [
@@ -28,7 +36,10 @@ class KitController extends Controller
             'maxPotencyKw' => 'required|numeric|min:0',
         ]);
 
-        Kit::create($validated);
+        $kit = Kit::create($validated);
+
+        // Optionally calculate power after creation if kit items exist
+        $this->calculator->calculateAndSetTotalPower($kit);
 
         return redirect()
             ->route('kits.index')
@@ -58,6 +69,9 @@ class KitController extends Controller
         ]);
 
         $kit->update($validated);
+
+        // Recalculate totalKw after update
+        $this->calculator->calculateAndSetTotalPower($kit);
 
         return redirect()
             ->route('kits.index')
