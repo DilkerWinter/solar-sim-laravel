@@ -17,58 +17,68 @@ jobs:
         uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
-      
+
       - name: Add VPS host to known_hosts
         run: ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: Sync files to VPS
         run: |
-          rsync -avz --delete --exclude='.git' --exclude='node_modules' --exclude='vendor' --exclude='.env' ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='.env' \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}.trim()
 
       - name: Create SQLite DB if not exists
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            DB_DIR="${{ secrets.VPS_PATH }}/database"
-            DB_FILE="${DB_DIR}/database.sqlite"
+          APP_BASE_DIR="${{ secrets.VPS_PATH }}.trim()"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            DB_DIR="\${APP_BASE_DIR}/database"
+            DB_FILE="\${DB_DIR}/database.sqlite"
 
-            mkdir -p "$DB_DIR"
-            echo "Ensured directory exists: $DB_DIR"
+            mkdir -p "\$DB_DIR"
+            echo "Ensured directory exists: \$DB_DIR"
 
-            if [ ! -f "$DB_FILE" ]; then
-              touch "$DB_FILE"
-              echo "Created SQLite database file: $DB_FILE"
+            if [ ! -f "\$DB_FILE" ]; then
+              touch "\$DB_FILE"
+              echo "Created SQLite database file: \$DB_FILE"
             else
-              echo "SQLite database file already exists: $DB_FILE"
+              echo "SQLite database file already exists: \$DB_FILE"
             fi
           EOF
 
       - name: Setup .env on VPS
         run: |
-          # Use printf to avoid extra newlines and ensure proper path handling
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            printf "APP_NAME=solarsim\n" > "${{ secrets.VPS_PATH }}/.env"
-            printf "APP_ENV=production\n" >> "${{ secrets.VPS_PATH }}/.env"
-            printf "APP_KEY=\n" >> "${{ secrets.VPS_PATH }}/.env" 
-            printf "APP_DEBUG=false\n" >> "${{ secrets.VPS_PATH }}/.env"
-            printf "APP_URL=https://solarsim.app.br\n" >> "${{ secrets.VPS_PATH }}/.env"
-            printf "DB_CONNECTION=sqlite\n" >> "${{ secrets.VPS_PATH }}/.env"
-            printf "DB_DATABASE=${{ secrets.VPS_PATH }}/database/database.sqlite\n" >> "${{ secrets.VPS_PATH }}/.env"
+          APP_BASE_DIR="${{ secrets.VPS_PATH }}.trim()"
+          DB_PATH="\${APP_BASE_DIR}/database/database.sqlite"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            printf "APP_NAME=solarsim\n" > "\${APP_BASE_DIR}/.env"
+            printf "APP_ENV=production\n" >> "\${APP_BASE_DIR}/.env"
+            printf "APP_KEY=\n" >> "\${APP_BASE_DIR}/.env"
+            printf "APP_DEBUG=false\n" >> "\${APP_BASE_DIR}/.env"
+            printf "APP_URL=https://solarsim.app.br\n" >> "\${APP_BASE_DIR}/.env"
+            printf "DB_CONNECTION=sqlite\n" >> "\${APP_BASE_DIR}/.env"
+            printf "DB_DATABASE=\${DB_PATH}\n" >> "\${APP_BASE_DIR}/.env"
 
-            cd "${{ secrets.VPS_PATH }}"
+            cd "\${APP_BASE_DIR}"
             php artisan key:generate --force
             echo ".env file setup complete and app key generated."
           EOF
 
       - name: Install Composer dependencies and migrate on VPS
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd "${{ secrets.VPS_PATH }}"
+          APP_BASE_DIR="${{ secrets.VPS_PATH }}.trim()"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            cd "\${APP_BASE_DIR}"
             composer install --no-dev --optimize-autoloader
             echo "Composer dependencies installed."
+
             php artisan migrate --force
             echo "Database migrations complete."
+
             php artisan config:cache
             php artisan route:cache
-            php artisan view:cache # Recommended for production
+            php artisan view:cache
             echo "Laravel caches cleared and re-generated."
           EOF
