@@ -22,7 +22,7 @@ export default function Create() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Criar Produto</h1>
+        <h1 className="text-2xl font-bold mb-6 text-gray-800">Criar Produto Teste Deploy</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             name="name"
