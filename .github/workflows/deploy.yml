@@ -31,23 +31,17 @@ jobs:
             --exclude='.env' \
             ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:"$APP_BASE_DIR"
 
-      - name: Create SQLite database if not exists
+      - name: Create SQLite database if not exists on VPS
         run: |
-          APP_BASE_DIR="$(echo '${{ secrets.VPS_PATH }}' | tr -d '\n' | xargs)"
+          APP_BASE_DIR="${{ secrets.VPS_PATH }}"
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            DB_DIR="\$APP_BASE_DIR/database"
-            DB_FILE="\$DB_DIR/database.sqlite"
-
-            mkdir -p "\$DB_DIR"
-            echo "Ensured directory exists: \$DB_DIR"
-
-            if [ ! -f "\$DB_FILE" ]; then
-              touch "\$DB_FILE"
-              echo "Created SQLite database file: \$DB_FILE"
-            else
-              echo "SQLite database file already exists: \$DB_FILE"
+            mkdir -p "\$APP_BASE_DIR/database"
+            if [ ! -f "\$APP_BASE_DIR/database/database.sqlite" ]; then
+              touch "\$APP_BASE_DIR/database/database.sqlite"
             fi
           EOF
+      
+
 
       - name: Setup .env on VPS
         run: |
