@@ -38,7 +38,7 @@ jobs:
 
       - name: Setup .env on VPS
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
             cd ${{ secrets.VPS_PATH }}
             echo "APP_NAME=solarsim" > .env
             echo "APP_ENV=production" >> .env
@@ -46,9 +46,10 @@ jobs:
             echo "APP_DEBUG=false" >> .env
             echo "APP_URL=https://solarsim.app.br" >> .env
             echo "DB_CONNECTION=sqlite" >> .env
-            echo "DB_DATABASE=\$PWD/database/database.sqlite" >> .env
+            echo "DB_DATABASE=${{ secrets.VPS_PATH }}/database/database.sqlite" >> .env
             php artisan key:generate --force
           EOF
+
 
 
       - name: Install Composer dependencies and migrate on VPS
