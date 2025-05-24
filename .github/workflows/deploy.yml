@@ -44,19 +44,17 @@ jobs:
 
       - name: Setup .env on VPS
         run: |
+          # Use printf to avoid extra newlines and ensure proper path handling
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            printf "APP_NAME=solarsim\n" > "${{ secrets.VPS_PATH }}/.env"
+            printf "APP_ENV=production\n" >> "${{ secrets.VPS_PATH }}/.env"
+            printf "APP_KEY=\n" >> "${{ secrets.VPS_PATH }}/.env" 
+            printf "APP_DEBUG=false\n" >> "${{ secrets.VPS_PATH }}/.env"
+            printf "APP_URL=https://solarsim.app.br\n" >> "${{ secrets.VPS_PATH }}/.env"
+            printf "DB_CONNECTION=sqlite\n" >> "${{ secrets.VPS_PATH }}/.env"
+            printf "DB_DATABASE=${{ secrets.VPS_PATH }}/database/database.sqlite\n" >> "${{ secrets.VPS_PATH }}/.env"
+
             cd "${{ secrets.VPS_PATH }}"
-
-            DB_FULL_PATH="${{ secrets.VPS_PATH }}/database/database.sqlite"
-
-            echo "APP_NAME=solarsim" > .env
-            echo "APP_ENV=production" >> .env
-            echo "APP_KEY=" >> .env 
-            echo "APP_DEBUG=false" >> .env
-            echo "APP_URL=https://solarsim.app.br" >> .env
-            echo "DB_CONNECTION=sqlite" >> .env
-            echo "DB_DATABASE=${DB_FULL_PATH}" >> .env
-
             php artisan key:generate --force
             echo ".env file setup complete and app key generated."
           EOF
@@ -71,5 +69,6 @@ jobs:
             echo "Database migrations complete."
             php artisan config:cache
             php artisan route:cache
+            php artisan view:cache # Recommended for production
             echo "Laravel caches cleared and re-generated."
           EOF
