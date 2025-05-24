@@ -28,11 +28,13 @@ jobs:
       - name: Create SQLite DB if not exists
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            mkdir -p ${{ secrets.VPS_PATH }}/database
             cd ${{ secrets.VPS_PATH }}/database
             if [ ! -f database.sqlite ]; then
               touch database.sqlite
             fi
           EOF
+
 
       - name: Setup .env on VPS
         run: |
@@ -47,7 +49,7 @@ jobs:
             echo "DB_DATABASE=\$PWD/database/database.sqlite" >> .env
             php artisan key:generate --force
           EOF
-      
+
 
       - name: Install Composer dependencies and migrate on VPS
         run: |
