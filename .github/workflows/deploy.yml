@@ -31,17 +31,18 @@ jobs:
             --exclude='.env' \
             ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:"$APP_BASE_DIR"
 
-      - name: Create SQLite database if not exists on VPS
-        run: |
-          APP_BASE_DIR="${{ secrets.VPS_PATH }}"
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            mkdir -p "\$APP_BASE_DIR/database"
-            if [ ! -f "\$APP_BASE_DIR/database/database.sqlite" ]; then
-              touch "\$APP_BASE_DIR/database/database.sqlite"
-            fi
-          EOF
+      - name: Check PHP version on VPS
+        run: ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "php -v"
       
 
+      - name: Create SQLite database if not exists on VPS
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            mkdir -p "${{ secrets.VPS_PATH }}/database"
+            if [ ! -f "${{ secrets.VPS_PATH }}/database/database.sqlite" ]; then
+              touch "${{ secrets.VPS_PATH }}/database/database.sqlite"
+            fi
+          EOF
 
       - name: Setup .env on VPS
         run: |
@@ -67,13 +68,9 @@ jobs:
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
             cd "\$APP_BASE_DIR"
             composer install --no-dev --optimize-autoloader
-            echo "Composer dependencies installed."
-
             php artisan migrate --force
-            echo "Database migrations completed."
-
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
-            echo "Laravel caches cleared and regenerated."
+            echo "Laravel setup completed."
           EOF
