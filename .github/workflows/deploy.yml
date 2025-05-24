@@ -24,7 +24,7 @@ jobs:
       - name: Sync files to VPS
         run: |
           APP_BASE_DIR="$(echo '${{ secrets.VPS_PATH }}' | tr -d '\n' | xargs)"
-          rsync -avz --delete --no-times \
+          rsync -avz --delete --no-times --no-perms --no-owner\
             --exclude='.git' \
             --exclude='node_modules' \
             --exclude='vendor' \
