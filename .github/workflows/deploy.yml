@@ -27,14 +27,15 @@ jobs:
 
       - name: Create SQLite DB if not exists
         run: |
+          echo "Caminho do projeto: ${{ secrets.VPS_PATH }}"
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            echo "Caminho do projeto: ${{ secrets.VPS_PATH }}"
             mkdir -p ${{ secrets.VPS_PATH }}/database
             cd ${{ secrets.VPS_PATH }}/database
             if [ ! -f database.sqlite ]; then
               touch database.sqlite
             fi
           EOF
+
 
 
       - name: Setup .env on VPS
