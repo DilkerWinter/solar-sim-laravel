@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Inertia } from '@inertiajs/inertia';
 
 export default function Create() {
   const [form, setForm] = useState({
