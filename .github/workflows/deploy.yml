@@ -1,0 +1,55 @@
+name: Deploy to Production on VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Sync files to VPS
+        run: |
+          rsync -avz --delete --exclude='.git' --exclude='node_modules' --exclude='vendor' --exclude='.env' ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}
+
+      - name: Create SQLite DB if not exists
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd ${{ secrets.VPS_PATH }}/database
+            if [ ! -f database.sqlite ]; then
+              touch database.sqlite
+            fi
+          EOF
+
+      - name: Setup .env on VPS
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            cd ${{ secrets.VPS_PATH }}
+            echo "APP_NAME=solarsim" > .env
+            echo "APP_ENV=production" >> .env
+            echo "APP_KEY=$(php artisan key:generate --show)" >> .env
+            echo "APP_DEBUG=false" >> .env
+            echo "APP_URL=https://solarsim.app.br" >> .env
+            echo "DB_CONNECTION=sqlite" >> .env
+            echo "DB_DATABASE=${{ secrets.VPS_PATH }}/database/database.sqlite" >> .env
+          EOF
+
+      - name: Install Composer dependencies and migrate on VPS
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd ${{ secrets.VPS_PATH }}
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+          EOF
