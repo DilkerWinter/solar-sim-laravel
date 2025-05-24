@@ -3,7 +3,7 @@ name: Deploy to Production on VPS
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
@@ -35,11 +35,11 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
             cd ${{ secrets.VPS_PATH }}
-            echo "APP_NAME=MyLaravelApp" > .env
+            echo "APP_NAME=solarsim" > .env
             echo "APP_ENV=production" >> .env
             echo "APP_KEY=$(php artisan key:generate --show)" >> .env
             echo "APP_DEBUG=false" >> .env
-            echo "APP_URL=https://seusite.com" >> .env
+            echo "APP_URL=https://solarsim.app.br" >> .env
             echo "DB_CONNECTION=sqlite" >> .env
             echo "DB_DATABASE=${{ secrets.VPS_PATH }}/database/database.sqlite" >> .env
           EOF
