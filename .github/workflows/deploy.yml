@@ -46,27 +46,29 @@ jobs:
 
       - name: Setup .env on VPS
         run: |
-          APP_BASE_DIR="$(echo '${{ secrets.VPS_PATH }}' | tr -d '\n' | xargs)"
-          DB_PATH="\$APP_BASE_DIR/database/database.sqlite"
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            printf "APP_NAME=solarsim\n" > "\$APP_BASE_DIR/.env"
-            printf "APP_ENV=production\n" >> "\$APP_BASE_DIR/.env"
-            printf "APP_KEY=\n" >> "\$APP_BASE_DIR/.env"
-            printf "APP_DEBUG=false\n" >> "\$APP_BASE_DIR/.env"
-            printf "APP_URL=https://solarsim.app.br\n" >> "\$APP_BASE_DIR/.env"
-            printf "DB_CONNECTION=sqlite\n" >> "\$APP_BASE_DIR/.env"
-            printf "DB_DATABASE=\$DB_PATH\n" >> "\$APP_BASE_DIR/.env"
-
-            cd "\$APP_BASE_DIR"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            APP_BASE_DIR="${{ secrets.VPS_PATH }}"
+            DB_PATH="$APP_BASE_DIR/database/database.sqlite"
+      
+            printf "APP_NAME=solarsim\n" > "$APP_BASE_DIR/.env"
+            printf "APP_ENV=production\n" >> "$APP_BASE_DIR/.env"
+            printf "APP_KEY=\n" >> "$APP_BASE_DIR/.env"
+            printf "APP_DEBUG=false\n" >> "$APP_BASE_DIR/.env"
+            printf "APP_URL=https://solarsim.app.br\n" >> "$APP_BASE_DIR/.env"
+            printf "DB_CONNECTION=sqlite\n" >> "$APP_BASE_DIR/.env"
+            printf "DB_DATABASE=$DB_PATH\n" >> "$APP_BASE_DIR/.env"
+      
+            cd "$APP_BASE_DIR" || exit 1
             php artisan key:generate --force
             echo ".env file setup complete and app key generated."
           EOF
-
+      
       - name: Install dependencies and run Laravel commands
         run: |
-          APP_BASE_DIR="$(echo '${{ secrets.VPS_PATH }}' | tr -d '\n' | xargs)"
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            cd "\$APP_BASE_DIR"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            APP_BASE_DIR="${{ secrets.VPS_PATH }}"
+      
+            cd "$APP_BASE_DIR" || exit 1
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
@@ -74,3 +76,4 @@ jobs:
             php artisan view:cache
             echo "Laravel setup completed."
           EOF
+      
