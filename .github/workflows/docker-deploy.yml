@@ -23,39 +23,48 @@ jobs:
 
       - name: Sync files to VPS deploy directory
         run: |
-          rsync -avz --delete \
-            --exclude='.git' \
-            --exclude='node_modules' \
-            --exclude='vendor' \
-            --exclude='.env' \
-            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/${{ secrets.VPS_USER }}/deploy
+          rsync -avz --delete --progress \
+          --exclude='.git' \
+          --exclude='node_modules' \
+          --exclude='vendor' \
+          --exclude='.env' \
+          --exclude='public/build' \
+          --exclude='docker/certs/letsencrypt' \
+          ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/${{ secrets.VPS_USER }}/deploy
+
 
       - name: Setup .env on VPS from secret
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "printf '%s\n' '${{ secrets.DOTENV_CONTENT }}' > /home/${{ secrets.VPS_USER }}/deploy/.env"
 
-      - name: Build and start app, db, nginx Docker containers on VPS
+      - name: Build and start app Docker containers on VPS
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose build app db nginx &&
-            docker compose up -d app db nginx
+            docker compose build app &&
+            docker compose up -d app
           "
 
       - name: Run Laravel artisan commands inside container
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose exec app php artisan migrate --force &&
-            docker compose exec app php artisan config:cache &&
-            docker compose exec app php artisan route:cache &&
-            docker compose exec app php artisan view:cache
+            docker compose exec app sh -c '
+              composer install &&
+              php artisan key:generate &&
+              php artisan migrate --force &&
+              php artisan config:cache &&
+              php artisan route:cache &&
+              php artisan view:cache
+            '
           "
 
       - name: Build front-end assets inside container
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose exec app npm install &&
-            docker compose exec app npm run build
+            docker compose exec app sh -c '
+              npm install &&
+              npm run build
+            '
           "

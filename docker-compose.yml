@@ -7,6 +7,8 @@ services:
     working_dir: /var/www/html
     expose:
       - "9000"
+    volumes:
+      - ./:/var/www/html
     networks:
       - laravel-network
     depends_on:
@@ -18,7 +20,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/nginx/ssl-conf:/etc/nginx/conf.d:ro
+      - ./docker/nginx:/etc/nginx/conf.d:ro
       - ./docker/certs/letsencrypt:/etc/letsencrypt:ro
       - ./:/var/www/html
     depends_on:
@@ -28,6 +30,7 @@ services:
 
   certbot:
     image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew --webroot -w /var/www/html --quiet; done'"
     volumes:
       - ./docker/certs/letsencrypt:/etc/letsencrypt
       - ./:/var/www/html
