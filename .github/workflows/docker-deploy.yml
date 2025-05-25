@@ -55,10 +55,10 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/html --email brunohdwinter@gmail.com --agree-tos --no-eff-email -d solarsim.app.br
+            docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/html --email brunohdwinter@gmail.com --agree-tos --no-eff-email --force-renewal -d solarsim.app.br
           "
       
-
+      
 
       - name: Switch nginx config to SSL and reload nginx
         run: |
