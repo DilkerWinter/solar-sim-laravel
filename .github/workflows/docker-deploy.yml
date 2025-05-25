@@ -34,7 +34,7 @@ jobs:
 
       - name: Setup .env on VPS from secret
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo -e \"${{ secrets.DOTENV_CONTENT }}\" > /home/${{ secrets.VPS_USER }}/deploy/.env"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo -e \"${{ secrets.DOTENV_DEPLOY }}\" > /home/${{ secrets.VPS_USER }}/deploy/.env"
 
       - name: Build and start app Docker containers on VPS
         run: |
