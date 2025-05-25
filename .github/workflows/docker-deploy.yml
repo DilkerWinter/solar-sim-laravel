@@ -46,8 +46,7 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            cp docker/nginx/default.conf.http docker/nginx/default.conf &&
-            docker compose up -d nginx &&
+            docker compose up -d nginx-config &&
             sleep 5
           "
 
@@ -57,15 +56,14 @@ jobs:
             cd /home/${{ secrets.VPS_USER }}/deploy &&
             docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/html --email brunohdwinter@gmail.com --agree-tos --no-eff-email --force-renewal -d solarsim.app.br
           "
-      
-      
 
       - name: Switch nginx config to SSL and reload nginx
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            cp docker/nginx/default.conf.ssl docker/nginx/default.conf &&
-            docker compose restart nginx
+            docker compose stop nginx-config &&
+            docker compose rm -f nginx-config &&
+            docker compose up -d nginx
           "
 
       - name: Run Laravel artisan commands inside container
