@@ -47,9 +47,7 @@ jobs:
             echo '${{ secrets.DOTENV_CONTENT }}' > /tmp/.env &&
             docker cp /tmp/.env solarsim:/var/www/html/.env &&
             rm /tmp/.env &&
-            docker restart solarsim
           "
-      
 
       - name: Run Laravel artisan commands inside container
         run: |
