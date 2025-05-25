@@ -32,21 +32,17 @@ jobs:
           --exclude='docker/certs/letsencrypt' \
           ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/${{ secrets.VPS_USER }}/deploy
 
+
+      - name: Setup .env on VPS from secret
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "printf '%s\n' '${{ secrets.DOTENV_CONTENT }}' > /home/${{ secrets.VPS_USER }}/deploy/.env"
+
       - name: Build and start app Docker containers on VPS
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
             docker compose build app &&
             docker compose up -d app
-          "
-
-      - name: Update .env inside container via docker cp
-        run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            echo '${{ secrets.DOTENV_CONTENT }}' > /tmp/.env &&
-            docker cp /tmp/.env solarsim:/var/www/html/.env &&
-            rm /tmp/.env 
           "
 
       - name: Run Laravel artisan commands inside container
