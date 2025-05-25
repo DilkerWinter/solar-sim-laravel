@@ -34,13 +34,14 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "printf '%s\n' '${{ secrets.DOTENV_CONTENT }}' > /home/${{ secrets.VPS_USER }}/deploy/.env"
 
-      - name: Build and start Docker containers on VPS
+      - name: Build and start app && db Docker containers on VPS
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose build &&
-            docker compose up -d
+            docker compose build app db &&
+            docker compose up -d app db
           "
+
 
       - name: Start nginx with HTTP only config
         run: |
