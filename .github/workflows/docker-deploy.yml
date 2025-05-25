@@ -46,7 +46,7 @@ jobs:
             cd /home/${{ secrets.VPS_USER }}/deploy &&
             echo '${{ secrets.DOTENV_CONTENT }}' > /tmp/.env &&
             docker cp /tmp/.env solarsim:/var/www/html/.env &&
-            rm /tmp/.env &&
+            rm /tmp/.env 
           "
 
       - name: Run Laravel artisan commands inside container
