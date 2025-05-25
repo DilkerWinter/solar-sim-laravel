@@ -14,17 +14,6 @@ services:
     depends_on:
       - db
 
-  nginx-config:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./docker/nginx/http-conf:/etc/nginx/conf.d
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-      - ./:/var/www/html
-    networks:
-      - laravel-network
-
   nginx:
     image: nginx:latest
     ports:

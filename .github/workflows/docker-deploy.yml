@@ -34,37 +34,26 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "printf '%s\n' '${{ secrets.DOTENV_CONTENT }}' > /home/${{ secrets.VPS_USER }}/deploy/.env"
 
-      - name: Build and start app && db Docker containers on VPS
+      - name: Build and start app, db, nginx Docker containers on VPS
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose build app db &&
-            docker compose up -d app db
+            docker compose build app db nginx &&
+            docker compose up -d app db nginx
           "
-
-
-      - name: Start nginx with HTTP only config
-        run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose up -d nginx-config &&
-            sleep 5
-          "
-
+      
       - name: Run Certbot to obtain certificates
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
             docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/html --email brunohdwinter@gmail.com --agree-tos --no-eff-email --force-renewal -d solarsim.app.br
           "
-
-      - name: Switch nginx config to SSL and reload nginx
+      
+      - name: Reload nginx to apply SSL certificates
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose stop nginx-config &&
-            docker compose rm -f nginx-config &&
-            docker compose up -d nginx
+            docker compose restart nginx
           "
 
       - name: Run Laravel artisan commands inside container
