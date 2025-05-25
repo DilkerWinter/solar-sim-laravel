@@ -18,6 +18,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+
       - name: Add remote host to known_hosts
         run: |
           ssh-keyscan -H your.remote.host >> ~/.ssh/known_hosts
