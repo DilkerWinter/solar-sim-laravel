@@ -40,12 +40,16 @@ jobs:
             docker compose up -d app
           "
 
-      - name: Update .env inside container via docker exec
+      - name: Update .env inside container via docker cp
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker exec solarsim bash -c 'echo \"${{ secrets.DOTENV_CONTENT }}\" > /var/www/html/.env'
-          "    
+            echo '${{ secrets.DOTENV_CONTENT }}' > /tmp/.env &&
+            docker cp /tmp/.env solarsim:/var/www/html/.env &&
+            rm /tmp/.env &&
+            docker restart solarsim
+          "
+      
 
       - name: Run Laravel artisan commands inside container
         run: |
