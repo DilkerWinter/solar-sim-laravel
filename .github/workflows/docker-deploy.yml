@@ -41,20 +41,6 @@ jobs:
             docker compose build app db nginx &&
             docker compose up -d app db nginx
           "
-      
-      - name: Run Certbot to obtain certificates
-        run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/html --email brunohdwinter@gmail.com --agree-tos --no-eff-email --force-renewal -d solarsim.app.br
-          "
-      
-      - name: Reload nginx to apply SSL certificates
-        run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose restart nginx
-          "
 
       - name: Run Laravel artisan commands inside container
         run: |
