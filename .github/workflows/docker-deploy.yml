@@ -44,9 +44,9 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker exec app bash -c 'echo \"${{ secrets.DOTENV_CONTENT }}\" > /var/www/html/.env'
+            docker exec solarsim bash -c 'echo \"${{ secrets.DOTENV_CONTENT }}\" > /var/www/html/.env'
           "    
-          
+
       - name: Run Laravel artisan commands inside container
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
