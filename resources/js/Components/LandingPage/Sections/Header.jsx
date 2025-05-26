@@ -1,26 +1,34 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import ButtonGradient from "./ButtonGradient";
+import ButtonGradient from "../UI/ButtonGradient";
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    const handleScrollTo = (id) => (e) => {
+        e.preventDefault();
+        const section = document.getElementById(id);
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+            setIsMobileMenuOpen(false); // Fecha o menu mobile após clicar
+        }
+    };
+
+    const links = [
+        { label: "Dashboard", id: "second-section" },
+        { label: "Funcionalidades", id: "third-section" },
+        { label: "Contato", id: "contato" },
+    ];
+
     return (
         <header className="bg-white/90 backdrop-blur-md border-b border-green-200 sticky top-0 z-50 py-2 shadow-xl">
-            <div className="relative container mx-auto px-4 py-4 flex items-center justify-center ">
+            <div className="relative container mx-auto px-4 py-4 flex items-center justify-center">
                 {/* Logo à esquerda */}
                 <div className="absolute left-4 flex items-center space-x-2">
                     <div className="bg-gradient-to-r from-green-500 to-blue-500 p-2 rounded-lg" />
                     <a
                         href="#first-section"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            const section =
-                                document.getElementById("first-section");
-                            if (section) {
-                                section.scrollIntoView({ behavior: "smooth" });
-                            }
-                        }}
+                        onClick={handleScrollTo("first-section")}
                         className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent"
                     >
                         SolarSim
@@ -29,22 +37,21 @@ export default function Header() {
 
                 {/* Navbar centralizada */}
                 <nav className="hidden md:flex space-x-8">
-                    {["Funcionalidades", "Benefícios", "Contato"].map(
-                        (item) => (
-                            <a
-                                key={item}
-                                href="#"
-                                className="duration-300 transform hover:scale-110 transition-all relative text-gray-600
-                hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-600
-                after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 
-                after:w-full after:scale-x-0 after:h-[2px] 
-                after:bg-gradient-to-r after:from-green-500 after:to-blue-600
-                after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
-                            >
-                                {item}
-                            </a>
-                        )
-                    )}
+                    {links.map(({ label, id }) => (
+                        <a
+                            key={id}
+                            href={`#${id}`}
+                            onClick={handleScrollTo(id)}
+                            className="duration-300 transform hover:scale-110 transition-all relative text-gray-600
+                            hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-500 hover:to-blue-600
+                            after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 
+                            after:w-full after:scale-x-0 after:h-[2px] 
+                            after:bg-gradient-to-r after:from-green-500 after:to-blue-600
+                            after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100"
+                        >
+                            {label}
+                        </a>
+                    ))}
                 </nav>
 
                 {/* Botões à direita */}
@@ -69,17 +76,16 @@ export default function Header() {
             {isMobileMenuOpen && (
                 <div className="md:hidden px-4 pb-4 flex flex-col space-y-4">
                     <nav className="flex flex-col space-y-2 items-center">
-                        {["Funcionalidades", "Benefícios", "Contato"].map(
-                            (item) => (
-                                <a
-                                    key={item}
-                                    href="#"
-                                    className="text-gray-700 font-medium hover:text-green-600 transition"
-                                >
-                                    {item}
-                                </a>
-                            )
-                        )}
+                        {links.map(({ label, id }) => (
+                            <a
+                                key={id}
+                                href={`#${id}`}
+                                onClick={handleScrollTo(id)}
+                                className="text-gray-700 font-medium hover:text-green-600 transition"
+                            >
+                                {label}
+                            </a>
+                        ))}
                     </nav>
                     <button className="mt-4 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-xl shadow max-w-xs w-full mx-auto">
                         Demonstração Gratuita
