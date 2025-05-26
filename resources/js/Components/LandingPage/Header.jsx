@@ -6,8 +6,8 @@ export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <header className="bg-white/80 backdrop-blur-md border-b border-green-100 sticky top-0 z-50">
-<div className="relative container mx-auto px-4 py-4 flex items-center justify-center my-2">
+        <header className="bg-white/80 backdrop-blur-md border-b border-green-100 sticky top-0 z-50 py-2">
+<div className="relative container mx-auto px-4 py-4 flex items-center justify-center ">
     {/* Logo à esquerda */}
     <div className="absolute left-4 flex items-center space-x-2">
         <div className="bg-gradient-to-r from-green-500 to-blue-500 p-2 rounded-lg" />
