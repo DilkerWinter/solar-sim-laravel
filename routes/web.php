@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Client;
-use GuzzleHttp\Exception\ClientException;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\KitController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,8 +27,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
-Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create');
-Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
 
 require __DIR__.'/auth.php';
+
+//All routes for Product
+Route::resource('products', ProductController::class);
+
+//All routes for Kits
+Route::resource('kits', KitController::class);
+
+//All routes for Costumer
+Route::resource('customers', CustomerController::class);
