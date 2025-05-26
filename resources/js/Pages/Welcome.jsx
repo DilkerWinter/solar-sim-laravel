@@ -165,7 +165,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
                                     <div className="pt-3 sm:pt-5">
                                         <h2 className="text-xl font-semibold text-black dark:text-white">
-                                            Laracasts
+                                            Teste
                                         </h2>
 
                                         <p className="mt-4 text-sm/relaxed">
