@@ -1,0 +1,57 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: solarsim
+    working_dir: /var/www/html
+    expose:
+      - "9000"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - laravel-network
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d:ro
+      - ./docker/certs/letsencrypt:/etc/letsencrypt:ro
+      - ./:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - laravel-network
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew --webroot -w /var/www/html --quiet; done'"
+    volumes:
+      - ./docker/certs/letsencrypt:/etc/letsencrypt
+      - ./:/var/www/html
+    networks:
+      - laravel-network
+
+  db:
+    image: postgres:16
+    container_name: laravel_postgres
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laraveluser
+      POSTGRES_PASSWORD: laravelpass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    driver: bridge
+
+volumes:
+  pgdata:
