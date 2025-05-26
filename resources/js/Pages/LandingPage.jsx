@@ -12,7 +12,7 @@ export default function LandingPage() {
                     <span className="shadow-md inline-block mb-6 bg-gradient-to-r text-white px-4 py-1 rounded-full font-semibold hover:bg-green-200 transition cursor-default select-none">
                         🚀 Sistema Completo de Propostas Solares
                     </span>
-<Title> Solar Sim </Title>
+                    <Title> Solar Sim </Title>
 
                     <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
                         O software definitivo para empresas de energia solar.{" "}
