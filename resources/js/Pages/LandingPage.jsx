@@ -1,6 +1,10 @@
 import Header from "@/Components/LandingPage/Sections/Header";
 import FirstSection from "@/Components/LandingPage/Sections/FirstSection";
 import SecondSection from "@/Components/LandingPage/Sections/SecondSection";
+import ThirdSection from "@/Components/LandingPage/Sections/ThirdSection";
+import FourthSection from "@/Components/LandingPage/Sections/FourthSection";
+import FithSection from "@/Components/LandingPage/Sections/FifthSection";
+import Footer from "@/Components/LandingPage/Sections/Footer";
 
 /**
  * Landing Page of the app
@@ -8,10 +12,14 @@ import SecondSection from "@/Components/LandingPage/Sections/SecondSection";
  */
 export default function LandingPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-green-600 to-blue-500">
+        <div className="min-h-screen ">
             <Header />
             <FirstSection/>
             <SecondSection/>
+            <ThirdSection/>
+            <FourthSection/>
+            <FithSection/>
+            <Footer/>
         </div>  
     );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Sun, X } from "lucide-react";
 import ButtonGradient from "../UI/ButtonGradient";
 
 export default function Header() {
@@ -17,15 +17,17 @@ export default function Header() {
     const links = [
         { label: "Dashboard", id: "second-section" },
         { label: "Funcionalidades", id: "third-section" },
-        { label: "Contato", id: "contato" },
+        { label: "Benefícios", id: "fourth-section" },
+        { label: "Contato", id: "fith-section" },
     ];
 
     return (
         <header className="bg-white/90 backdrop-blur-md border-b border-green-200 sticky top-0 z-50 py-2 shadow-xl">
             <div className="relative container mx-auto px-4 py-4 flex items-center justify-center">
-                {/* Logo à esquerda */}
                 <div className="absolute left-4 flex items-center space-x-2">
-                    <div className="bg-gradient-to-r from-green-500 to-blue-500 p-2 rounded-lg" />
+                    <div className="bg-gradient-to-r from-green-500 to-blue-500 p-2 rounded-lg">
+                        <Sun className="h-6 w-6 text-white" />{" "}
+                    </div>
                     <a
                         href="#first-section"
                         onClick={handleScrollTo("first-section")}
@@ -35,7 +37,6 @@ export default function Header() {
                     </a>
                 </div>
 
-                {/* Navbar centralizada */}
                 <nav className="hidden md:flex space-x-8">
                     {links.map(({ label, id }) => (
                         <a

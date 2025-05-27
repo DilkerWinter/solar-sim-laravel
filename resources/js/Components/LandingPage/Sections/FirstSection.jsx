@@ -8,7 +8,7 @@ import ButtonGradient from "@/Components/LandingPage/UI/ButtonGradient";
  */
 export default function FirstSection() {
     return (
-        <section id="first-section" className="scroll-mt-20 py-28 px-16">
+        <section id="first-section" className="scroll-mt-20 py-28 px-16 bg-gradient-to-b from-green-600 to-blue-500">
             <div className="container mx-auto text-center bg-white/90 shadow-xl shadow-black/10 rounded-3xl p-8 md:p-12 transition-all duration-300">
                 <span className="inline-block mb-6 text-sm md:text-base bg-gradient-to-r from-green-600 to-blue-500 text-white px-5 py-2 rounded-full font-semibold shadow-lg shadow-black/10 select-none cursor-default">
                     🚀 Sistema Completo de Propostas Solares
