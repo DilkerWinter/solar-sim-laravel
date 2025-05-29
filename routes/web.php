@@ -17,6 +17,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+/**
+ * Routes with Auth
+ */
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -27,13 +30,16 @@ Route::middleware('auth')->group(function () {
     //All routes for Kits
     Route::resource('kits', KitController::class);
     
+    //All routes for Costumer
+    Route::resource('customers', CustomerController::class);
 
 });
 
-
+/**
+ * Routes with Admin
+ */
 Route::middleware(['auth', IsAdmin::class])->group(function () {
-    //All routes for Costumer
-    Route::resource('customers', CustomerController::class);
+
 });
 
 require __DIR__.'/auth.php';
