@@ -23,16 +23,16 @@ export default function Header() {
     ];
 
     return (
-        <header className="bg-white/90 backdrop-blur-md border-b border-green-200 sticky top-0 z-50 py-2 shadow-xl">
-            <div className="relative container mx-auto px-4 py-4 flex items-center justify-center">
-                <div className="absolute left-4 flex items-center space-x-2">
+        <header className="bg-white/90 backdrop-blur-md border-b border-green-200 sticky top-0 z-50 py-2 shadow-xl ">
+            <div className="relative container mx-auto px-4 py-6 flex items-center justify-center">
+                <div className="absolute left-4 flex items-center space-x-2 ">
                     <div className="bg-gradient-to-r from-green-500 to-blue-500 p-2 rounded-lg">
                         <Sun className="h-6 w-6 text-white" />{" "}
                     </div>
                     <a
                         href="#first-section"
                         onClick={handleScrollTo("first-section")}
-                        className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent"
+                        className="text-2xl m-2 font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent"
                     >
                         SolarSim
                     </a>
@@ -66,7 +66,6 @@ export default function Header() {
                     </div>
                 </div>
 
-                {/* Botão mobile */}
                 <button
                     className="md:hidden absolute right-4 text-gray-600"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -92,7 +91,9 @@ export default function Header() {
                     <button className="mt-4 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-xl shadow max-w-xs w-full mx-auto">
                         Demonstração Gratuita
                     </button>
-                    <button className="mt-2 border border-green-500 text-green-600 px-4 py-2 rounded-xl max-w-xs w-full mx-auto">
+                    <button
+                    onClick={() => router.visit('/login')} 
+                    className="mt-2 border border-green-500 text-green-600 px-4 py-2 rounded-xl max-w-xs w-full mx-auto">
                         Login
                     </button>
                 </div>
