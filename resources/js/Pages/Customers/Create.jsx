@@ -1,5 +1,6 @@
 import React from "react";
 import { Head, useForm, Link } from "@inertiajs/react";
+import AppLayout from "@/Layouts/AppLayout";
 
 export default function Create() {
   const {
@@ -39,7 +40,7 @@ export default function Create() {
   };
 
   return (
-    <>
+    <AppLayout>
       <Head title="Create Customer" />
 
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -391,6 +392,6 @@ export default function Create() {
           </div>
         </form>
       </div>
-    </>
+    </AppLayout>
   );
 }

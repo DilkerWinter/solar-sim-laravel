@@ -10,11 +10,11 @@ class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
+     */ 
     public function index()
     {
         $customers = Customer::all();
-        return Inertia::render('Customers/Index', ['Customers' => $customers]);
+        return Inertia::render('Customers/Index', ['customers' => $customers]);
     }
 
     /**
