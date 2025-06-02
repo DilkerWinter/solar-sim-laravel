@@ -10,10 +10,10 @@ export default function AppLayout({ children }) {
   const toggleSidebar = () => setSidebarOpen(prev => !prev)
 
   const { url } = usePage()
-  const path = url.split("?")[0]
+  const path = "/" + url.split("?")[0].split("/")[1]; 
   const titles = {
     "/dashboard": "Dashboard",
-    "/clientes": "Clientes",
+    "/customers": "Clientes",
     "/produtos": "Produtos",
     "/kits": "Kits Solares",
     "/propostas": "Propostas",
