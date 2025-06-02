@@ -3,7 +3,7 @@ name: Deploy Laravel + Docker to VPS
 on:
   push:
     branches:
-      - feature/104-desenvolver-landing-page
+      - main
 
 jobs:
   deploy:

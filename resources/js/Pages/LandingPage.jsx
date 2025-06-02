@@ -1,4 +1,4 @@
-import Header from "@/Components/LandingPage/Sections/Header";
+import Header from "@/Components/LandingPage/Sections/LandingPageHeader";
 import FirstSection from "@/Components/LandingPage/Sections/FirstSection";
 import SecondSection from "@/Components/LandingPage/Sections/SecondSection";
 import ThirdSection from "@/Components/LandingPage/Sections/ThirdSection";
