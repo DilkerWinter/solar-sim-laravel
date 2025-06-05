@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Feature;
 
+use App\Models\User;
 use Tests\TestCase;
 use App\Models\Customer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,8 +11,16 @@ class CustomerControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
     /** @test */
-    public function index_mostra_lista_de_clientes(): void
+    public function index_displays_customers_list(): void
     {
         Customer::factory()->count(3)->create();
 
@@ -19,12 +28,12 @@ class CustomerControllerTest extends TestCase
              ->assertOk()
              ->assertInertia(fn (Assert $page) =>
                  $page->component('Customers/Index')
-                      ->has('Customers', 3)
+                      ->has('customers', 3)
              );
     }
 
     /** @test */
-    public function store_cria_cliente_com_dados_validos(): void
+    public function store_creates_customer_with_valid_data(): void
     {
         $payload = Customer::factory()->make()->toArray();
 
@@ -38,14 +47,14 @@ class CustomerControllerTest extends TestCase
     }
 
     /** @test */
-    public function store_falha_se_name_ausente(): void
+    public function store_fails_without_name(): void
     {
         $this->post(route('customers.store'), [])
              ->assertSessionHasErrors(['name']);
     }
 
     /** @test */
-    public function show_exibe_cliente_especifico(): void
+    public function show_displays_customer_by_id(): void
     {
         $customer = Customer::factory()->create();
 
@@ -58,22 +67,22 @@ class CustomerControllerTest extends TestCase
     }
 
     /** @test */
-    public function update_atualiza_cliente(): void
+    public function update_customer_successfully(): void
     {
         $customer = Customer::factory()->create();
-        $novosDados = ['name' => 'Cliente Atualizado'];
+        $newData = ['name' => 'Updated Customer'];
 
-        $this->put(route('customers.update', $customer), $novosDados + $customer->toArray())
+        $this->put(route('customers.update', $customer), $newData + $customer->toArray())
              ->assertRedirect(route('customers.index'));
 
         $this->assertDatabaseHas('customers', [
             'id'   => $customer->id,
-            'name' => 'Cliente Atualizado',
+            'name' => 'Updated Customer',
         ]);
     }
 
     /** @test */
-    public function destroy_remove_cliente(): void
+    public function destroy_deletes_customer(): void
     {
         $customer = Customer::factory()->create();
 

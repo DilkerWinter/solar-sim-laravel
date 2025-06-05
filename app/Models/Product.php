@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Represents a product that can be used to assemble kits.
  */
 class Product extends Model
 {
+   use HasFactory;
    protected $fillable = [
         'id',
         'name',

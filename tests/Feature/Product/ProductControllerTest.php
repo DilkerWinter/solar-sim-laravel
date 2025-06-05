@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,16 +11,25 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
     public function test_index_displays_products()
     {
-        $product = $this->createTestProduct();
+        $product = Product::factory()->create();
 
         $response = $this->get(route('products.index'));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) =>
+        $response->assertInertia(
+            fn($page) =>
             $page->component('Products/Index')
-                 ->has('products')
+                ->has('products')
         );
     }
 
@@ -28,7 +38,8 @@ class ProductControllerTest extends TestCase
         $response = $this->get(route('products.create'));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) =>
+        $response->assertInertia(
+            fn($page) =>
             $page->component('Products/Create')
         );
     }
@@ -52,33 +63,35 @@ class ProductControllerTest extends TestCase
 
     public function test_show_displays_product()
     {
-        $product = $this->createTestProduct();
+        $product = Product::factory()->create();
 
         $response = $this->get(route('products.show', $product));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) =>
+        $response->assertInertia(
+            fn($page) =>
             $page->component('Products/Show')
-                 ->where('product.id', $product->id)
+                ->where('product.id', $product->id)
         );
     }
 
     public function test_edit_displays_edit_form()
     {
-        $product = $this->createTestProduct();
+        $product = Product::factory()->create();
 
         $response = $this->get(route('products.edit', $product));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) =>
+        $response->assertInertia(
+            fn($page) =>
             $page->component('Products/Edit')
-                 ->where('product.id', $product->id)
+                ->where('product.id', $product->id)
         );
     }
 
     public function test_update_validates_and_updates_product()
     {
-        $product = $this->createTestProduct();
+        $product = Product::factory()->create();
 
         $data = [
             'name' => 'Updated Product',
@@ -97,23 +110,11 @@ class ProductControllerTest extends TestCase
 
     public function test_destroy_deletes_product()
     {
-        $product = $this->createTestProduct();
+        $product = Product::factory()->create();
 
         $response = $this->delete(route('products.destroy', $product));
 
         $response->assertRedirect(route('products.index'));
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
-    }
-
-    private function createTestProduct(): Product
-    {
-        return Product::create([
-            'name' => 'Test Product',
-            'description' => 'Sample description',
-            'price' => 10.00,
-            'brand' => 'Brand A',
-            'category' => 'Category B',
-            'data' => json_encode(['sample' => 'data']),
-        ]);
     }
 }

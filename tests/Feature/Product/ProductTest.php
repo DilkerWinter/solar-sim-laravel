@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature;
+use App\Models\User;
 use Tests\TestCase;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,6 +13,7 @@ class ProductTest extends TestCase
     /** @test */
     public function it_creates_a_product()
     {
+        
         $product = Product::create([
             'name' => 'Test Product',
             'description' => 'Test Description',
