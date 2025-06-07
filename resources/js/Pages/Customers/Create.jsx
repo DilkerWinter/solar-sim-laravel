@@ -1,47 +1,91 @@
-import React, { cloneElement } from 'react';
+import BackButton from "@/Components/Create/BackButton";
+import FormCard from "@/Components/Create/FormCard";
+import InputField from "@/Components/Create/InputText";
+import { ArrowLeft, House, User, Zap } from "lucide-react";
+import React from "react";
 
 export default function Create() {
-  return (
-    <div className="w-full h-full px-6 py-4">
-      <h1 className="text-2xl font-bold mb-4">Cadastro do Cliente</h1>
+    return (
+        <div className="w-full h-full px-6 relative">
 
-      {/* Aqui você pode começar o formulário */}
-      <form className="space-y-4 max-w-lg">
-        <div>
-          <label className="block text-sm font-medium">Nome</label>
-          <input
-            type="text"
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            name="nome"
-          />
+            {/* Back Button and Title */}
+            <div className="relative w-full max-w-5xl mx-auto mt-4">
+                <BackButton />
+              <div className="mb-12 mt-4">
+                <h1 className="text-3xl font-bold text-center ">Cadastro de Cliente</h1>
+              </div>
+            </div>
+
+
+
+            <form className="w-full max-w-5xl mx-auto space-y-6">
+                {/* Card: Personal Info */}
+                <FormCard
+                    headerBgColor="bg-blue-100"
+                    headerTextColor="text-blue-700"
+                    IconComponent={User}
+                    headerText="Informações do Usuário"
+                >
+                    <InputField label="Nome" name="name" />
+                    <InputField label="Email" name="email" type="email" />
+                    <InputField label="Telefone" name="phone" />
+                </FormCard>
+
+                {/* Card: Adress */}
+                <FormCard
+                    headerBgColor="bg-green-100"
+                    headerTextColor="text-green-700"
+                    IconComponent={House}
+                    headerText="Endereço"
+                >
+                    <InputField label="Rua" name="street" />
+                    <InputField label="CEP" name="postal_code" />
+                    <InputField label="Número" name="number" />
+                    <InputField label="Bairro" name="neighborhood" />
+                    <InputField label="Cidade" name="city" />
+                    <InputField label="Estado" name="state" />
+                </FormCard>
+
+                {/* Card: Eletric Info */}
+                <FormCard
+                    headerBgColor="bg-yellow-100"
+                    headerTextColor="text-yellow-700"
+                    IconComponent={Zap}
+                    headerText="Informações de Energia Elétrica"
+                >
+                    <InputField
+                        label="Consumo Médio Mensal (kWh)"
+                        name="average_monthly_consumption_kwh"
+                    />
+                    <InputField
+                        label="Consumo Médio Anual (kWh)"
+                        name="average_annual_consumption_kwh"
+                    />
+                    <InputField
+                        label="Conta de Energia Média (R$)"
+                        name="average_energy_bill"
+                    />
+                    <InputField
+                        label="Concessionária de Energia"
+                        name="energy_provider"
+                    />
+                    <InputField
+                        label="Tipo de Instalação"
+                        name="installation_type"
+                    />
+                    <InputField label="Tipo de Telhado" name="roof_type" />
+                    <InputField label="Observações" name="notes" textarea />
+                </FormCard>
+
+                <div className="text-right">
+                    <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-6 py-2 rounded-2xl hover:bg-blue-700 text-xl "
+                    >
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium">Email</label>
-          <input
-            type="email"
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            name="email"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium">Telefone</label>
-          <input
-            type="text"
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            name="telefone"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Cadastrar
-        </button>
-      </form>
-    </div>
-  );
+    );
 }
-
