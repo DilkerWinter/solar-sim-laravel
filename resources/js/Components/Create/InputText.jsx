@@ -7,7 +7,8 @@ export default function InputField({
   textarea = false,
   regex,
   required = false,
-  hint,
+  placeholder,
+  optional = false,
 }) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
@@ -29,7 +30,6 @@ export default function InputField({
     const val = e.target.value;
     setValue(val);
     if (error) {
-      // Valida novamente se já houve erro
       const validationError = validate(val);
       setError(validationError);
     }
@@ -46,7 +46,7 @@ export default function InputField({
     value,
     onChange: handleChange,
     onBlur: handleBlur,
-    placeholder: hint || '', // o hint aparece dentro do campo
+    placeholder: placeholder || '',
     className: `mt-1 block w-full border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
       error ? 'border-red-500' : 'border-gray-300'
     }`,
@@ -56,7 +56,11 @@ export default function InputField({
   return (
     <div className={textarea ? 'md:col-span-2' : ''}>
       <label htmlFor={name} className="block text-sm font-medium">
-        {label} {required && <span className="text-red-500">*</span>}
+        {label}{' '}
+        {required && <span className="text-red-500">*</span>}
+        {!required && optional && (
+          <span className="text-gray-400 ml-1 text-xs">(Opcional)</span>
+        )}
       </label>
 
       {textarea ? (

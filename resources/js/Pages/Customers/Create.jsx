@@ -27,8 +27,8 @@ export default function Create() {
                     headerText="Informações do Usuário"
                 >
                     <InputField label="Nome" name="name" required={true} regex="^[A-Za-zÀ-ÿ\s'-]{3,}$" />
-                    <InputField label="Email" name="email" type="email" required={true} regex="^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$" hint="exemplo@dominio.com"/>
-                    <InputField label="Telefone" name="phone" required={true} regex="^(\+55)?[\s]?\(?(\d{2})?\)?[\s-]?(9?\d{4}[\s-]?\d{4})$" hint="(67) 99999-9999" />
+                    <InputField label="Email" name="email" type="email" required={true} regex="^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$" placeholder="exemplo@dominio.com"/>
+                    <InputField label="Telefone" name="phone" required={true} regex="^(\+55)?[\s]?\(?(\d{2})?\)?[\s-]?(9?\d{4}[\s-]?\d{4})$" placeholder="(67) 99999-9999" />
                 </FormCard>
 
                 {/* Card: Adress */}
@@ -74,7 +74,7 @@ export default function Create() {
                         name="installation_type"
                     />
                     <InputField label="Tipo de Telhado" name="roof_type" />
-                    <InputField label="Observações" name="notes" textarea />
+                    <InputField label="Observações" name="notes" textarea optional/>
                 </FormCard>
 
                 <div className="text-right">
