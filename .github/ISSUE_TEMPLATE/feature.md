@@ -1,7 +1,7 @@
 ---
 name: Feature
 about: Template para desenvolvimento de uma feature
-title: feature
+title: "[FEAT] "
 labels: ''
 assignees: ''
 
