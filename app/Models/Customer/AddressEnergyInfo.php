@@ -2,22 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class AddressEnergyInfo extends Model
 {
-    use HasFactory;
-
+    use HasFactory, SoftDeletes;
     protected $fillable = [
-        'name',
-        'phone',
-        'email',
-        'street',
-        'number',
-        'neighborhood',
-        'city',
-        'state',
+        'address_id',
         'average_monthly_consumption_kwh',
         'average_annual_consumption_kwh',
         'average_energy_bill',
@@ -26,4 +21,10 @@ class Customer extends Model
         'roof_type',
         'notes'
     ];
+
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
 }
