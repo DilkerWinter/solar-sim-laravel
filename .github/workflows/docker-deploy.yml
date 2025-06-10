@@ -50,7 +50,7 @@ jobs:
             cd /home/${{ secrets.VPS_USER }}/deploy &&
             docker compose exec app sh -c '
               composer install &&
-              php artisan migrate:fresh --seed &&
+              php artisan migrate:fresh --seed --force &&
               php artisan config:cache &&
               php artisan route:cache &&
               php artisan view:cache
@@ -67,3 +67,6 @@ jobs:
               npm run build
             '
           "
+
+
+
