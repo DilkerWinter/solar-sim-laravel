@@ -17,7 +17,6 @@ class AddressEnergyInfo extends Model
         'average_annual_consumption_kwh',
         'average_energy_bill',
         'energy_provider',
-        'installation_type',
         'roof_type',
         'notes'
     ];

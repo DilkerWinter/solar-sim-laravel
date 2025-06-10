@@ -30,6 +30,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
@@ -38,18 +39,19 @@ class CustomerController extends Controller
             'document_number' => 'nullable|string|max:50',
 
             'addresses' => 'nullable|array',
+            'addresses.*.id' => 'nullable|integer|exists:addresses,id',
             'addresses.*.neighborhood' => 'nullable|string|max:255',
             'addresses.*.street' => 'nullable|string|max:255',
             'addresses.*.number' => 'nullable|string|max:50',
             'addresses.*.city' => 'nullable|string|max:255',
             'addresses.*.state' => 'nullable|string|max:255',
             'addresses.*.cep' => 'nullable|string|max:20',
+            'addresses.*.type' => 'nullable|in:residential,industrial,commercial',
 
             'addresses.*.energy_info.average_monthly_consumption_kwh' => 'nullable|numeric',
             'addresses.*.energy_info.average_annual_consumption_kwh' => 'nullable|numeric',
             'addresses.*.energy_info.average_energy_bill' => 'nullable|numeric',
             'addresses.*.energy_info.energy_provider' => 'nullable|string|max:255',
-            'addresses.*.energy_info.installation_type' => 'nullable|in:residential,industrial,commercial',
             'addresses.*.energy_info.roof_type' => 'nullable|string|max:255',
             'addresses.*.energy_info.notes' => 'nullable|string',
         ]);
@@ -123,12 +125,12 @@ class CustomerController extends Controller
             'addresses.*.city' => 'nullable|string|max:255',
             'addresses.*.state' => 'nullable|string|max:255',
             'addresses.*.cep' => 'nullable|string|max:20',
+            'addresses.*.type' => 'nullable|in:residential,industrial,commercial',
 
             'addresses.*.energy_info.average_monthly_consumption_kwh' => 'nullable|numeric',
             'addresses.*.energy_info.average_annual_consumption_kwh' => 'nullable|numeric',
             'addresses.*.energy_info.average_energy_bill' => 'nullable|numeric',
             'addresses.*.energy_info.energy_provider' => 'nullable|string|max:255',
-            'addresses.*.energy_info.installation_type' => 'nullable|in:residential,industrial,commercial',
             'addresses.*.energy_info.roof_type' => 'nullable|string|max:255',
             'addresses.*.energy_info.notes' => 'nullable|string',
         ]);

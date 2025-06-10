@@ -15,7 +15,7 @@ export default function AppHeader({
     const user = auth?.user;
 
     return (
-        <header className="sticky top-0 z-50  backdrop-blur-md  shadow-lg">
+        <header className="sticky top-0 z-50 bg-white">
             <div className="flex h-16 items-center gap-3 p-6">
                 <button
                     onClick={onToggleSidebar}

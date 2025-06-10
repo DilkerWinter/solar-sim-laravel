@@ -42,7 +42,7 @@ export default function AppLayout({ children }) {
           pageTitle={pageTitle}
         />
 
-        <main className="p-4">{children}</main>
+        <main className="bg-gray-200 min-h-screen">{children}</main>
       </div>
     </div>
   )
