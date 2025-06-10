@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Kit extends Model
 {
-   use HasFactory;
+    use HasFactory;
     protected $fillable = [
         'name',
         'description',
@@ -15,8 +15,9 @@ class Kit extends Model
         'max_potency_kw',
     ];
 
-    public function kit_items()
+    public function kitItems()
     {
         return $this->hasMany(KitItems::class);
     }
+
 }

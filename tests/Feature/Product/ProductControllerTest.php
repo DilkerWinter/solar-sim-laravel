@@ -108,13 +108,17 @@ class ProductControllerTest extends TestCase
         $this->assertDatabaseHas('products', ['id' => $product->id, 'name' => 'Updated Product']);
     }
 
-    public function test_destroy_deletes_product()
+    public function test_destroy_soft_deletes_product()
     {
         $product = Product::factory()->create();
 
         $response = $this->delete(route('products.destroy', $product));
 
         $response->assertRedirect(route('products.index'));
-        $this->assertDatabaseMissing('products', ['id' => $product->id]);
+
+        $this->assertDatabaseHas('products', ['id' => $product->id]);
+
+        $this->assertSoftDeleted('products', ['id' => $product->id]);
     }
+
 }

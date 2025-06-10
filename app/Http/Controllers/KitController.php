@@ -33,7 +33,7 @@ class KitController extends Controller
         $validated = $request->validate([
             'name'         => 'required|string|max:255',
             'totalPrice'   => 'required|numeric|min:0',
-            'maxPotencyKw' => 'required|numeric|min:0',
+            'max_potency_kw' => 'required|numeric|min:0',
         ]);
 
         $kit = Kit::create($validated);
