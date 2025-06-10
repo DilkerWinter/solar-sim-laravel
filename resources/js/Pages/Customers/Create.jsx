@@ -6,17 +6,117 @@ import InputField from "@/Components/Create/InputText";
 import SubmitButton from "@/Components/Create/SubmitButton";
 import { House, User, Zap } from "lucide-react";
 import OptionalMultiSectionFormCard from "@/Components/Create/MultiSectionFormCard";
+import SelectField from "@/Components/Create/SelectInput";
+import { v4 as uuidv4 } from "uuid";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Create() {
+    const [clientInfo, setClientInfo] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        document_number: "",
+    });
     const [addresses, setAddresses] = useState([]);
     const [removingIds, setRemovingIds] = useState([]);
+
+    function handleClientInfoChange(e) {
+        const { name, value } = e.target;
+        setClientInfo((prev) => ({ ...prev, [name]: value }));
+    }
+
+    function handleAddressFieldChange(addressId, fieldName, value) {
+        setAddresses((prev) =>
+            prev.map((addr) => {
+                if (addr.id === addressId) {
+                    const updatedAddr = { ...addr };
+
+                    if (fieldName.startsWith("energyInfo.")) {
+                        const energyFieldName = fieldName.split(".")[1];
+                        updatedAddr.energyInfo = {
+                            ...updatedAddr.energyInfo,
+                            [energyFieldName]: value,
+                        };
+                    } else {
+                        updatedAddr.fields = {
+                            ...updatedAddr.fields,
+                            [fieldName]: value,
+                        };
+                    }
+                    return updatedAddr;
+                }
+                return addr;
+            })
+        );
+    }
+
+    async function handleCepBlur(addressId, cep) {
+        const cleanCep = cep.replace(/\D/g, "");
+
+        if (cleanCep.length !== 8) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `https://viacep.com.br/ws/${cleanCep}/json/`
+            );
+            const data = await response.json();
+
+            if (!data.erro) {
+                setAddresses((prev) =>
+                    prev.map((addr) =>
+                        addr.id === addressId
+                            ? {
+                                  ...addr,
+                                  fields: {
+                                      ...addr.fields,
+                                      postal_code: cep,
+                                      street: data.logradouro || "",
+                                      neighborhood: data.bairro || "",
+                                      city: data.localidade || "",
+                                      state: data.uf || "",
+                                  },
+                              }
+                            : addr
+                    )
+                );
+            } else {
+                console.error("CEP not found.");
+            }
+        } catch (error) {
+            console.error("Error to get CEP:", error);
+        }
+    }
+
+    const formatDecimalNumber = (value) => {
+        let formattedValue = value.replace(/[^0-9,]/g, "");
+
+        const parts = formattedValue.split(",");
+        if (parts.length > 2) {
+            formattedValue = parts[0] + "," + parts.slice(1).join("");
+        }
+
+        if (parts[1] && parts[1].length > 2) {
+            formattedValue = parts[0] + "," + parts[1].substring(0, 2);
+        }
+
+        return formattedValue;
+    };
 
     function addAddress() {
         setAddresses((prev) => [
             ...prev,
             {
-                id: Date.now().toString(),
-                fields: {},
+                id: uuidv4(),
+                fields: {
+                    street: "",
+                    postal_code: "",
+                    number: "",
+                    neighborhood: "",
+                    city: "",
+                    state: "",
+                },
                 energyInfo: null,
             },
         ]);
@@ -78,7 +178,7 @@ export default function Create() {
         setTimeout(() => {
             setAddresses((prev) => prev.filter((addr) => addr.id !== id));
             setRemovingIds((prev) => prev.filter((remId) => remId !== id));
-        }, 500);
+        }, 400);
     }
 
     function removeEnergyInfo(addressId) {
@@ -87,6 +187,33 @@ export default function Create() {
                 addr.id === addressId ? { ...addr, energyInfo: null } : addr
             )
         );
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        const data = {
+            name: clientInfo.name,
+            email: clientInfo.email,
+            phone: clientInfo.phone,
+            document_number: clientInfo.document_number,
+            addresses: addresses.map((address) => {
+                const newAddress = { ...address.fields };
+
+                if (address.energyInfo) {
+                    newAddress.energy_info = { ...address.energyInfo };
+                }
+
+                if (newAddress.postal_code) {
+                    newAddress.cep = newAddress.postal_code;
+                    delete newAddress.postal_code;
+                }
+
+                return newAddress;
+            }),
+        };
+
+        Inertia.post('/customers', data);
     }
 
     return (
@@ -100,7 +227,10 @@ export default function Create() {
                 </div>
             </div>
 
-            <form className="w-full max-w-5xl mx-auto space-y-8">
+            <form
+                className="w-full max-w-5xl mx-auto space-y-8"
+                onSubmit={handleSubmit}
+            >
                 <FormCard
                     headerBgColor="bg-blue-100"
                     headerTextColor="text-blue-700"
@@ -112,6 +242,8 @@ export default function Create() {
                         name="name"
                         required
                         regex="^[A-Za-zÀ-ÿ\s'-]{3,}$"
+                        value={clientInfo.name}
+                        onChange={handleClientInfoChange}
                     />
                     <InputField
                         label="Email"
@@ -120,6 +252,8 @@ export default function Create() {
                         required
                         regex="^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$"
                         placeholder="exemplo@dominio.com"
+                        value={clientInfo.email}
+                        onChange={handleClientInfoChange}
                     />
                     <InputField
                         label="Telefone"
@@ -128,13 +262,18 @@ export default function Create() {
                         regex="^(\+55)?[\s]?\(?(\d{2})?\)?[\s-]?(9?\d{4}[\s-]?\d{4})$"
                         placeholder="(67) 99999-9999"
                         formatFunction={formatPhone}
+                        value={clientInfo.phone}
+                        onChange={handleClientInfoChange}
                     />
                     <InputField
                         label="CPF/CNPJ"
                         name="document_number"
                         required
                         regex="^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})$"
+                        placeholder="000.000.000-00"
                         formatFunction={formatDocumentNumber}
+                        value={clientInfo.document_number}
+                        onChange={handleClientInfoChange}
                     />
                 </FormCard>
 
@@ -154,34 +293,173 @@ export default function Create() {
                                         label="Rua"
                                         name={`addresses[${idx}].street`}
                                         required
+                                        value={address.fields.street}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "street",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                     <InputField
                                         label="CEP"
                                         name={`addresses[${idx}].postal_code`}
                                         required
-                                        regex="^\d{2}\d{3}[-]\d{3}$"
+                                        regex="^\d{5}-\d{3}$"
                                         placeholder={"00000-000"}
                                         formatFunction={formatCep}
+                                        value={address.fields.postal_code}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "postal_code",
+                                                e.target.value
+                                            )
+                                        }
+                                        onCepBlur={(cep) =>
+                                            handleCepBlur(address.id, cep)
+                                        }
                                     />
                                     <InputField
                                         label="Número"
                                         name={`addresses[${idx}].number`}
                                         required
+                                        value={address.fields.number}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "number",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                     <InputField
                                         label="Bairro"
                                         name={`addresses[${idx}].neighborhood`}
                                         required
+                                        value={address.fields.neighborhood}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "neighborhood",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                     <InputField
                                         label="Cidade"
                                         name={`addresses[${idx}].city`}
                                         required
+                                        value={address.fields.city}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "city",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                     <InputField
                                         label="Estado"
                                         name={`addresses[${idx}].state`}
                                         required
+                                        value={address.fields.state}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "state",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <SelectField
+                                        label="Natureza do imóvel"
+                                        name={`addresses[${idx}].type`}
+                                        options={[
+                                            {
+                                                value: "residencial",
+                                                label: "Residencial",
+                                            },
+                                            {
+                                                value: "rural",
+                                                label: "Rural",
+                                            },
+                                            {
+                                                value: "comercial",
+                                                label: "Comercial",
+                                            },
+                                            {
+                                                value: "industrial",
+                                                label: "Industrial",
+                                            },
+                                        ]}
+                                        value={
+                                            addresses[idx].fields.type ||
+                                            "residencial"
+                                        }
+                                        required
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "type",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <SelectField
+                                        label="Tipo de Telhado"
+                                        name={`addresses[${idx}].roof_type`}
+                                        options={[
+                                            {
+                                                value: "ceramica",
+                                                label: "Telha Cerâmica (Colonial/Barro)",
+                                            },
+                                            {
+                                                value: "concreto",
+                                                label: "Telha de Concreto",
+                                            },
+                                            {
+                                                value: "metalica",
+                                                label: "Telha Metálica (Galvanizada)",
+                                            },
+                                            {
+                                                value: "fibrocimento",
+                                                label: "Telha de Fibrocimento (Eternit)",
+                                            },
+                                            {
+                                                value: "laje",
+                                                label: "Laje Plana (Concreto)",
+                                            },
+                                            {
+                                                value: "madeira",
+                                                label: "Telhado com Estrutura de Madeira",
+                                            },
+                                            {
+                                                value: "embutido",
+                                                label: "Telhado Embutido (Platibanda)",
+                                            },
+                                            {
+                                                value: "shingle",
+                                                label: "Telha Shingle (Asfáltica)",
+                                            },
+                                            {
+                                                value: "verde",
+                                                label: "Telhado Verde (com vegetação)",
+                                            },
+                                        ]}
+                                        value={
+                                            addresses[idx].fields.roof_type ||
+                                            "ceramica"
+                                        }
+                                        required
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "roof_type",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </>
                             ),
@@ -206,37 +484,92 @@ export default function Create() {
                                         label="Consumo Médio Mensal (kWh)"
                                         name={`addresses[${idx}].energyInfo.average_monthly_consumption_kwh`}
                                         required
+                                        value={
+                                            address.energyInfo
+                                                .average_monthly_consumption_kwh ||
+                                            ""
+                                        }
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "energyInfo.average_monthly_consumption_kwh",
+                                                e.target.value
+                                            )
+                                        }
+                                        type="text"
+                                        regex="^\d+(,\d{1,2})?$"
+                                        formatFunction={formatDecimalNumber}
+                                        suffix="kWh"
                                     />
                                     <InputField
                                         label="Consumo Médio Anual (kWh)"
                                         name={`addresses[${idx}].energyInfo.average_annual_consumption_kwh`}
                                         required
+                                        value={
+                                            address.energyInfo
+                                                .average_annual_consumption_kwh ||
+                                            ""
+                                        }
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "energyInfo.average_annual_consumption_kwh",
+                                                e.target.value
+                                            )
+                                        }
+                                        regex="^\d+(,\d{1,2})?$"
+                                        formatFunction={formatDecimalNumber}
+                                        suffix="kWh"
                                     />
                                     <InputField
                                         label="Conta de Energia Média (R$)"
                                         name={`addresses[${idx}].energyInfo.average_energy_bill`}
                                         required
+                                        value={
+                                            address.energyInfo
+                                                .average_energy_bill || ""
+                                        }
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "energyInfo.average_energy_bill",
+                                                e.target.value
+                                            )
+                                        }
+                                        regex="^\d+(,\d{1,2})?$"
+                                        formatFunction={formatDecimalNumber}
+                                        prefix="R$"
                                     />
                                     <InputField
                                         label="Concessionária de Energia"
                                         name={`addresses[${idx}].energyInfo.energy_provider`}
                                         required
+                                        value={
+                                            address.energyInfo
+                                                .energy_provider || ""
+                                        }
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "energyInfo.energy_provider",
+                                                e.target.value
+                                            )
+                                        }
                                     />
-                                    <InputField
-                                        label="Tipo de Instalação"
-                                        name={`addresses[${idx}].energyInfo.installation_type`}
-                                        required
-                                    />
-                                    <InputField
-                                        label="Tipo de Telhado"
-                                        name={`addresses[${idx}].energyInfo.roof_type`}
-                                        required
-                                    />
+
                                     <InputField
                                         label="Observações"
                                         name={`addresses[${idx}].energyInfo.notes`}
                                         textarea
                                         optional
+                                        value={address.energyInfo.notes || ""}
+                                        onChange={(e) =>
+                                            handleAddressFieldChange(
+                                                address.id,
+                                                "energyInfo.notes",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </>
                             ),

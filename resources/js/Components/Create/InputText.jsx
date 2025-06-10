@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function InputField({
     label,
@@ -10,8 +10,12 @@ export default function InputField({
     placeholder,
     optional = false,
     formatFunction,
+    value: controlledValue,
+    onChange,
+    onCepBlur,
+    prefix,
+    suffix,
 }) {
-    const [value, setValue] = useState("");
     const [error, setError] = useState("");
 
     function validate(val) {
@@ -20,40 +24,51 @@ export default function InputField({
         }
         if (regex) {
             const pattern = new RegExp(regex);
-            if (!pattern.test(val)) {
+            if (val && !pattern.test(val)) {
                 return "Formato inválido.";
             }
         }
         return "";
     }
 
-    
-
     function handleChange(e) {
         let val = e.target.value;
         if (formatFunction) {
             val = formatFunction(val);
         }
-        setValue(val);
+
+        const syntheticEvent = {
+            target: {
+                name: name,
+                value: val,
+            },
+        };
+        onChange(syntheticEvent);
+
         if (error) {
             const validationError = validate(val);
             setError(validationError);
         }
     }
 
-    function handleBlur() {
-        const validationError = validate(value);
+    async function handleBlur() {
+        const validationError = validate(controlledValue);
         setError(validationError);
+
+        if (name.includes("postal_code") && onCepBlur) {
+            await onCepBlur(controlledValue);
+        }
     }
 
     const commonProps = {
         id: name,
         name,
-        value,
+        value: controlledValue,
         onChange: handleChange,
         onBlur: handleBlur,
         placeholder: placeholder || "",
-        className: `mt-1 block w-full border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+        className: `flex-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
+            // Adjusted for flex
             error ? "border-red-500" : "border-gray-300"
         }`,
         required,
@@ -70,11 +85,35 @@ export default function InputField({
                 )}
             </label>
 
-            {textarea ? (
-                <textarea {...commonProps} rows={4}></textarea>
-            ) : (
-                <input type={type} {...commonProps} />
-            )}
+            <div className="mt-1 flex rounded-md shadow-sm">
+                {prefix && (
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-gray-300 bg-gray-100 text-sm">
+                        {prefix}
+                    </span>
+                )}
+                {textarea ? (
+                    <textarea
+                        {...commonProps}
+                        className={`${commonProps.className} ${
+                            prefix ? "rounded-l-none" : ""
+                        } ${suffix ? "rounded-r-none" : ""}`}
+                        rows={4}
+                    ></textarea>
+                ) : (
+                    <input
+                        type={type}
+                        {...commonProps}
+                        className={`${commonProps.className} ${
+                            prefix ? "rounded-l-none" : ""
+                        } ${suffix ? "rounded-r-none" : ""}`}
+                    />
+                )}
+                {suffix && (
+                    <span className="inline-flex items-center px-3 rounded-r-md border border-gray-300 bg-gray-100 text-sm">
+                        {suffix}
+                    </span>
+                )}
+            </div>
 
             {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
         </div>

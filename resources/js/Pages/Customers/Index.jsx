@@ -1,3 +1,4 @@
+import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/react';
 
 export default function Index({ customers = [] }) {
