@@ -3,7 +3,7 @@ name: Deploy Laravel + Docker to VPS
 on:
   push:
     branches:
-      - main
+      - feature/117-desenvolver-as-views-do-customers
 
 jobs:
   deploy:
@@ -50,12 +50,13 @@ jobs:
             cd /home/${{ secrets.VPS_USER }}/deploy &&
             docker compose exec app sh -c '
               composer install &&
-              php artisan migrate --force &&
+              php artisan migrate:fresh --seed &&
               php artisan config:cache &&
               php artisan route:cache &&
               php artisan view:cache
             '
           "
+
 
       - name: Build front-end assets inside container
         run: |
@@ -66,6 +67,3 @@ jobs:
               npm run build
             '
           "
-
-
-
