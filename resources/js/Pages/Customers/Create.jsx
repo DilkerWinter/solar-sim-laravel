@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import AddOptionalFormButton from "@/Components/Create/AddOptionalFormButton";
 import BackButton from "@/Components/Create/BackButton";
 import FormCard from "@/Components/Create/FormCard";
@@ -9,6 +9,7 @@ import OptionalMultiSectionFormCard from "@/Components/Create/MultiSectionFormCa
 import SelectField from "@/Components/Create/SelectInput";
 import { v4 as uuidv4 } from "uuid";
 import { Inertia } from "@inertiajs/inertia";
+import ConfirmModal from "@/Components/ConfirmModal";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -19,6 +20,11 @@ export default function Create() {
     });
     const [addresses, setAddresses] = useState([]);
     const [removingIds, setRemovingIds] = useState([]);
+    const [confirmRemoveAdressId, setConfirmRemoveAdressId] = useState();
+    const [confirmRemoveEnergyInfoId, setConfirmRemoveEnergyInfoId] =
+        useState();
+    const [confirmSubmitForm, setConfirmSubmitForm] = useState();
+    const formRef = useRef(null);
 
     function handleClientInfoChange(e) {
         const { name, value } = e.target;
@@ -213,7 +219,7 @@ export default function Create() {
             }),
         };
 
-        Inertia.post('/customers', data);
+        Inertia.post("/customers", data);
     }
 
     return (
@@ -229,6 +235,7 @@ export default function Create() {
 
             <form
                 className="w-full max-w-5xl mx-auto space-y-8"
+                ref={formRef}
                 onSubmit={handleSubmit}
             >
                 <FormCard
@@ -594,11 +601,13 @@ export default function Create() {
                                 addText="Adicionar Informações de Energia Elétrica"
                                 onRemoveSection={(idxSection) => {
                                     if (sections[idxSection]?.isRemovable) {
-                                        removeEnergyInfo(address.id);
+                                        setConfirmRemoveEnergyInfoId(
+                                            address.id
+                                        );
                                     }
                                 }}
                                 onRemoveCard={() =>
-                                    removeAddressCard(address.id)
+                                    setConfirmRemoveAdressId(address.id)
                                 }
                                 removeText="Remover Informações de Energia Elétrica"
                                 removeCardText="Remover Endereço"
@@ -615,9 +624,51 @@ export default function Create() {
                 </div>
 
                 <div className="text-right">
-                    <SubmitButton text="Cadastrar" />
+                    <SubmitButton
+                        text="Cadastrar"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setConfirmSubmitForm(true);
+                        }}
+                    />
                 </div>
             </form>
+
+            <ConfirmModal
+                isOpen={!!confirmRemoveAdressId}
+                onClose={() => setConfirmRemoveAdressId(null)}
+                onConfirm={() => {
+                    removeAddressCard(confirmRemoveAdressId);
+                    setConfirmRemoveAdressId(null);
+                }}
+                title="Remover Endereço"
+                message="Você tem certeza que deseja remover este endereço? Os dados serão perdidos."
+                theme="danger"
+            />
+
+            <ConfirmModal
+                isOpen={!!confirmRemoveEnergyInfoId}
+                onClose={() => setConfirmRemoveEnergyInfoId(null)}
+                onConfirm={() => {
+                    removeEnergyInfo(confirmRemoveEnergyInfoId);
+                    setConfirmRemoveEnergyInfoId(null);
+                }}
+                title="Remover Informações de Energia Elétrica"
+                message="Deseja realmente remover esta seção de informações? Os dados serão perdidos."
+                theme="danger"
+            />
+
+            <ConfirmModal
+                isOpen={!!confirmSubmitForm}
+                onClose={() => setConfirmSubmitForm(null)}
+                onConfirm={() => {
+                    formRef.current?.requestSubmit();
+                    setConfirmSubmitForm(null);
+                }}
+                title="Confirmar Cadastro"
+                message="Deseja salvar as alterações realizadas no cadastro do cliente?"
+                theme="success"
+            />
         </div>
     );
 }

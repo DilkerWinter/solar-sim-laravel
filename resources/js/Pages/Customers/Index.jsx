@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ModalConfirm from '@/Components/ModalConfirm';
+import ConfirmModal from '@/Components/ConfirmModal';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/react';
 
@@ -64,7 +64,7 @@ export default function Index({ customers = [] }) {
         Criar novo cliente
       </Link>
 
-      <ModalConfirm
+      <ConfirmModal
         isOpen={modalOpen}
         title="Confirmar exclusão"
         message="Tem certeza que deseja excluir este cliente? Essa ação não pode ser desfeita."
