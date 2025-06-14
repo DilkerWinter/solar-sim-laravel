@@ -29,7 +29,7 @@ export default function Index({ customers = [] }) {
               key={customer.id}
               className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between"
             >
-              <strong className="text-lg text-gray-900">{customer.name} :D</strong>
+              <strong className="text-lg text-gray-900">{customer.name}</strong>
               <div className="space-x-2">
                 <button
                   onClick={() => Inertia.get(`/customers/${customer.id}`)}
