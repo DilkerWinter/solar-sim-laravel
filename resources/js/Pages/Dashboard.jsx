@@ -1,9 +1,10 @@
 import AppLayout from '@/Layouts/AppLayout';
 
-export default function Dashboard() {
+function Dashboard() {
     return (
-        <AppLayout>
-            
-        </AppLayout>
+        <h1> Dashboard do sistema </h1>
     );
 }
+
+Dashboard.layout = (page) => <AppLayout>{page}</AppLayout>;
+export default Dashboard;
