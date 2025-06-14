@@ -10,6 +10,7 @@ import SelectField from "@/Components/Create/SelectInput";
 import { v4 as uuidv4 } from "uuid";
 import { Inertia } from "@inertiajs/inertia";
 import ConfirmModal from "@/Components/ConfirmModal";
+import InputStateField from "@/Components/Create/InputStateField";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -218,7 +219,7 @@ export default function Create() {
                 return newAddress;
             }),
         };
-
+        console.log(data);
         Inertia.post("/customers", data);
     }
 
@@ -367,10 +368,8 @@ export default function Create() {
                                             )
                                         }
                                     />
-                                    <InputField
-                                        label="Estado"
+                                    <InputStateField
                                         name={`addresses[${idx}].state`}
-                                        required
                                         value={address.fields.state}
                                         onChange={(e) =>
                                             handleAddressFieldChange(
@@ -380,6 +379,7 @@ export default function Create() {
                                             )
                                         }
                                     />
+
                                     <SelectField
                                         label="Natureza do imóvel"
                                         name={`addresses[${idx}].type`}
