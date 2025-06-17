@@ -53,7 +53,7 @@ export default function CustomerTableSection({ dataTableUrl }) {
     return (
         <div className="mt-8">
             {/* Container  */}
-            <div className="border shadow-md rounded-2xl p-4 border-gray-300">
+            <div className="border shadow-md rounded-2xl p-4 border-gray-300 bg-white">
                 {/* Header */}
                 <div className="mb-2 ">
                     {/* Search Field */}

@@ -1,109 +1,88 @@
-export default function PageNavigator({ currentPage, totalPages, onPageChange }) {
-  if (totalPages === 0) return null;
+import {
+    ChevronsLeft,
+    ChevronLeft,
+    ChevronRight,
+    ChevronsRight,
+} from "lucide-react";
 
-  const maxButtons = 7;
-  let startPage = Math.max(1, currentPage - 3);
-  let endPage = Math.min(totalPages, currentPage + 3);
+export default function PageNavigator({
+    currentPage,
+    totalPages,
+    onPageChange,
+}) {
+    if (totalPages === 0) return null;
 
-  if (endPage - startPage + 1 < maxButtons) {
-    if (startPage === 1) {
-      endPage = Math.min(totalPages, startPage + maxButtons - 1);
-    } else if (endPage === totalPages) {
-      startPage = Math.max(1, endPage - maxButtons + 1);
-    }
-  }
+    const maxButtons = 7;
 
-  const pages = [];
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
+    const generatePageNumbers = (current, total) => {
+        const maxButtons = 7;
+        let start = Math.max(1, current - Math.floor(maxButtons / 2));
+        let end = start + maxButtons - 1;
 
-  return (
-    <nav aria-label="Pagination" className="flex justify-center space-x-2 mt-6 select-none">
-      {/* Botões de navegação principais */}
-      <button
-        onClick={() => onPageChange(1)}
-        disabled={currentPage === 1}
-        className={`
-          px-3 py-1 rounded-md font-semibold transition
-          ${
-            currentPage === 1
-              ? "text-gray-400 cursor-not-allowed"
-              : "bg-green-500 text-white hover:bg-green-600"
-          }
-        `}
-        aria-label="Primeira página"
-      >
-        {"<<"}
-      </button>
+        if (end > total) {
+            end = total;
+            start = Math.max(1, end - maxButtons + 1);
+        }
 
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className={`
-          px-3 py-1 rounded-md font-semibold transition
-          ${
-            currentPage === 1
-              ? "text-gray-400 cursor-not-allowed"
-              : "bg-green-500 text-white hover:bg-green-600"
-          }
-        `}
-        aria-label="Página anterior"
-      >
-        {"<"}
-      </button>
+        const range = [];
+        for (let i = start; i <= end; i++) {
+            range.push(i);
+        }
 
-      {/* Botões das páginas */}
-      {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => onPageChange(page)}
-          aria-current={currentPage === page ? "page" : undefined}
-          className={`
-            px-3 py-1 rounded-md text-sm font-semibold transition
-            ${
-              currentPage === page
-                ? "bg-blue-500 text-white shadow-md"
-                : "text-gray-700 hover:bg-blue-100"
-            }
-          `}
-        >
-          {page}
-        </button>
-      ))}
+        return range;
+    };
 
-      {/* Botões de navegação próximos */}
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className={`
-          px-3 py-1 rounded-md font-semibold transition
-          ${
-            currentPage === totalPages
-              ? "text-gray-400 cursor-not-allowed"
-              : "bg-green-500 text-white hover:bg-green-600"
-          }
-        `}
-        aria-label="Próxima página"
-      >
-        {">"}
-      </button>
+    return (
+        <div className="flex justify-center mt-6">
+            <div className="flex items-center gap-1">
+                <button
+                    disabled={currentPage === 1}
+                    className="h-9 w-9 p-0 rounded-md border border-gray-300 disabled:opacity-50 disabled:text-gray-500"
+                    onClick={() => onPageChange(1)}
+                >
+                    <ChevronsLeft className="h-4 w-4 mx-auto" />
+                </button>
 
-      <button
-        onClick={() => onPageChange(totalPages)}
-        disabled={currentPage === totalPages}
-        className={`
-          px-3 py-1 rounded-md font-semibold transition
-          ${
-            currentPage === totalPages
-              ? "text-gray-400 cursor-not-allowed"
-              : "bg-green-500 text-white hover:bg-green-600"
-          }
-        `}
-        aria-label="Última página"
-      >
-        {">>"}
-      </button>
-    </nav>
-  );
+                <button
+                    disabled={currentPage === 1}
+                    className="h-9 w-9 p-0 rounded-md border border-gray-300 disabled:opacity-50 disabled:text-gray-500"
+                    onClick={() => onPageChange(currentPage - 1)}
+                >
+                    <ChevronLeft className="h-4 w-4 mx-auto" />
+                </button>
+
+                {generatePageNumbers(currentPage, totalPages).map(
+                    (page, index) => (
+                        <button
+                            key={index}
+                            disabled={page === currentPage}
+                            onClick={() => onPageChange(page)}
+                            className={`h-9 min-w-9 px-3 rounded-md border text-sm transition-all duration-300
+                            ${page === currentPage
+                                    ? "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md font-semibold"
+                                    : "border-gray-300 text-gray-700 hover:bg-gray-100"
+                            }`} >
+                            {page}
+                        </button>
+                    )
+                )}
+
+                <button
+                    disabled={currentPage === totalPages}
+                    className="h-9 w-9 p-0 rounded-md border border-gray-300 disabled:opacity-50 disabled:text-gray-500"
+                    onClick={() => onPageChange(currentPage + 1)}
+                >
+                    <ChevronRight className="h-4 w-4 mx-auto" />
+                </button>
+
+                <button
+                    disabled={currentPage === totalPages}
+                    className="h-9 w-9 p-0 rounded-md border border-gray-300 disabled:opacity-50 disabled:text-gray-500"
+                    onClick={() => onPageChange(totalPages)}
+                >
+                    <ChevronsRight className="h-4 w-4 mx-auto" />
+                </button>
+            </div>
+        </div>
+    );
 }
