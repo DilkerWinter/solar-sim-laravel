@@ -8,7 +8,7 @@ class CustomerDataTable
 {
     public function getTable($params)
     {
-        $perPage = data_get($params, 'perPage', 10);
+        $perPage = data_get($params, 'perPage', 5);
         $page = data_get($params, 'page', 1);
         $searchQuery = data_get($params, 'search', '');
         $sortKey = data_get($params, 'sortKey', 'name');
@@ -40,16 +40,16 @@ class CustomerDataTable
 
             return [
                 'id' => $customer->id,
-                'name' => $customer->name,
+                'customer_info' => [$customer->name, $customer->email, $customer->phone],
                 'addresses_count' => $customer->addresses->count(),
-                'total_consumption' => number_format($totalConsumption, 2),
-                'total_bill' => number_format($totalBill, 2),
+                'total_consumption' => number_format($totalConsumption, 0, ',', ''),
+                'total_bill' => number_format($totalBill, 2, ',', '.'),
                 'actions' => $this->getActions($customer),
             ];
         });
 
         $headers = [
-            ['key' => 'name', 'label' => 'Cliente'],
+            ['key' => 'customer_info', 'label' => 'Cliente'],
             ['key' => 'addresses_count', 'label' => 'Endereços'],
             ['key' => 'total_consumption', 'label' => 'Consumo Total (kWh)'],
             ['key' => 'total_bill', 'label' => 'Conta Total (R$)'],
@@ -68,14 +68,10 @@ class CustomerDataTable
     {
         return [
             [
-                'type' => 'edit',
+                'type' => 'view',
                 'id' => $customer->id,
-                'icon' => 'fa fa-pencil'
-            ],
-            [
-                'type' => 'delete',
-                'id' => $customer->id,
-                'icon' => 'fa fa-trash'
+                'icon' => 'Eye',
+                'route' => route('customers.show', ['customer' => $customer->id]),
             ],
         ];
     }

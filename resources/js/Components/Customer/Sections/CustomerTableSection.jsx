@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import CustomerDataTableRow from "../UI/CustomerDataTableRow";
 
 export default function CustomerTableSection({ dataTableUrl }) {
     const [loading, setLoading] = useState(true);
     const [customers, setCustomers] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage] = useState(10);
+    const [perPage] = useState(5);
     const [search, setSearch] = useState("");
 
     const [totalPages, setTotalPages] = useState(1);
@@ -37,7 +38,7 @@ export default function CustomerTableSection({ dataTableUrl }) {
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
-        setPage(1); // volta para a primeira página ao pesquisar
+        setPage(1); 
     };
 
     return (
@@ -72,52 +73,27 @@ export default function CustomerTableSection({ dataTableUrl }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {customers.length === 0 ? (
-                                <tr>
-                                    <td colSpan={headers.length} className="text-center py-4">
-                                        Nenhum resultado encontrado.
-                                    </td>
-                                </tr>
-                            ) : (
-                                customers.map((row) => (
-                                    <tr key={row.id} className="border-t hover:bg-gray-50">
-                                        {headers.map((header) => (
-                                            <td key={header.key} className="px-4 py-2">
-                                                {header.key === "actions" ? (
-                                                    <div className="flex gap-2">
-                                                        {row.actions.map((action, idx) => (
-                                                            <button
-                                                                key={idx}
-                                                                className="text-blue-600 hover:underline"
-                                                                onClick={() =>
-                                                                    console.log("Ação:", action)
-                                                                }
-                                                            >
-                                                                <i className={action.icon}></i>
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                ) : (
-                                                    row[header.key]
-                                                )}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))
-                            )}
+                            {customers.map((customer) => (
+                                <CustomerDataTableRow
+                                    key={customer.id}
+                                    customer={customer}
+                                    headers={headers}
+                                />
+                            ))}
                         </tbody>
                     </table>
                 )}
             </div>
 
-            {/* Paginação */}
             <div className="flex justify-center mt-4 gap-2">
                 {[...Array(totalPages)].map((_, i) => (
                     <button
                         key={i}
                         onClick={() => setPage(i + 1)}
                         className={`px-3 py-1 border rounded ${
-                            page === i + 1 ? "bg-blue-500 text-white" : "bg-white"
+                            page === i + 1
+                                ? "bg-blue-500 text-white"
+                                : "bg-white"
                         }`}
                     >
                         {i + 1}
