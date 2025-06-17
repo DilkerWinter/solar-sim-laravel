@@ -10,7 +10,7 @@ export default function CustomerSearchBar({ search, onSearchChange, onClear }) {
       <input
 
         type="text"
-        placeholder="Buscar por nome, email, telefone ou documento..."
+        placeholder="Buscar por nome, email ou documento..."
         className="w-full pl-10 pr-10 py-2 border rounded-2xl shadow-md focus:outline-none "
         value={search}
         onChange={onSearchChange}

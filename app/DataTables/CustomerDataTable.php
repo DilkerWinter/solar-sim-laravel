@@ -17,8 +17,13 @@ class CustomerDataTable
         $query = Customer::with('addresses.addressEnergyInfo');
 
         if ($searchQuery) {
-            $query->where('name', 'like', '%' . $searchQuery . '%');
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('name', 'ilike', '%' . $searchQuery . '%')
+                    ->orWhere('email', 'ilike', '%' . $searchQuery . '%')
+                    ->orWhere('document_number', 'ilike', '%' . $searchQuery . '%');
+            });
         }
+
 
         if ($sortKey && in_array($sortOrder, ['asc', 'desc'])) {
             $query->orderBy($sortKey, $sortOrder);
