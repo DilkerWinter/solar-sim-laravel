@@ -25,7 +25,7 @@ class CustomerFactory extends Factory
     {
         return $this->afterCreating(function (Customer $customer) {
             Address::factory()
-                ->count(rand(1, 3))
+                ->count(rand(1, 4))
                 ->for($customer)
                 ->create()
                 ->each(function (Address $address) {

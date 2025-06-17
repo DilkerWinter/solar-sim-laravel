@@ -38,10 +38,12 @@ class CustomerDataTable
                 }
             }
 
+            $addressTypes = $this->countAddressTypes($customer->addresses);
+
             return [
                 'id' => $customer->id,
                 'customer_info' => [$customer->name, $customer->email, $customer->phone],
-                'addresses_count' => $customer->addresses->count(),
+                'address_info' => ['count' => $customer->addresses->count(), 'types' => $addressTypes],
                 'total_consumption' => number_format($totalConsumption, 0, ',', ''),
                 'total_bill' => number_format($totalBill, 2, ',', '.'),
                 'actions' => $this->getActions($customer),
@@ -50,11 +52,12 @@ class CustomerDataTable
 
         $headers = [
             ['key' => 'customer_info', 'label' => 'Cliente'],
-            ['key' => 'addresses_count', 'label' => 'Endereços'],
+            ['key' => 'address_info', 'label' => 'Endereços'],
             ['key' => 'total_consumption', 'label' => 'Consumo Total (kWh)'],
             ['key' => 'total_bill', 'label' => 'Conta Total (R$)'],
             ['key' => 'actions', 'label' => 'Ações'],
         ];
+
 
         return response()->json([
             'data' => $formattedData,
@@ -74,5 +77,24 @@ class CustomerDataTable
                 'route' => route('customers.show', ['customer' => $customer->id]),
             ],
         ];
+    }
+
+    private function countAddressTypes($addresses): array
+    {
+        $types = [
+            'residencial' => 0,
+            'comercial' => 0,
+            'industrial' => 0,
+            'rural' => 0,
+        ];
+
+        foreach ($addresses as $address) {
+            $type = strtolower($address->type);
+            if (array_key_exists($type, $types)) {
+                $types[$type]++;
+            }
+        }
+
+        return $types;
     }
 }
