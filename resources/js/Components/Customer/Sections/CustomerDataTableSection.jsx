@@ -3,8 +3,10 @@ import axios from "axios";
 import CustomerDataTableRow from "../UI/CustomerDataTableRow";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import PageNavigator from "../UI/PageNavigator";
+import CustomerSearchBar from "../UI/CustomerSearchBar";
+import CustomerSearchParameters from "../UI/CustomerSearchParameters";
 
-export default function CustomerTableSection({ dataTableUrl }) {
+export default function CustomerDataTableSection({ dataTableUrl }) {
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
     const [customers, setCustomers] = useState([]);
@@ -50,6 +52,10 @@ export default function CustomerTableSection({ dataTableUrl }) {
         setPage(1);
     };
 
+    const onClearSerchBar = () => {
+        setSearch("");
+t    }
+
     return (
         <div className="mt-8">
             {/* Container  */}
@@ -57,14 +63,9 @@ export default function CustomerTableSection({ dataTableUrl }) {
                 {/* Header */}
                 <div className="mb-2 ">
                     {/* Search Field */}
-                    <input
-                        type="text"
-                        placeholder="Buscar cliente..."
-                        className="px-4 py-2 border rounded-2xl w-full md:w-1/3"
-                        value={search}
-                        onChange={handleSearchChange}
-                    />
+                    <CustomerSearchBar search={search} onSearchChange={handleSearchChange} onClear={onClearSerchBar} />
                     {/* Parameters Select */}
+                    <CustomerSearchParameters />
                 </div>
 
                 {/* Table And Spinner */}
@@ -90,7 +91,7 @@ export default function CustomerTableSection({ dataTableUrl }) {
                                 <tr>
                                     <td
                                         colSpan={headers.length}
-                                        className="text-center py-4"
+                                        className="text-center py-8 text-gray-500 italic select-none border-t border-gray-400"
                                     >
                                         Nenhum cliente encontrado.
                                     </td>

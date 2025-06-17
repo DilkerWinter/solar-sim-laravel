@@ -1,6 +1,6 @@
 import CustomerIndexHeader from "@/Components/Customer/Sections/CustomerIndexHeader";
 import CustomerInfoResume from "@/Components/Customer/Sections/CustomerInfoResume";
-import CustomerTableSection from "@/Components/Customer/Sections/CustomerTableSection";
+import CustomerDataTableSection from "@/Components/Customer/Sections/CustomerDataTableSection";
 
 export default function Index({ cardInfos, customerDataTableUrl }) {
     return (
@@ -12,7 +12,7 @@ export default function Index({ cardInfos, customerDataTableUrl }) {
                 totalAddress={cardInfos.totalAddresses}
             />
 
-            <CustomerTableSection dataTableUrl={customerDataTableUrl} />
+            <CustomerDataTableSection dataTableUrl={customerDataTableUrl} />
         </div>
     );
 }

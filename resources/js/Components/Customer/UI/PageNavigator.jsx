@@ -59,7 +59,7 @@ export default function PageNavigator({
                             onClick={() => onPageChange(page)}
                             className={`h-9 min-w-9 px-3 rounded-md border text-sm transition-all duration-300
                             ${page === currentPage
-                                    ? "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md font-semibold"
+                                    ? "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md border-none font-semibold"
                                     : "border-gray-300 text-gray-700 hover:bg-gray-100"
                             }`} >
                             {page}

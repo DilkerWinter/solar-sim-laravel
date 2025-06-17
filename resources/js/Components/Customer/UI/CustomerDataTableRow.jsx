@@ -115,7 +115,7 @@ function Actions({ actions }) {
 
 export default function CustomerDataTableRow({ customer, headers }) {
     return (
-        <tr className="border-t border-gray-400">
+        <tr className="border-t border-gray-400 shadow-md shadow-gray-300">
             {headers.map((header) => (
                 <td key={header.key} className="p-4">
                     {header.key === "customer_info" ? (
