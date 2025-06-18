@@ -116,7 +116,7 @@ export default function CustomerSearchFilterButton({ onFilter }) {
                         </div>
                     </div>
 
-                    <hr className="border-t border-gray-200" />
+                    <hr className="border-t border-gray-300" />
 
                     {/* Filtros adicionais */}
                     <div className="space-y-4">
