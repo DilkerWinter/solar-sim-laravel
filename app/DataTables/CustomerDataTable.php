@@ -52,8 +52,6 @@ class CustomerDataTable
             }
         }
 
-
-
         if ($sortKey && in_array($sortOrder, ['asc', 'desc'])) {
             $query->orderBy($sortKey, $sortOrder);
         }
