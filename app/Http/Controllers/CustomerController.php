@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\CustomerDataTable;
+use App\Models\Address;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,10 +13,23 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::with('addresses.addressEnergyInfo')->get();
-        return Inertia::render('Customers/Index', ['customers' => $customers]);
+        $dataTable = resolve(CustomerDataTable::class);
+
+        if($this->requisicaoWithDataTable($request)) {
+            return $dataTable->getTable($request->all());
+        }
+
+        $cardInfos = [
+            'totalCustomers' => Customer::count(),
+            'totalAddresses' => Address::count(),
+        ];
+
+        return Inertia::render('Customers/Index', [
+            'cardInfos' => $cardInfos,
+            'customerDataTableUrl' => route('customers.index') 
+        ]);
     }
 
     /**
@@ -188,5 +203,15 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+    }
+
+    private function requisicaoWithDataTable(Request $request): bool
+    {
+        return $request->ajax() && (
+            $request->has('page') ||
+            $request->has('perPage') ||
+            $request->has('search') ||
+            $request->has('sortKey')
+        );
     }
 }

@@ -15,7 +15,7 @@ class CustomerFactory extends Factory
     {
         return [
             'name'            => $this->faker->name,
-            'phone'           => $this->faker->phoneNumber,
+            'phone'           => $this->faker->numerify('(##) 9####-####'),
             'email'           => $this->faker->unique()->safeEmail,
             'document_number' => $this->faker->numerify('###.###.###-##'),
         ];
@@ -25,11 +25,13 @@ class CustomerFactory extends Factory
     {
         return $this->afterCreating(function (Customer $customer) {
             Address::factory()
-                ->count(rand(1, 3))
+                ->count(rand(0, 4))
                 ->for($customer)
                 ->create()
                 ->each(function (Address $address) {
-                    AddressEnergyInfo::factory()->for($address)->create();
+                    if (rand(0, 1) === 1) {
+                        AddressEnergyInfo::factory()->for($address)->create();
+                    }
                 });
         });
     }

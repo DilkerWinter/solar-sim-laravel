@@ -19,18 +19,19 @@ export default function CustomerInfoResume( {totalCustomers , totalAddress}) {
                 />
 
                 <CustomerInfoCard
+                    label="Propostas Pendentes"
+                    value={100}
+                    icon={Clock}
+                    colorClass="text-yellow-600"
+                />
+
+                <CustomerInfoCard
                     label="Propostas Finalizadas"
                     value={20}
                     icon={FileBarChart}
                     colorClass="text-green-600"
                 />
 
-                <CustomerInfoCard
-                    label="Propostas Pendentes"
-                    value={100}
-                    icon={Clock}
-                    colorClass="text-yellow-600"
-                />
 
                 
             </div>
