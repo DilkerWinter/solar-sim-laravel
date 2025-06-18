@@ -51,21 +51,20 @@ export default function PageNavigator({
                     <ChevronLeft className="h-4 w-4 mx-auto" />
                 </button>
 
-                {generatePageNumbers(currentPage, totalPages).map(
-                    (page, index) => (
-                        <button
-                            key={index}
-                            disabled={page === currentPage}
-                            onClick={() => onPageChange(page)}
-                            className={`h-9 min-w-9 px-3 rounded-md border text-sm transition-all duration-300
+                {generatePageNumbers(currentPage, totalPages).map((page, index) => (
+                    <button
+                        key={index}
+                        disabled={page === currentPage}
+                        onClick={() => onPageChange(page)}
+                        className={`h-9 min-w-9 px-3 rounded-md border text-sm transition-all duration-300
                             ${page === currentPage
-                                    ? "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md border-none font-semibold"
-                                    : "border-gray-300 text-gray-700 hover:bg-gray-100"
-                            }`} >
-                            {page}
-                        </button>
-                    )
-                )}
+                                ? "bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-md border-none font-semibold"
+                                : "border-gray-300 text-gray-700 hover:bg-gray-300 "
+                            }`}
+                    >
+                        {page}
+                    </button>
+                ))}
 
                 <button
                     disabled={currentPage === totalPages}

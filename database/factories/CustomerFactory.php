@@ -25,11 +25,13 @@ class CustomerFactory extends Factory
     {
         return $this->afterCreating(function (Customer $customer) {
             Address::factory()
-                ->count(rand(1, 4))
+                ->count(rand(0, 4))
                 ->for($customer)
                 ->create()
                 ->each(function (Address $address) {
-                    AddressEnergyInfo::factory()->for($address)->create();
+                    if (rand(0, 1) === 1) {
+                        AddressEnergyInfo::factory()->for($address)->create();
+                    }
                 });
         });
     }

@@ -24,6 +24,35 @@ class CustomerDataTable
             });
         }
 
+        $types = data_get($params, 'types', []);
+        $withoutAddress = data_get($params, 'withoutAddress');
+        $withoutEnergyInfo = data_get($params, 'withoutEnergyInfo');
+
+        if (filter_var($withoutAddress, FILTER_VALIDATE_BOOLEAN)) {
+            $query->whereDoesntHave('addresses');
+        } else {
+            if (!empty($types)) {
+                foreach ($types as $type) {
+                    $query->whereHas('addresses', function ($q) use ($type, $withoutEnergyInfo) {
+                        $q->where('type', $type);
+
+                        if (filter_var($withoutEnergyInfo, FILTER_VALIDATE_BOOLEAN)) {
+                            $q->whereDoesntHave('addressEnergyInfo');
+                        }
+                    });
+                }
+            } else {
+                if (filter_var($withoutEnergyInfo, FILTER_VALIDATE_BOOLEAN)) {
+                    $query->whereHas('addresses', function ($q) {
+                        $q->whereDoesntHave('addressEnergyInfo');
+                    });
+                } else {
+                    $query->whereHas('addresses');
+                }
+            }
+        }
+
+
 
         if ($sortKey && in_array($sortOrder, ['asc', 'desc'])) {
             $query->orderBy($sortKey, $sortOrder);

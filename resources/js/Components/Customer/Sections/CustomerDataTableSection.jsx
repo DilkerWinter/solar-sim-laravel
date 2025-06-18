@@ -15,12 +15,13 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
     const [perPage] = useState(5);
     const [search, setSearch] = useState("");
     const [totalPages, setTotalPages] = useState(1);
+    const [filters, setFilters] = useState({});
 
     const spinnerTimeoutRef = useRef(null);
 
     useEffect(() => {
         fetchData();
-    }, [page, search]);
+    }, [page, search, filters]);
 
     const fetchData = async () => {
         setLoading(true);
@@ -32,7 +33,7 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
 
         try {
             const response = await axios.get(dataTableUrl, {
-                params: { page, perPage, search },
+                params: { page, perPage, search, ...filters },
             });
 
             setCustomers(response.data.data);
@@ -47,6 +48,11 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
         }
     };
 
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+        setPage(1);
+    };
+
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
         setPage(1);
@@ -54,18 +60,30 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
 
     const onClearSerchBar = () => {
         setSearch("");
-t    }
+        setPage(1);
+    };
 
     return (
         <div className="mt-8">
             {/* Container  */}
             <div className="border shadow-md rounded-2xl p-4 border-gray-300 bg-white">
                 {/* Header */}
-                <div className="mb-2 ">
-                    {/* Search Field */}
-                    <CustomerSearchBar search={search} onSearchChange={handleSearchChange} onClear={onClearSerchBar} />
-                    {/* Parameters Select */}
-                    <CustomerSearchParameters />
+                <div className="mb-2 flex items-center justify-between gap-4">
+                    {/* Search Field ocupa o máximo possível */}
+                    <div className="flex-grow">
+                        <CustomerSearchBar
+                            search={search}
+                            onSearchChange={handleSearchChange}
+                            onClear={onClearSerchBar}
+                        />
+                    </div>
+
+                    {/* Botão de filtro fica à direita */}
+                    <div className="flex-shrink-0">
+                        <CustomerSearchParameters
+                            onFilter={handleFilterChange}
+                        />
+                    </div>
                 </div>
 
                 {/* Table And Spinner */}
