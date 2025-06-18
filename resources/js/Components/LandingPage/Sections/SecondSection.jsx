@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import SectionTitle from "../UI/SectionTitle";
+import { router } from "@inertiajs/react";
 
 export default function SecondSection() {
     const [isVisible, setIsVisible] = useState(false);
@@ -57,7 +58,7 @@ export default function SecondSection() {
                     style={{ willChange: "transform, opacity" }}
                 >
                     <img
-                        src="https://placehold.co/1000x500/000000/FFFFFF?text=SolarSim+Dashboard&font=roboto"
+                        src="/images/customers-index.png"
                         alt="Visual do Dashboard do SolarSim"
                         className="w-full h-auto object-cover rounded-3xl"
                         loading="lazy"
@@ -70,6 +71,7 @@ export default function SecondSection() {
                     hover:scale-105 hover:shadow-xl transition-transform duration-300
                     ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                     aria-label="Explorar mais sobre o SolarSim"
+                    onClick={() => router.visit('/login')} 
                 >
                     Explorar mais
                 </button>
