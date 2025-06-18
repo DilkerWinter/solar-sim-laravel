@@ -1,19 +1,18 @@
 import CustomerIndexHeader from "@/Components/Customer/Sections/CustomerIndexHeader";
 import CustomerInfoResume from "@/Components/Customer/Sections/CustomerInfoResume";
+import CustomerDataTableSection from "@/Components/Customer/Sections/CustomerDataTableSection";
 
-export default function Index({ customers = [] }) {
-    const totalCustomers = customers.length;
-    const totalAddress = customers.reduce((acc, customer) => {
-        return acc + (customer.addresses?.length || 0);
-    }, 0);
-
+export default function Index({ cardInfos, customerDataTableUrl }) {
     return (
-        <div className="w-full mx-auto p-8 ">
+        <div className="w-full mx-auto p-8">
             <CustomerIndexHeader />
+
             <CustomerInfoResume
-                totalCustomers={totalCustomers}
-                totalAddress={totalAddress}
+                totalCustomers={cardInfos.totalCustomers}
+                totalAddress={cardInfos.totalAddresses}
             />
+
+            <CustomerDataTableSection dataTableUrl={customerDataTableUrl} />
         </div>
     );
 }
