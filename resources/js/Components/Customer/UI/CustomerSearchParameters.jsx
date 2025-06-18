@@ -146,12 +146,11 @@ export default function CustomerSearchFilterButton({ onFilter }) {
                                 }
                             />
                             <span>
-                                Somente endereços com <strong>energia</strong>
+                                Filtrar endereços <strong>sem dados de energia</strong>
                             </span>
                         </label>
                     </div>
 
-                    {/* Botões */}
                     <div className="flex justify-between gap-4 pt-2">
                         <button
                             onClick={clearFilters}
