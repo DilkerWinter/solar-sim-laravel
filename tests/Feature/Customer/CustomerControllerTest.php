@@ -20,6 +20,7 @@ class CustomerControllerTest extends TestCase
     }
 
     /** @test */
+    /** @test */
     public function index_displays_customers_list(): void
     {
         Customer::factory()->count(3)->create();
@@ -29,9 +30,13 @@ class CustomerControllerTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) =>
                 $page->component('Customers/Index')
-                    ->has('customers', 3)
+                    ->has('cardInfos')
+                    ->has('cardInfos.totalCustomers')
+                    ->has('cardInfos.totalAddresses')
+                    ->where('customerDataTableUrl', route('customers.index'))
             );
     }
+
 
     /** @test */
     public function store_creates_customer_with_addresses_and_energy_info(): void
@@ -131,5 +136,4 @@ class CustomerControllerTest extends TestCase
             'id' => $customer->id,
         ]);
     }
-
 }
