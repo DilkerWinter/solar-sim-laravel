@@ -1,5 +1,6 @@
 import Title from "@/Components/LandingPage/UI/Title";
 import ButtonGradient from "@/Components/LandingPage/UI/ButtonGradient";
+import { router } from "@inertiajs/react";
 
 /**
  * First section of the landing page.
@@ -32,7 +33,9 @@ export default function FirstSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-                    <ButtonGradient className="px-8 py-4 text-lg md:text-xl font-bold shadow-lg shadow-black/20 hover:scale-105 transition-transform duration-200">
+                    <ButtonGradient
+                    onClick={() => router.visit('/login')} 
+                    className="px-8 py-4 text-lg md:text-xl font-bold shadow-lg shadow-black/20 hover:scale-105 transition-transform duration-200">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6 mr-2"

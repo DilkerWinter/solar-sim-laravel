@@ -92,7 +92,7 @@ export default function FourthSection() {
           <div className="relative">
             <div className="bg-gradient-to-bl from-green-300 to-blue-300 rounded-2xl p-4 shadow-2xl">
               <img
-                src="https://placehold.co/600x600/000000/FFFFFF?text=SolarSim+Dashboard&font=roboto"
+                src="/images/landing-page-ad.png"
                 alt="SolarSim Features"
                 className="w-full rounded-2xl"
               />
