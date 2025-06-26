@@ -13,6 +13,8 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - [Node.js 24](https://nodejs.org/)
 - [React](https://reactjs.org/) com [Inertia.js](https://inertiajs.com/)
 - [PHPUnit](https://phpunit.de/) para testes automatizados
+- [Docker](https://www.docker.com/) para desenvolvimento e produção containerizados
+- [GitHub Actions](https://github.com/features/actions) para integração e entrega contínua (CI/CD)
 
 ---
 
