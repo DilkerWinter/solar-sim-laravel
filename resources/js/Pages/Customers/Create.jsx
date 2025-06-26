@@ -1,16 +1,16 @@
 import React, { useRef, useState } from "react";
-import AddOptionalFormButton from "@/Components/Create/AddOptionalFormButton";
-import BackButton from "@/Components/Create/BackButton";
-import FormCard from "@/Components/Create/FormCard";
-import InputField from "@/Components/Create/InputText";
-import SubmitButton from "@/Components/Create/SubmitButton";
+import AddOptionalFormButton from "@/Components/Customer/Create/AddOptionalFormButton";
+import BackButton from "@/Components/Customer/Create/BackButton";
+import FormCard from "@/Components/Customer/Create/FormCard";
+import InputField from "@/Components/Customer/Create/InputText";
+import SubmitButton from "@/Components/Customer/Create/SubmitButton";
 import { House, User, Zap } from "lucide-react";
-import OptionalMultiSectionFormCard from "@/Components/Create/MultiSectionFormCard";
-import SelectField from "@/Components/Create/SelectInput";
+import OptionalMultiSectionFormCard from "@/Components/Customer/Create/MultiSectionFormCard";
+import SelectField from "@/Components/Customer/Create/SelectInput";
 import { v4 as uuidv4 } from "uuid";
 import { Inertia } from "@inertiajs/inertia";
 import ConfirmModal from "@/Components/ConfirmModal";
-import InputStateField from "@/Components/Create/InputStateField";
+import InputStateField from "@/Components/Customer/Create/InputStateField";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
