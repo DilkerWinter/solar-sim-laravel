@@ -3,24 +3,25 @@ name: Deploy Laravel + Docker to VPS
 on:
   push:
     branches:
-      - main
+      - ci/127-ci-mudar-deploy-para-novo-servidor
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 
 
       - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.7.0
+        uses: webfactory/ssh-agent@v0.9.0 
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
 
       - name: Sync files to VPS deploy directory
         run: |
-          rsync -e "ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no" -avz --delete --progress \
+          # Adicionado -o UserKnownHostsFile=/dev/null para otimização
+          rsync -e "ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" -avz --delete --progress \
             --exclude='.git' \
             --exclude='node_modules' \
             --exclude='vendor' \
@@ -31,40 +32,55 @@ jobs:
 
       - name: Setup .env on VPS from secret
         run: |
-          ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-            "echo -e \"${{ secrets.DOTENV_DEPLOY }}\" > /home/${{ secrets.VPS_USER }}/deploy/.env"
+          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -p ${{ secrets.VPS_PORT }} \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              "echo -e \"${{ secrets.DOTENV_DEPLOY }}\" > /home/${{ secrets.VPS_USER }}/deploy/.env"
 
       - name: Build and start app Docker containers on VPS
         run: |
-          ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose build app &&
-            docker compose up -d app
-          "
+          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -p ${{ secrets.VPS_PORT }} \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              "
+              cd /home/${{ secrets.VPS_USER }}/deploy &&
+              docker compose build app &&
+              docker compose up -d app
+              "
 
       - name: Run Laravel artisan commands inside container
         run: |
-          ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose exec app sh -c '
-              composer install &&
-              php artisan migrate --force &&
-              php artisan config:cache &&
-              php artisan route:cache &&
-              php artisan view:cache
-            '
-          "
+          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -p ${{ secrets.VPS_PORT }} \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              "
+              cd /home/${{ secrets.VPS_USER }}/deploy &&
+              docker compose exec app sh -c '
+                composer install &&
+                php artisan migrate --force &&
+                php artisan config:cache &&
+                php artisan route:cache &&
+                php artisan view:cache
+              '
+              "
 
       - name: Build front-end assets inside container
         run: |
-          ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            cd /home/${{ secrets.VPS_USER }}/deploy &&
-            docker compose exec app sh -c '
-              npm install &&
-              npm run build
-            '
-          "
+          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -p ${{ secrets.VPS_PORT }} \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              "
+              cd /home/${{ secrets.VPS_USER }}/deploy &&
+              docker compose exec app sh -c '
+                npm install &&
+                npm run build
+              '
+              "
