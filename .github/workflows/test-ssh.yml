@@ -17,15 +17,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
 
-      - name: Verify SSH Agent and Key
-        run: |
-          echo "Verifying SSH agent..."
-          ssh-add -l || { echo "No keys found in SSH agent. Check VPS_SSH_KEY secret."; exit 1; }
-          echo "Listing .ssh directory contents:"
-          ls -la ~/.ssh/
+      - name: List loaded SSH keys
+        run: ssh-add -l
 
       - name: Debug SSH connection
         run: |
-          echo "Attempting SSH connection to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PORT }}"
-          # Use -vvv for even more verbosity if -v isn't enough
-          ssh -vvv -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} exit
+          echo "Trying SSH to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} on port ${{ secrets.VPS_PORT }}"
+          ssh -vvv -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
