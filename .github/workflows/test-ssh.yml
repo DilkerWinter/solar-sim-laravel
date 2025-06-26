@@ -29,4 +29,5 @@ jobs:
             -o IdentitiesOnly=yes \
             -p ${{ secrets.VPS_PORT }} \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
+
       
