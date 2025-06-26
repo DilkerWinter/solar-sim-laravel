@@ -31,5 +31,7 @@ jobs:
           echo "Trying SSH to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} on port ${{ secrets.VPS_PORT }}"
           ssh -vvv \
             -o IdentitiesOnly=yes \
+            -o IdentityAgent="$SSH_AUTH_SOCK" \
             -p ${{ secrets.VPS_PORT }} \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
+      
