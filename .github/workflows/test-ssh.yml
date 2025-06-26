@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.7.0
@@ -23,5 +23,10 @@ jobs:
       - name: Debug SSH connection
         run: |
           echo "Trying SSH to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} on port ${{ secrets.VPS_PORT }}"
-          ssh -vvv -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
+          ssh -vvv \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o IdentitiesOnly=yes \
+            -p ${{ secrets.VPS_PORT }} \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
+      
