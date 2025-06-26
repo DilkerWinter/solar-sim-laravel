@@ -9,10 +9,24 @@ jobs:
   test-ssh:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
 
+      - name: Verify SSH Agent and Key
+        run: |
+          echo "Verifying SSH agent..."
+          ssh-add -l || { echo "No keys found in SSH agent. Check VPS_SSH_KEY secret."; exit 1; }
+          echo "Listing .ssh directory contents:"
+          ls -la ~/.ssh/
+
       - name: Debug SSH connection
-        run: ssh -v -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} exit
+        run: |
+          echo "Attempting SSH connection to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PORT }}"
+          # Use -vvv for even more verbosity if -v isn't enough
+          ssh -vvv -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} exit
+        env:

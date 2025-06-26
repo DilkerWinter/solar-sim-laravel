@@ -3,7 +3,7 @@ name: Deploy Laravel + Docker to VPS
 on:
   push:
     branches:
-      - main
+      - ci/127-ci-mudar-deploy-para-novo-servidor
 
 jobs:
   deploy:
