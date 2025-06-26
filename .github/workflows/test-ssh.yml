@@ -21,7 +21,6 @@ jobs:
       - name: List loaded SSH keys
         run: ssh-add -l
 
-      - name: Test SSH Connection - Hello World
+      - name: Test SSH Connection
         run: |
-          echo "Trying SSH to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} on port ${{ secrets.VPS_PORT }}"
-          ssh -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo 'hello world'"
+          ssh -vvv -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo 'hello world'"
