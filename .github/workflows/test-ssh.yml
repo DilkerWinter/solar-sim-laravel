@@ -8,26 +8,29 @@ on:
 jobs:
   test-ssh:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH Agent
+      - name: Setup SSH Agent with VPS Key
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+          ssh-private-key: |
+            ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Add host to known_hosts (opcional, mais seguro)
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       - name: List loaded SSH keys
         run: ssh-add -l
 
-      - name: Debug SSH connection
+      - name: Test SSH Connection
         run: |
           echo "Trying SSH to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} on port ${{ secrets.VPS_PORT }}"
           ssh -vvv \
-            -o StrictHostKeyChecking=no \
-            -o UserKnownHostsFile=/dev/null \
             -o IdentitiesOnly=yes \
             -p ${{ secrets.VPS_PORT }} \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
-
-      
