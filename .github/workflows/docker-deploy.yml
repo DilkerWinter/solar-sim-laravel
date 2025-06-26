@@ -7,20 +7,27 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
       - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.9.0 
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
 
+      - name: Install rsync on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -p ${{ secrets.VPS_PORT }} \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              "sudo apt-get update && sudo apt-get install -y rsync"
+
       - name: Sync files to VPS deploy directory
         run: |
-          # Adicionado -o UserKnownHostsFile=/dev/null para otimização
           rsync -e "ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" -avz --delete --progress \
             --exclude='.git' \
             --exclude='node_modules' \
@@ -28,39 +35,36 @@ jobs:
             --exclude='.env' \
             --exclude='public/build' \
             --exclude='docker/certs/letsencrypt' \
-            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/${{ secrets.VPS_USER }}/deploy
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:~/deploy 
 
       - name: Setup .env on VPS from secret
         run: |
-          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
           ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -p ${{ secrets.VPS_PORT }} \
               ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
-              "echo -e \"${{ secrets.DOTENV_DEPLOY }}\" > /home/${{ secrets.VPS_USER }}/deploy/.env"
+              "echo -e \"${{ secrets.DOTENV_DEPLOY }}\" > ~/deploy/.env"
 
       - name: Build and start app Docker containers on VPS
         run: |
-          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
           ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -p ${{ secrets.VPS_PORT }} \
               ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
               "
-              cd /home/${{ secrets.VPS_USER }}/deploy &&
+              cd ~/deploy && 
               docker compose build app &&
               docker compose up -d app
               "
 
       - name: Run Laravel artisan commands inside container
         run: |
-          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
           ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -p ${{ secrets.VPS_PORT }} \
               ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
               "
-              cd /home/${{ secrets.VPS_USER }}/deploy &&
+              cd ~/deploy &&
               docker compose exec app sh -c '
                 composer install &&
                 php artisan migrate --force &&
@@ -72,13 +76,12 @@ jobs:
 
       - name: Build front-end assets inside container
         run: |
-          # Adicionado -o UserKnownHostsFile=/dev/null e formatação melhorada
           ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -p ${{ secrets.VPS_PORT }} \
               ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
               "
-              cd /home/${{ secrets.VPS_USER }}/deploy &&
+              cd ~/deploy &&
               docker compose exec app sh -c '
                 npm install &&
                 npm run build
