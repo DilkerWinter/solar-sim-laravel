@@ -10,28 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup SSH Agent with VPS Key
+      - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
 
-      - name: Add host to known_hosts (opcional, mais seguro)
+      - name: Sync files to VPS deploy directory
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-
-      - name: List loaded SSH keys
-        run: ssh-add -l
-
-      - name: Test SSH Connection
-        run: |
-          echo "Trying SSH to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} on port ${{ secrets.VPS_PORT }}"
-          ssh -vvv \
-            -o IdentitiesOnly=yes \
-            -o IdentityAgent="$SSH_AUTH_SOCK" \
-            -p ${{ secrets.VPS_PORT }} \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo OK"
-      
+          rsync -e "ssh -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no" -avz --delete --progress \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='.env' \
+            --exclude='public/build' \
+            --exclude='docker/certs/letsencrypt' \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/${{ secrets.VPS_USER }}/deploy
