@@ -29,4 +29,3 @@ jobs:
           echo "Attempting SSH connection to ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PORT }}"
           # Use -vvv for even more verbosity if -v isn't enough
           ssh -vvv -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} exit
-        env:
