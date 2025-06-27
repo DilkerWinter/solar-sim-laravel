@@ -1,11 +1,10 @@
+import CustomerSection from '@/Components/Customer/Show/Sections/CustomerSection';
 import React from 'react';
 
-export default function Show({ customer }) {
+export default function Show({ Customer }) {
   return (
     <div>
-      <h1>Detalhes do Customer</h1>
-      <p><strong>Nome:</strong> {customer.name}</p>
-
+      <CustomerSection customer={Customer}/>
     </div>
   );
 }

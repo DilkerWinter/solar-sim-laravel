@@ -7,6 +7,10 @@ class KitPowerCalculatorService
 {
     public function calculateAndSetTotalPower(Kit $kit, float $ambientTemp = -5): float
     {
+        if (!$kit->relationLoaded('kitItems')) {
+            $kit->load('kitItems');
+        }
+
         $inverter = null;
         $solarPanel = null;
 
@@ -54,10 +58,10 @@ class KitPowerCalculatorService
 
         $finalTotalPower = $panelsToUse * $nominalPower;
 
-        $kit->maxPotencyKw = $finalTotalPower / 1000;
+        $kit->max_potency_kw = $finalTotalPower / 1000;
         $kit->save();
 
-        return $kit->maxPotencyKw;
+        return $kit->max_potency_kw;
     }
 }
 

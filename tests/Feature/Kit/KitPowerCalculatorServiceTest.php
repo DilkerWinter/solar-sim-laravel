@@ -54,9 +54,10 @@ class KitPowerCalculatorServiceTest extends TestCase
         $kit = Kit::create([
             'name' => 'Complete Solar Kit',
             'description' => 'Kit for residential installation',
-            'maxPotencyKw' => 0,
-            'totalPrice' => 0,
+            'max_potency_kw' => 0,
+            'total_price' => 0,
         ]);
+
 
         KitItems::create([
             'kit_id' => $kit->id,
@@ -69,14 +70,15 @@ class KitPowerCalculatorServiceTest extends TestCase
             'product_id' => $solarPanel->id,
             'quantity' => 1,
         ]);
-
+        
+        $kit->load('kitItems');
         $resultKw = $this->service->calculateAndSetTotalPower($kit, -5);
 
         $this->assertIsFloat($resultKw);
         $this->assertEqualsWithDelta(6.46, $resultKw, 0.01);
 
         $kit->refresh();
-        $this->assertEquals($resultKw, $kit->maxPotencyKw);
+        $this->assertEquals($resultKw, $kit->max_potency_kw);
     }
 
     public function test_calculate_throws_exception_if_inverter_missing()
@@ -101,8 +103,8 @@ class KitPowerCalculatorServiceTest extends TestCase
         $kit = Kit::create([
             'name' => 'Kit Without Inverter',
             'description' => 'Test without inverter',
-            'totalPrice' => 0,
-            'maxPotencyKw' => 0,
+            'total_price' => 0,
+            'max_potency_kw' => 0,
         ]);
 
         KitItems::create([
@@ -136,8 +138,8 @@ class KitPowerCalculatorServiceTest extends TestCase
         $kit = Kit::create([
             'name' => 'Kit Without Solar Panel',
             'description' => 'Test without solar panel',
-            'totalPrice' => 0,
-            'maxPotencyKw' => 0,
+            'total_price' => 0,
+            'max_potency_kw' => 0,
         ]);
 
         KitItems::create([
