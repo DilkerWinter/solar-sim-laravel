@@ -22,6 +22,8 @@ export default function AppLayout({ children }) {
   }
   const pageTitle = titles[path] ?? "Página"
 
+  console.log(children);
+
   return (
     <div className="flex min-h-screen">
       <aside

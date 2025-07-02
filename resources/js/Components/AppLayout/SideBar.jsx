@@ -27,6 +27,8 @@ const itensMenu = [
  */
 export default function SideBar() {
     const { auth } = usePage().props;
+    const { url } = usePage();
+    const firstSegment = url.split("/")[1];
 
     const isAdmin = auth?.is_admin;
 
@@ -58,18 +60,38 @@ export default function SideBar() {
                     Menu Principal
                 </div>
                 <ul className="list-none p-0 m-0 space-y-3">
-                    {itensMenu.map(({ title, url, icon: Icon }) => (
-                        <li key={title}>
-                            <Link
-                                href={url}
-                                className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors"
-                                as="a"
-                            >
-                                <Icon size={16} />
-                                <span>{title}</span>
-                            </Link>
-                        </li>
-                    ))}
+                    {itensMenu.map(({ title, url: itemUrl, icon: Icon }) => {
+                        const itemSegment = itemUrl.split("/")[1];
+                        const isCurrentPage = itemSegment == firstSegment;
+
+                        return (
+                            <li key={title}>
+                                <Link
+                                    href={itemUrl}
+                                    className="flex items-center gap-2 transition-colors group"
+                                    as="a"
+                                >
+                                    <Icon
+                                        size={16}
+                                        className={
+                                            isCurrentPage
+                                                ? "text-blue-500 group-hover:text-green-500 transition-colors"
+                                                : "text-gray-800 group-hover:text-blue-600"
+                                        }
+                                    />
+                                    <span
+                                        className={
+                                            isCurrentPage
+                                                ? "bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent"
+                                                : "text-gray-800 hover:text-blue-600"
+                                        }
+                                    >
+                                        {title}
+                                    </span>
+                                </Link>
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
 
