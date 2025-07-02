@@ -26,7 +26,7 @@ createInertiaApp({
       if (noLayoutPages.includes(name)) {
         Page.layout = (page) => page;
       } else {
-        Page.layout = (page) => <AppLayout>{page}</AppLayout>;
+        Page.layout = (page) => <AppLayout breadcrumb={Page.breadcrumb}>{page}</AppLayout>;
       }
 
       return module;

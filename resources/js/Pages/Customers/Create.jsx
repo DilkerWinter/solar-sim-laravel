@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Inertia } from "@inertiajs/inertia";
 import ConfirmModal from "@/Components/ConfirmModal";
 import InputStateField from "@/Components/Customer/Create/InputStateField";
+import AppLayout from "@/Layouts/AppLayout";
+import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -672,3 +674,14 @@ export default function Create() {
         </div>
     );
 }
+
+Create.layout = (page) => (
+  <AppLayout breadcrumb={<CustomBreadcrumb
+  items={[
+    { name: "Início", href: "/dashboard" },
+    { name: "Clientes", href: "/customers" },
+    { name: "Cadastro" }
+  ]}
+/>
+}>{page}</AppLayout>
+);

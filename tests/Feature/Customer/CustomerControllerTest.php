@@ -98,7 +98,7 @@ class CustomerControllerTest extends TestCase
             ->assertInertia(
                 fn(Assert $page) =>
                 $page->component('Customers/Show')
-                    ->where('Customer.id', $customer->id)
+                    ->where('customer.id', $customer->id)
             );
     }
 
