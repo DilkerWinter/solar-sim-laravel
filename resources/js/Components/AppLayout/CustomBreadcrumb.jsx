@@ -17,20 +17,18 @@ export default function CustomBreadcrumb({ items }) {
               <>
                 <Link
                   href={item.href}
-                  className="hover:text-blue-600 transition text-gray-500"
+                  className="hover:text-blue-600 transition"
                 >
                   {item.name}
                 </Link>
                 <ChevronRight
-                  className="mx-1 text-gray-500"
+                  className="mx-1"
                   size={14}
                   style={{ verticalAlign: "middle" }}
                 />
               </>
             ) : (
-              <span
-                className={idx === lastIndex ? "text-black" : "text-gray-200"}
-              >
+              <span className={idx !== lastIndex ? "text-gray-500" : ""}>
                 {item.name}
               </span>
             )}
