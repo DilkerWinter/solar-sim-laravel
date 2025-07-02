@@ -1,27 +1,28 @@
 import { Link, usePage } from "@inertiajs/react";
-import Breadcrumb from "./Breadcrumb";
+import DefaultBreadcrumb from "./DefaultBreadcrumb";
 import { PanelLeft, User } from "lucide-react";
 
 export default function AppHeader({
   isSidebarOpen,
   onToggleSidebar,
+  breadcrumb
 }) {
   const { auth } = usePage().props;
   const user = auth?.user;
 
-  return (
-    <header className="sticky top-0 z-50  backdrop-blur-md  shadow-lg">
-      <div className="flex h-16 items-center gap-3 p-6">
-        <button
-          onClick={onToggleSidebar}
-          className="flex items-center gap-2 p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-400 transition"
-          aria-label="Alternar menu lateral"
-        >
-          <PanelLeft className="h-6 w-6" />
-        </button>
+    return (
+        <header className="sticky top-0 z-50 bg-white">
+            <div className="flex h-16 items-center gap-3 p-6">
+                <button
+                    onClick={onToggleSidebar}
+                    className="flex items-center gap-2 p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-400 transition"
+                    aria-label="Alternar menu lateral"
+                >
+                    <PanelLeft className="h-6 w-6" />
+                </button>
 
         <div className="flex flex-col">
-          <Breadcrumb /> // deve receber o breadcrumb da pagina { children }
+          {breadcrumb ? breadcrumb : <DefaultBreadcrumb/>}
         </div>
 
         <div className="flex-1" />

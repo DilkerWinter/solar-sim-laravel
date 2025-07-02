@@ -1,7 +1,11 @@
 import { Link, usePage } from "@inertiajs/react";
 import { ChevronRight } from "lucide-react";
 
-export default function Breadcrumb() {
+/**
+ * Dont use this Breadcrumb, its only in case that the page dont have a custom made one so no need to keep updated
+ * @returns A deprecated breadcrumb
+ */
+export default function DefaultBreadcrumb() {
   const { url } = usePage();
 
   const cleanUrl = url.split("?")[0];

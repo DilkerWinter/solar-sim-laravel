@@ -122,7 +122,7 @@ export default function SideBar() {
             )}
 
             <div className="mt-auto">
-                <button className="w-full bg-green-600 hover:bg-green-700 text-white border-none py-2 px-4 rounded flex items-center justify-center gap-2 transition-colors">
+                <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-md shadow-gray-400 ">
                     <FileText size={16} />
                     Nova Proposta
                 </button>
