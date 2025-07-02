@@ -1,6 +1,6 @@
-import CustomerIndexHeader from "@/Components/Customer/Sections/CustomerIndexHeader";
-import CustomerInfoResume from "@/Components/Customer/Sections/CustomerInfoResume";
-import CustomerDataTableSection from "@/Components/Customer/Sections/CustomerDataTableSection";
+import CustomerDataTableSection from "@/Components/Customer/Index/Sections/CustomerDataTableSection";
+import CustomerIndexHeader from "@/Components/Customer/Index/Sections/CustomerIndexHeader";
+import CustomerInfoResume from "@/Components/Customer/Index/Sections/CustomerInfoResume";
 
 export default function Index({ cardInfos, customerDataTableUrl }) {
     return (

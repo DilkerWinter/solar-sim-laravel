@@ -110,7 +110,7 @@ class CustomerController extends Controller
         $customer = Customer::with(['addresses.addressEnergyInfo'])->findOrFail($id);
 
         return Inertia::render('Customers/Show', [
-            'Customer' => $customer,
+            'customer' => $customer,
         ]);
     }
 
@@ -123,7 +123,7 @@ class CustomerController extends Controller
         $customer = Customer::with('addresses.addressEnergyInfo')->findOrFail($id);
 
         return Inertia::render('Customers/Edit', [
-            'Customer' => $customer,
+            'customer' => $customer,
         ]);
     }
 
