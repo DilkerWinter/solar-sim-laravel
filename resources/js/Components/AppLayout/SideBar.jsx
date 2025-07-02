@@ -44,16 +44,18 @@ export default function SideBar() {
 
     return (
         <nav className="w-60 flex flex-col h-screen p-4 bg-white">
-            <div className="flex items-center mb-8">
+            <Link
+                href="/dashboard"
+                as="a"
+                className="flex items-center mb-8 no-underline "
+            >
                 <div className="h-8 w-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-md flex items-center justify-center mr-2">
                     <Sun size={16} color="#fff" />
                 </div>
-                <div>
-                    <div className="font-bold text-lg bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                        SolarSim
-                    </div>
+                <div className="font-bold text-lg bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                    SolarSim
                 </div>
-            </div>
+            </Link>
 
             <div className="mb-4">
                 <div className="font-bold text-sm text-gray-700 mb-2">
