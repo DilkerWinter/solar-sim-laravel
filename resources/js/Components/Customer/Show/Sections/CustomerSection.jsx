@@ -1,5 +1,6 @@
 import React from 'react';
 import CustomerCard from '../UI/CustomerCard';
+import AddressCard from '../UI/AddressCard';
 
 export default function CustomerSection({
   customer,
