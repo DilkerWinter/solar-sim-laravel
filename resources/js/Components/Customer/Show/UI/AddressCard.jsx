@@ -41,7 +41,7 @@ export default function AddressCard({ addresses = [] }) {
                             <div className="flex items-center space-x-3 px-4 py-2 rounded-full shadow w-fit bg-green-100 text-green-700">
                                 <Home className="w-5 h-5" />
                                 <h2 className="font-semibold text-lg">
-                                    Endereço {index + 1}
+                                    { resumoEndereco }
                                 </h2>
                             </div>
 
@@ -62,13 +62,7 @@ export default function AddressCard({ addresses = [] }) {
                             </button>
                         </div>
 
-                        {!isOpen && (
-                            <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-600">
-                                <div className="flex items-center gap-2">
-                                    <p className="text-sm">{resumoEndereco}</p>
-                                </div>
-                            </div>
-                        )}
+
 
                         <div
                             className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out ${
