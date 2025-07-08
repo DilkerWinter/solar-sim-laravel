@@ -1,8 +1,10 @@
 import AddressCard from "../UI/AddressCard";
 import { MapPin } from "lucide-react";
 
-export default function CustomerAddressSection({ customer }) {
+export default function CustomerAddressSection({ customer, isEditing }) {
     const addresses = customer?.addresses || [];
+
+    
 
     return (
         <section className="bg-white border border-gray-200 rounded-md p-6 mt-6">
@@ -22,7 +24,7 @@ export default function CustomerAddressSection({ customer }) {
             ) : (
                 <div className="space-y-6">
                     {addresses.map((address) => (
-                        <AddressCard key={address.id} address={address} />
+                        <AddressCard key={address.id} address={address} isEditing={isEditing}/>
                     ))}
                 </div>
             )}

@@ -4,7 +4,6 @@ import CustomerSection from '@/Components/Customer/Show/Sections/CustomerSection
 import CustomBreadcrumb from '@/Components/AppLayout/CustomBreadcrumb';
 import AppLayout from '@/Layouts/AppLayout';
 import { Inertia } from '@inertiajs/inertia';
-import AddressCard from '@/Components/Customer/Show/UI/AddressCard';
 import CustomerAddresSection from '@/Components/Customer/Show/Sections/CustomerAddressSection';
 
 export default function Show({ customer }) {
@@ -18,7 +17,6 @@ export default function Show({ customer }) {
 
   const handleSave = () => {
     handleToggleEdit();
-    //TODO: Adicionar logica para pegar os dados e atualizar o customer no Laravel com router.edit e carregar a tela
   };
 
   return (
@@ -32,10 +30,10 @@ export default function Show({ customer }) {
       <CustomerSection
         customer={customer}
         isEditing={isEditing}
-        onToggleEdit={handleToggleEdit}
       />
       <CustomerAddresSection
         customer={customer}
+        isEditing={isEditing}
       />
     </div>
   );

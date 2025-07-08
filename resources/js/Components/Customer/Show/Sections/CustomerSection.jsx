@@ -4,7 +4,6 @@ import CustomerCard from '../UI/CustomerCard';
 export default function CustomerSection({
   customer,
   isEditing,
-  onUpdate,
 }) {
   if (!customer) {
     return (
@@ -19,7 +18,6 @@ export default function CustomerSection({
       <CustomerCard
         customer={customer}
         isEditing={isEditing}
-        onUpdate={onUpdate}
       />
     </section>
   );

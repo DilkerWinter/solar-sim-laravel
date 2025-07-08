@@ -1,4 +1,4 @@
-import CreateRedirectButton from "@/Components/Buttons/CreateRedirectButton";
+import RedirectButton from "@/Components/UI/CreateRedirectButton";
 import { router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 
@@ -14,13 +14,13 @@ export default function CustomerIndexHeader() {
                 </p>
             </div>
             <div className="flex gap-3">
-                <CreateRedirectButton
+                <RedirectButton
                     onClick={() => router.visit(route("customers.create"))}
                     className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 flex items-center gap-2"
                 >
                     <Plus className="h-4 w-4" />
                     Novo Cliente
-                </CreateRedirectButton>
+                </RedirectButton>
             </div>
         </div>
     );
