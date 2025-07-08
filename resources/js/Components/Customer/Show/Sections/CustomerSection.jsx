@@ -1,11 +1,9 @@
 import React from 'react';
 import CustomerCard from '../UI/CustomerCard';
-import AddressCard from '../UI/AddressCard';
 
 export default function CustomerSection({
   customer,
   isEditing,
-  onDelete,
   onUpdate,
 }) {
   if (!customer) {
@@ -21,7 +19,6 @@ export default function CustomerSection({
       <CustomerCard
         customer={customer}
         isEditing={isEditing}
-        onDelete={onDelete}
         onUpdate={onUpdate}
       />
     </section>
