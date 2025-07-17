@@ -1,4 +1,4 @@
-export default function CreateRedirectButton({ children, onClick, type = "button" }) {
+export default function RedirectButton({ children, onClick, type = "button" }) {
   return (
     <button
       onClick={onClick}
