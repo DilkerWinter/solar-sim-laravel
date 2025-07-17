@@ -3,6 +3,7 @@ import EnergyInfoCard from "./EnergyInfoCard";
 import { useState } from "react";
 import EditableField from "../../../UI/EditableField";
 import EditableSelectField from "@/Components/UI/EditableSelectField";
+import Field from "./TextField";
 
 export default function AddressCard({ address, isEditing }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -49,102 +50,96 @@ export default function AddressCard({ address, isEditing }) {
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800 text-sm">
                     {isEditing ? (
-                        <>
-                            <EditableField
-                                label="Rua"
-                                defaultValue={editedAddress.street}
-                            />
-                            <EditableField
-                                label="CEP"
-                                defaultValue={editedAddress.cep}
-                            />
-                            <EditableField
-                                label="Número"
-                                defaultValue={editedAddress.number}
-                            />
-                            <EditableField
-                                label="Bairro"
-                                defaultValue={editedAddress.neighborhood}
-                            />
-                            <EditableField
-                                label="Cidade"
-                                defaultValue={editedAddress.city}
-                            />
-                            <EditableField
-                                label="Estado"
-                                defaultValue={editedAddress.state}
-                            />
-                            <EditableSelectField
-                                label="Natureza do imóvel"
-                                name="type"
-                                value={editedAddress.type}
-                                onChange={(e) =>
-                                    handleAddressChange("type", e.target.value)
-                                }
-                                options={[
-                                    {
-                                        label: "Residencial",
-                                        value: "residencial",
-                                    },
-                                    { 
-                                        label: "Comercial", 
-                                        value: "comercial" 
-                                    },
-                                    {
-                                        label: "Industrial",
-                                        value: "industrial",
-                                    },
-                                    { 
-                                        label: "Rural", 
-                                        value: "rural" 
-                                    },
-                                ]}
-                            />
-
-                            <EditableField
-                                label="Tipo de Telhado"
-                                defaultValue={editedAddress.roof_type}
-                            />
-                        </>
+                      <>
+                        <EditableField
+                          label="Rua"
+                          name="street"
+                          value={editedAddress.street}
+                          onChange={(e) => handleAddressChange("street", e.target.value)}
+                        />
+                        <EditableField
+                          label="CEP"
+                          name="cep"
+                          value={editedAddress.cep}
+                          onChange={(e) => handleAddressChange("cep", e.target.value)}
+                        />
+                        <EditableField
+                          label="Número"
+                          name="number"
+                          value={editedAddress.number}
+                          onChange={(e) => handleAddressChange("number", e.target.value)}
+                        />
+                        <EditableField
+                          label="Bairro"
+                          name="neighborhood"
+                          value={editedAddress.neighborhood}
+                          onChange={(e) => handleAddressChange("neighborhood", e.target.value)}
+                        />
+                        <EditableField
+                          label="Cidade"
+                          name="city"
+                          value={editedAddress.city}
+                          onChange={(e) => handleAddressChange("city", e.target.value)}
+                        />
+                        <EditableField
+                          label="Estado"
+                          name="state"
+                          value={editedAddress.state}
+                          onChange={(e) => handleAddressChange("state", e.target.value)}
+                        />
+                        <EditableSelectField
+                          label="Natureza do imóvel"
+                          name="type"
+                          value={editedAddress.type}
+                          onChange={(e) =>
+                            handleAddressChange("type", e.target.value)
+                          }
+                          options={[
+                            {
+                              label: "Residencial",
+                              value: "residencial",
+                            },
+                            {
+                              label: "Comercial",
+                              value: "comercial",
+                            },
+                            {
+                              label: "Industrial",
+                              value: "industrial",
+                            },
+                            {
+                              label: "Rural",
+                              value: "rural",
+                            },
+                          ]}
+                        />
+                        <EditableField
+                          label="Tipo de Telhado"
+                          name="roof_type"
+                          value={editedAddress.roof_type}
+                          onChange={(e) => handleAddressChange("roof_type", e.target.value)}
+                        />
+                      </>
                     ) : (
-                        <>
-                            <Field label="Rua" value={address.street} />
-                            <Field label="CEP" value={address.cep} />
-                            <Field label="Número" value={address.number} />
-                            <Field
-                                label="Bairro"
-                                value={address.neighborhood}
-                            />
-                            <Field label="Cidade" value={address.city} />
-                            <Field label="Estado" value={address.state} />
-                            <Field
-                                label="Natureza do imóvel"
-                                value={address.type}
-                                capitalize
-                            />
-                            <Field
-                                label="Tipo de Telhado"
-                                value={address.roof_type}
-                            />
-                        </>
+                      <>
+                        <Field label="Rua" value={address.street} />
+                        <Field label="CEP" value={address.cep} />
+                        <Field label="Número" value={address.number} />
+                        <Field label="Bairro" value={address.neighborhood} />
+                        <Field label="Cidade" value={address.city} />
+                        <Field label="Estado" value={address.state} />
+                        <Field label="Natureza do imóvel" value={address.type} capitalize />
+                        <Field label="Tipo de Telhado" value={address.roof_type} />
+                      </>
                     )}
+
                 </div>
 
                 <div className="mt-4">
-                    <EnergyInfoCard energyInfo={address.address_energy_info} />
+                    <EnergyInfoCard energyInfo={address.address_energy_info} isEditing={isEditing}/>
                 </div>
             </div>
         </div>
     );
 }
 
-function Field({ label, value, capitalize = false }) {
-    return (
-        <div>
-            <p className="text-xs text-gray-500">{label}</p>
-            <p className={`font-medium ${capitalize ? "capitalize" : ""}`}>
-                {value}
-            </p>
-        </div>
-    );
-}

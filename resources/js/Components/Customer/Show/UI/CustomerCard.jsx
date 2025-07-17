@@ -1,9 +1,10 @@
 import { User } from "lucide-react";
 import EditableField from "@/Components/UI/EditableField";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Field from "./TextField";
 
 export default function CustomerCard({ customer, isEditing }) {
-  const [editedCustomer] = useState({ ...customer });
+  const [editedCustomer, setEditedCustomer] = useState({ ...customer });
 
   const handleChange = (field, value) => {
     setEditedCustomer((prev) => ({
@@ -62,11 +63,3 @@ export default function CustomerCard({ customer, isEditing }) {
   );
 }
 
-function Field({ label, value }) {
-  return (
-    <div>
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="font-semibold">{value}</p>
-    </div>
-  );
-}
