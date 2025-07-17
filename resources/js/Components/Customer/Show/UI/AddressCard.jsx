@@ -86,12 +86,18 @@ export default function AddressCard({ address, isEditing }) {
                                         label: "Residencial",
                                         value: "residencial",
                                     },
-                                    { label: "Comercial", value: "comercial" },
+                                    { 
+                                        label: "Comercial", 
+                                        value: "comercial" 
+                                    },
                                     {
                                         label: "Industrial",
                                         value: "industrial",
                                     },
-                                    { label: "Rural", value: "rural" },
+                                    { 
+                                        label: "Rural", 
+                                        value: "rural" 
+                                    },
                                 ]}
                             />
 
