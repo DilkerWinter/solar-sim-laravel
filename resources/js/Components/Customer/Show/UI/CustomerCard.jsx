@@ -1,18 +1,8 @@
 import { User } from "lucide-react";
 import EditableField from "@/Components/UI/EditableField";
-import { useState } from "react";
 import Field from "./TextField";
 
-export default function CustomerCard({ customer, isEditing }) {
-  const [editedCustomer, setEditedCustomer] = useState({ ...customer });
-
-  const handleChange = (field, value) => {
-    setEditedCustomer((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
+export default function CustomerCard({ customer, isEditing, onChange }) {
   return (
     <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
       <div className="flex items-center justify-between">
@@ -28,26 +18,26 @@ export default function CustomerCard({ customer, isEditing }) {
             <EditableField
               label="Nome"
               name="name"
-              value={editedCustomer.name}
-              onChange={(e) => handleChange("name", e.target.value)}
+              value={customer.name}
+              onChange={(e) => onChange("name", e.target.value)}
             />
             <EditableField
               label="Email"
               name="email"
-              value={editedCustomer.email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              value={customer.email}
+              onChange={(e) => onChange("email", e.target.value)}
             />
             <EditableField
               label="Telefone"
               name="phone"
-              value={editedCustomer.phone}
-              onChange={(e) => handleChange("phone", e.target.value)}
+              value={customer.phone}
+              onChange={(e) => onChange("phone", e.target.value)}
             />
             <EditableField
               label="CPF/CNPJ"
               name="document_number"
-              value={editedCustomer.document_number}
-              onChange={(e) => handleChange("document_number", e.target.value)}
+              value={customer.document_number}
+              onChange={(e) => onChange("document_number", e.target.value)}
             />
           </>
         ) : (
@@ -62,4 +52,3 @@ export default function CustomerCard({ customer, isEditing }) {
     </div>
   );
 }
-

@@ -1,10 +1,6 @@
-import React from 'react';
-import CustomerCard from '../UI/CustomerCard';
+import CustomerCard from "../UI/CustomerCard";
 
-export default function CustomerSection({
-  customer,
-  isEditing,
-}) {
+export default function CustomerSection({ customer, isEditing, onChange }) {
   if (!customer) {
     return (
       <div className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">
@@ -18,6 +14,7 @@ export default function CustomerSection({
       <CustomerCard
         customer={customer}
         isEditing={isEditing}
+        onChange={onChange}
       />
     </section>
   );
