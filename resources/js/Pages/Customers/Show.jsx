@@ -25,11 +25,11 @@ export default function Show({ customer }) {
         <div className="max-w-6xl mx-auto p-6 space-y-6">
             <CustomerShowHeaderSection
                 isEditing={isEditing}
-                onDelete={handleDelete}
                 onSave={handleSave}
                 onToggleEdit={handleToggleEdit}
             />
             <CustomerSection
+                onDelete={handleDelete}
                 customer={editCustomer}
                 setCustomer={setEditCustomer}
                 isEditing={isEditing}

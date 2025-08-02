@@ -5,25 +5,21 @@ import ConfirmModal from "@/Components/ConfirmModal";
 export default function CustomerShowHeaderSection({
   isEditing,
   onToggleEdit,
-  onDelete,
   onSave,
 }) {
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
 
   const handleEditClick = () => setConfirmEditOpen(true);
-  const handleDeleteClick = () => setConfirmDeleteOpen(true);
   const handleSaveClick = () => setConfirmSaveOpen(true);
+
+  function handleCancelClick() {
+    onToggleEdit();
+  }
 
   const confirmEdit = () => {
     onToggleEdit(); 
     setConfirmEditOpen(false);
-  };
-
-  const confirmDelete = () => {
-    onDelete(); 
-    setConfirmDeleteOpen(false);
   };
 
   const confirmSave = () => {
@@ -44,13 +40,13 @@ export default function CustomerShowHeaderSection({
         </div>
 
         <div className="flex items-center gap-2">
+          
           {isEditing && (
             <button
-              onClick={handleDeleteClick}
-              className="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-200 shadow-sm bg-red-600 text-white hover:bg-red-700"
+              onClick={handleCancelClick}
+              className="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-200 shadow-sm bg-gray-300 text-black hover:text-white hover:bg-gray-500"
             >
-              <Trash2 className="w-4 h-4" />
-              <span>Deletar</span>
+              <span>Cancelar</span>
             </button>
           )}
 
@@ -86,14 +82,6 @@ export default function CustomerShowHeaderSection({
         theme="info"
       />
 
-      <ConfirmModal
-        isOpen={confirmDeleteOpen}
-        title="Confirmar deleção"
-        message="Tem certeza que deseja deletar este cliente? Esta ação não pode ser desfeita."
-        onConfirm={confirmDelete}
-        onClose={() => setConfirmDeleteOpen(false)}
-        theme="danger"
-      />
 
       <ConfirmModal
         isOpen={confirmSaveOpen}
