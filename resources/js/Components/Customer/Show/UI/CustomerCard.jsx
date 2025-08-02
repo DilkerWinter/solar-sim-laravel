@@ -3,6 +3,42 @@ import EditableField from "@/Components/UI/EditableField";
 import Field from "./TextField";
 
 export default function CustomerCard({ customer, isEditing, onChange }) {
+  
+  function formatPhone(val) {
+        let digits = val.replace(/\D/g, "").slice(0, 11);
+
+        if (digits.length === 0) {
+            return "";
+        } else if (digits.length <= 2) {
+            return `(${digits}`;
+        } else if (digits.length <= 6) {
+            return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+        } else {
+            return `(${digits.slice(0, 2)}) ${digits.slice(
+                2,
+                7
+            )}-${digits.slice(7)}`;
+        }
+    }
+
+    function formatDocumentNumber(value) {
+        const digits = value.replace(/\D/g, "").slice(0, 14);
+
+        if (digits.length <= 11) {
+            return digits
+                .replace(/^(\d{3})(\d)/, "$1.$2")
+                .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+                .replace(/\.(\d{3})(\d)/, ".$1-$2");
+        } else {
+            return digits
+                .replace(/^(\d{2})(\d)/, "$1.$2")
+                .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+                .replace(/\.(\d{3})(\d)/, ".$1/$2")
+                .replace(/(\d{4})(\d)/, "$1-$2");
+        }
+    }
+
+
   return (
     <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
       <div className="flex items-center justify-between">
@@ -16,28 +52,32 @@ export default function CustomerCard({ customer, isEditing, onChange }) {
         {isEditing ? (
           <>
             <EditableField
+              required
               label="Nome"
               name="name"
               value={customer.name}
               onChange={(e) => onChange("name", e.target.value)}
             />
             <EditableField
+              required
               label="Email"
               name="email"
               value={customer.email}
               onChange={(e) => onChange("email", e.target.value)}
             />
             <EditableField
+              required
               label="Telefone"
               name="phone"
               value={customer.phone}
-              onChange={(e) => onChange("phone", e.target.value)}
+              onChange={(e) => onChange("phone", formatPhone(e.target.value))}
             />
             <EditableField
+              required
               label="CPF/CNPJ"
               name="document_number"
               value={customer.document_number}
-              onChange={(e) => onChange("document_number", e.target.value)}
+              onChange={(e) => onChange("document_number", formatDocumentNumber(e.target.value))}
             />
           </>
         ) : (

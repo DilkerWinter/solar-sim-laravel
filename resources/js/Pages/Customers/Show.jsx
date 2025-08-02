@@ -8,7 +8,7 @@ import CustomerAddresSection from "@/Components/Customer/Show/Sections/CustomerA
 
 export default function Show({ customer }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [editedCustomer, setEditedCustomer] = useState({ ...customer });
+    const [editCustomer, setEditCustomer] = useState({ ...customer });
 
     const handleToggleEdit = () => setIsEditing((prev) => !prev);
 
@@ -17,7 +17,6 @@ export default function Show({ customer }) {
     };
 
     const handleSave = () => {
-        console.log(editedCustomer)
         handleToggleEdit();
     };
 
@@ -31,13 +30,11 @@ export default function Show({ customer }) {
                 onToggleEdit={handleToggleEdit}
             />
             <CustomerSection
-                customer={editedCustomer}
+                customer={editCustomer}
+                setCustomer={setEditCustomer}
                 isEditing={isEditing}
-                onChange={(field, value) =>
-                    setEditedCustomer((prev) => ({ ...prev, [field]: value }))
-                }
             />
-            <CustomerAddresSection customer={customer} isEditing={isEditing} />
+            <CustomerAddresSection customer={editCustomer} setCustomer={setEditCustomer} isEditing={isEditing} />
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import CustomerCard from "../UI/CustomerCard";
 
-export default function CustomerSection({ customer, isEditing, onChange }) {
+export default function CustomerSection({ customer, setCustomer, isEditing}) {
   if (!customer) {
     return (
       <div className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">
@@ -13,8 +13,8 @@ export default function CustomerSection({ customer, isEditing, onChange }) {
     <section className="mb-8">
       <CustomerCard
         customer={customer}
+        setCustomer={setCustomer}
         isEditing={isEditing}
-        onChange={onChange}
       />
     </section>
   );

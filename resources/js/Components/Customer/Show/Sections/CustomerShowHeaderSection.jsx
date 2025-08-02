@@ -21,11 +21,6 @@ export default function CustomerShowHeaderSection({
     setConfirmEditOpen(false);
   };
 
-  const confirmDelete = () => {
-    onDelete(); 
-    setConfirmDeleteOpen(false);
-  };
-
   const confirmSave = () => {
     onSave(); 
     setConfirmSaveOpen(false);
