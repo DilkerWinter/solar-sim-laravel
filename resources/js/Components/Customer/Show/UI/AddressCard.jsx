@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Home, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Home, Plus } from "lucide-react";
 import EnergyInfoCard from "./EnergyInfoCard";
 import { useState } from "react";
 import EditableField from "../../../UI/EditableField";
@@ -23,7 +23,7 @@ export default function AddressCard({
 
     if (!address) return null;
 
-    const resumoEndereco =
+    const resumeEndereco =
         address?.street && address?.number && address?.city && address?.state
             ? `${address.street}, ${address.number} - ${address.city}/${address.state}`
             : "Novo Endereço";
@@ -47,12 +47,37 @@ export default function AddressCard({
         }));
     }
 
+    function handleNewEnergyInfo() {
+      if (!customer.addresses) return;
+        
+      const updatedAddresses = customer.addresses.map((a) =>
+        a.id === address.id
+          ? {
+              ...a,
+              address_energy_info: {
+                average_monthly_consumption_kwh: null,
+                average_annual_consumption_kwh: null,
+                average_energy_bill: null,
+                energy_provider: "",
+                notes: "",
+              },
+            }
+          : a
+      );
+  
+      setCustomer((prev) => ({
+        ...prev,
+        addresses: updatedAddresses,
+      }));
+    }
+    
+
     return (
         <div className="border-2 border-gray-300 rounded-2xl p-5">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-800">
                     <Home className="w-5 h-5 text-gray-600" />
-                    <h2 className="text-sm font-medium">{resumoEndereco}</h2>
+                    <h2 className="text-sm font-medium">{resumeEndereco}</h2>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -222,14 +247,30 @@ export default function AddressCard({
                     )}
                 </div>
 
-                <div className="mt-4">
-                    <EnergyInfoCard
-                        customer={customer}
-                        setCustomer={setCustomer}
-                        address={address}
-                        energyInfo={address.address_energy_info}
-                        isEditing={isEditing}
-                    />
+                <div>
+                    {address.address_energy_info != null ? (
+                        <div className="mt-4">
+                        <EnergyInfoCard
+                            customer={customer}
+                            setCustomer={setCustomer}
+                            address={address}
+                            energyInfo={address.address_energy_info}
+                            isEditing={isEditing}
+                        />
+                        </div>
+                    ) : (
+                        isEditing && (
+                            <div className="flex justify-center mt-5">
+                            <button
+                                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow transition-colors duration-300"
+                                onClick={handleNewEnergyInfo}
+                            >
+                                <Plus className="w-5 h-5" />
+                                <span>Adicionar Informacoes de energia</span>
+                            </button>
+                            </div>    
+                        )
+                    )}
                 </div>
             </div>
         </div>

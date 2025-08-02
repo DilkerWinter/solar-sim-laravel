@@ -23,7 +23,10 @@ export default function EnergyInfoCard({
     }
 
     function formatMoney(value) {
-        const digits = value.replace(/\D/g, "");
+        if (value == null || value === "") return "0,00";
+        let digits = String(value).replace(/\D/g, "");
+        if (digits === "") return "0,00";
+
         const number = parseFloat(digits) / 100;
         return number.toLocaleString("pt-BR", {
             minimumFractionDigits: 2,
@@ -31,9 +34,15 @@ export default function EnergyInfoCard({
         });
     }
 
-    const resumo = `Consumo médio: ${formatMoney(
-        editedEnergyInfo.average_monthly_consumption_kwh
-    )} kWh/mês – R$ ${formatMoney(editedEnergyInfo.average_energy_bill)}`;
+    const resumo =
+        editedEnergyInfo?.average_monthly_consumption_kwh != null &&
+        editedEnergyInfo?.average_energy_bill != null
+            ? `Consumo médio: ${formatMoney(
+                  editedEnergyInfo.average_monthly_consumption_kwh
+              )} kWh/mês – R$ ${formatMoney(
+                  editedEnergyInfo.average_energy_bill
+              )}`
+            : "Nova Informação de Energia";
 
     function handleDelete() {
         const updatedAddresses = customer.addresses.map((a) =>
@@ -100,7 +109,7 @@ export default function EnergyInfoCard({
                                 label="Consumo Médio Mensal (kWh)"
                                 name="average_monthly_consumption_kwh"
                                 value={formatMoney(
-                                    editedEnergyInfo.average_monthly_consumption_kwh
+                                    editedEnergyInfo.average_monthly_consumption_kwh ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
@@ -113,7 +122,7 @@ export default function EnergyInfoCard({
                                 label="Consumo Médio Anual (kWh)"
                                 name="average_annual_consumption_kwh"
                                 value={formatMoney(
-                                    editedEnergyInfo.average_annual_consumption_kwh
+                                    editedEnergyInfo.average_annual_consumption_kwh ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
@@ -126,7 +135,7 @@ export default function EnergyInfoCard({
                                 label="Conta de Energia Média (R$)"
                                 name="average_energy_bill"
                                 value={formatMoney(
-                                    editedEnergyInfo.average_energy_bill
+                                    editedEnergyInfo.average_energy_bill ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
