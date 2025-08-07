@@ -17,9 +17,16 @@ export default function Show({ customer }) {
     };
 
     const handleSave = () => {
-        handleToggleEdit();
+        Inertia.put(route("customers.update", customer.id), editCustomer, {
+        onSuccess: () => {
+            console.log("Atualizado com sucesso");
+            handleToggleEdit();
+        },
+        onError: (errors) => {
+            console.error("Erros:", errors); 
+        },
+    });
     };
-
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
@@ -34,7 +41,11 @@ export default function Show({ customer }) {
                 setCustomer={setEditCustomer}
                 isEditing={isEditing}
             />
-            <CustomerAddresSection customer={editCustomer} setCustomer={setEditCustomer} isEditing={isEditing} />
+            <CustomerAddresSection
+                customer={editCustomer}
+                setCustomer={setEditCustomer}
+                isEditing={isEditing}
+            />
         </div>
     );
 }

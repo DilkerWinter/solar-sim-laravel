@@ -16,9 +16,22 @@ export default function EnergyInfoCard({
     if (!energyInfo) return null;
 
     function handleEnergyInfoChange(field, value) {
-        setEditedEnergyInfo((prev) => ({
-            ...prev,
+        const updatedInfo = {
+            ...editedEnergyInfo,
             [field]: value,
+        };
+    
+        setEditedEnergyInfo(updatedInfo);
+    
+        const updatedAddresses = customer.addresses.map((a) =>
+            a.id === address.id
+                ? { ...a, address_energy_info: updatedInfo }
+                : a
+        );
+    
+        setCustomer((prev) => ({
+            ...prev,
+            addresses: updatedAddresses,
         }));
     }
 

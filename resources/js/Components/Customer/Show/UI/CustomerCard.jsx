@@ -4,7 +4,7 @@ import Field from "./TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useState } from "react";
 
-export default function CustomerCard({ customer, isEditing, onChange , onDelete}) {
+export default function CustomerCard({ customer, setCustomer, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
@@ -13,6 +13,14 @@ export default function CustomerCard({ customer, isEditing, onChange , onDelete}
         onDelete();
         setConfirmDeleteOpen(false);
     };
+
+    function onChange(field, value){
+        setCustomer((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    }
+
 
     function formatPhone(val) {
         let digits = val.replace(/\D/g, "").slice(0, 11);

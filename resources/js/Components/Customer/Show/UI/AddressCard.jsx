@@ -15,10 +15,23 @@ export default function AddressCard({
     const [editedAddress, setEditedAddress] = useState({ ...address });
 
     function handleAddressChange(field, value) {
-        setEditedAddress((prev) => ({
+            setEditedAddress((prev) => {
+        const updated = {
             ...prev,
             [field]: value,
+        };
+
+        const updatedAddresses = customer.addresses.map((a) =>
+            a.id === address.id ? updated : a
+        );
+
+        setCustomer((prevCustomer) => ({
+            ...prevCustomer,
+            addresses: updatedAddresses,
         }));
+
+        return updated;
+    });
     }
 
     if (!address) return null;
