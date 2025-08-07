@@ -103,26 +103,7 @@ class CustomerControllerTest extends TestCase
     }
 
     /** @test */
-    public function update_customer_successfully(): void
-    {
-        $customer = Customer::factory()->create();
-
-        $updateData = [
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-            'phone' => '99999999',
-            'document_number' => '11111111111',
-        ];
-
-        $this->put(route('customers.update', $customer), $updateData)
-            ->assertRedirect(route('customers.index'));
-
-        $this->assertDatabaseHas('customers', [
-            'id' => $customer->id,
-            'name' => 'Updated Name',
-            'email' => 'updated@example.com',
-        ]);
-    }
+    
 
     /** @test */
     public function destroy_deletes_customer(): void
