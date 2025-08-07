@@ -1,12 +1,6 @@
-import React from 'react';
-import CustomerCard from '../UI/CustomerCard';
+import CustomerCard from "../UI/CustomerCard";
 
-export default function CustomerSection({
-  customer,
-  isEditing,
-  onDelete,
-  onUpdate,
-}) {
+export default function CustomerSection({ customer, setCustomer, isEditing, onDelete}) {
   if (!customer) {
     return (
       <div className="text-red-600 bg-red-50 border border-red-200 p-4 rounded">
@@ -18,10 +12,10 @@ export default function CustomerSection({
   return (
     <section className="mb-8">
       <CustomerCard
-        customer={customer}
-        isEditing={isEditing}
         onDelete={onDelete}
-        onUpdate={onUpdate}
+        customer={customer}
+        setCustomer={setCustomer}
+        isEditing={isEditing}
       />
     </section>
   );

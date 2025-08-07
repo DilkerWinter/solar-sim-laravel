@@ -230,7 +230,7 @@ export default function Create() {
             <div className="relative w-full max-w-5xl mx-auto pt-4">
                 <BackButton />
                 <div className="mb-12">
-                    <h1 className="text-3xl font-bold text-center">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">
                         Cadastro de Cliente
                     </h1>
                 </div>

@@ -134,43 +134,19 @@ class CustomerController extends Controller
     public function update(Request $request, string $id)
     {
         $customer = Customer::with('addresses.addressEnergyInfo')->findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'document_number' => 'nullable|string|max:50',
-
-            'addresses' => 'nullable|array',
-            'addresses.*.id' => 'nullable|integer|exists:addresses,id',
-            'addresses.*.neighborhood' => 'nullable|string|max:255',
-            'addresses.*.street' => 'nullable|string|max:255',
-            'addresses.*.number' => 'nullable|string|max:50',
-            'addresses.*.city' => 'nullable|string|max:255',
-            'addresses.*.state' => 'nullable|string|max:255',
-            'addresses.*.cep' => 'nullable|string|max:20',
-            'addresses.*.type' => 'nullable|in:residential,industrial,commercial',
-
-            'addresses.*.energy_info.average_monthly_consumption_kwh' => 'nullable|numeric',
-            'addresses.*.energy_info.average_annual_consumption_kwh' => 'nullable|numeric',
-            'addresses.*.energy_info.average_energy_bill' => 'nullable|numeric',
-            'addresses.*.energy_info.energy_provider' => 'nullable|string|max:255',
-            'addresses.*.energy_info.roof_type' => 'nullable|string|max:255',
-            'addresses.*.energy_info.notes' => 'nullable|string',
-        ]);
-
+    
         $customer->update([
-            'name' => $validated['name'],
-            'phone' => $validated['phone'] ?? null,
-            'email' => $validated['email'] ?? null,
-            'document_type' => $validated['document_type'] ?? null,
-            'document_number' => $validated['document_number'] ?? null,
+            'name' => $request->input('name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'document_number' => $request->input('document_number'),
         ]);
-
-        foreach ($validated['addresses'] ?? [] as $addressData) {
-            $energyInfoData = $addressData['energy_info'] ?? null;
-            unset($addressData['energy_info']);
-
+    
+        $addresses = $request->input('addresses', []);
+        foreach ($addresses as $addressData) {
+            $energyInfoData = $addressData['address_energy_info'] ?? null;
+            unset($addressData['address_energy_info']);
+        
             if (isset($addressData['id'])) {
                 $address = $customer->addresses()->find($addressData['id']);
                 if ($address) {
@@ -179,19 +155,28 @@ class CustomerController extends Controller
             } else {
                 $address = $customer->addresses()->create($addressData);
             }
-
+        
             if ($energyInfoData && isset($address)) {
+                foreach (['average_monthly_consumption_kwh', 'average_annual_consumption_kwh', 'average_energy_bill'] as $field) {
+                    if (isset($energyInfoData[$field])) {
+                        $energyInfoData[$field] = str_replace(',', '.', str_replace('.', '', $energyInfoData[$field]));
+                    }
+                }
+            
                 $energyInfo = $address->energyInfo;
                 if ($energyInfo) {
                     $energyInfo->update($energyInfoData);
                 } else {
-                    $address->energyInfo()->create($energyInfoData);
+                    $address->addressEnergyInfo()->create($energyInfoData);
                 }
             }
+            
         }
-
-        return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
+    
+        return redirect()->route('customers.show', $customer->id)
+            ->with('success', 'Cliente atualizado com sucesso.');
     }
+
 
 
     /**
