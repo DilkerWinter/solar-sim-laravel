@@ -67,7 +67,7 @@ export default function AddressCard({
         a.id === address.id
           ? {
               ...a,
-              address_energy_info: {
+              energy_info: {
                 average_monthly_consumption_kwh: null,
                 average_annual_consumption_kwh: null,
                 average_energy_bill: null,
@@ -261,13 +261,13 @@ export default function AddressCard({
                 </div>
 
                 <div>
-                    {address.address_energy_info != null ? (
+                    {address.energy_info != null ? (
                         <div className="mt-4">
                         <EnergyInfoCard
                             customer={customer}
                             setCustomer={setCustomer}
                             address={address}
-                            energyInfo={address.address_energy_info}
+                            energyInfo={address.energy_info}
                             isEditing={isEditing}
                         />
                         </div>

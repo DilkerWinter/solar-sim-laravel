@@ -14,7 +14,7 @@ class CustomerRepository
 
     public function get($id)
     {
-        return Customer::find($id);
+        return Customer::with('addresses.energyInfo')->find($id);
     }
 
     public function create($data)
