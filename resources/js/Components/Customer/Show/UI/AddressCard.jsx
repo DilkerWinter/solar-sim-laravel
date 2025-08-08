@@ -4,6 +4,7 @@ import { useState } from "react";
 import EditableField from "../../../UI/EditableField";
 import EditableSelectField from "@/Components/UI/EditableSelectField";
 import Field from "./TextField";
+import ConfirmModal from "@/Components/ConfirmModal";
 
 export default function AddressCard({
     customer,
@@ -13,6 +14,14 @@ export default function AddressCard({
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [editedAddress, setEditedAddress] = useState({ ...address });
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+    const handleDeleteClick = () => setConfirmDeleteOpen(true);
+
+    const confirmDelete = () => {
+        onDelete();
+        setConfirmDeleteOpen(false);
+    };
 
     function handleAddressChange(field, value) {
             setEditedAddress((prev) => {
@@ -49,7 +58,7 @@ export default function AddressCard({
         return numericValue;
     }
 
-    function handleDelete() {
+    function onDelete() {
         const updatedAddresses = customer.addresses.filter(
             (a) => a.id !== address.id
         );
@@ -98,7 +107,7 @@ export default function AddressCard({
                         <button
                             aria-label="Excluir endereço"
                             className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white p-2 px-3 rounded-full shadow transition-colors duration-300"
-                            onClick={handleDelete}
+                            onClick={handleDeleteClick}
                         >
                             Deletar
                         </button>
@@ -286,6 +295,14 @@ export default function AddressCard({
                     )}
                 </div>
             </div>
+            <ConfirmModal
+                isOpen={confirmDeleteOpen}
+                title="Confirmar deleção"
+                message="Tem certeza que deseja deletar este cliente? Esta ação não pode ser desfeita."
+                onConfirm={confirmDelete}
+                onClose={() => setConfirmDeleteOpen(false)}
+                theme="danger"
+            />
         </div>
     );
 }

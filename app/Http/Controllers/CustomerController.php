@@ -41,8 +41,9 @@ class CustomerController extends Controller
 
     public function show(string $id)
     {
+        
         $customer = $this->customerService->get($id);
-
+        
         return Inertia::render('Customers/Show', [
             'customer' => $customer,
         ]);

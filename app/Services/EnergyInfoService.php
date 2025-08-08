@@ -29,9 +29,9 @@ class EnergyInfoService
         return $this->energyInfoRepository->create($data);
     }
 
-    public function update($id, $data)
+    public function update($data, $id)
     {
-        return $this->energyInfoRepository->update($id, $data);
+        return $this->energyInfoRepository->update($data, $id);
     }
 
     public function delete($id)

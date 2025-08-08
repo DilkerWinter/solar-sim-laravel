@@ -42,15 +42,36 @@ class AddressRepository
         }
     }
 
-    public function update($id, $data)
+    public function update($data, $id)
     {
+        DB::beginTransaction();
         try {
             $address = Address::findOrFail($id);
+            $address->load('energyInfo');
             $address->fill($data);
             $address->save();
 
+            $energyInfoService = resolve(EnergyInfoService::class);
+
+            if (!empty($data['energy_info'])) {
+                $energyInfoData = $data['energy_info'];
+
+                if ($address->energyInfo) {
+                    $energyInfoService->update($energyInfoData, $address->energyInfo->id);
+                } else {
+                    $energyInfoData['address_id'] = $address->id;
+                    $energyInfoService->create($energyInfoData);
+                }
+            } else {
+                if ($address->energyInfo) {
+                    $energyInfoService->delete($address->energyInfo->id);
+                }
+            }
+            
+            DB::commit();
             return $address;
         } catch (Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }

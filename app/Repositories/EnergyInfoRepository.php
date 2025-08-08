@@ -31,7 +31,7 @@ class EnergyInfoRepository
         }
     }
 
-    public function update($id, $data)
+    public function update($data, $id)
     {
         try {
             $energyInfo = EnergyInfo::findOrFail($id);
