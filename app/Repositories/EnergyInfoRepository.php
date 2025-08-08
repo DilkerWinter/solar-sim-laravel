@@ -1,7 +1,9 @@
-
 <?php
 
+namespace App\Repositories;
+
 use App\Models\EnergyInfo;
+use Exception;
 
 class EnergyInfoRepository
 {

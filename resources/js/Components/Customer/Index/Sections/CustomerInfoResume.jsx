@@ -1,19 +1,19 @@
 import { Building, Clock, FileBarChart, Users, Zap } from "lucide-react";
 import CustomerInfoCard from "../UI/CustomerInfoCard";
 
-export default function CustomerInfoResume( {totalCustomers , totalAddress}) {
+export default function CustomerInfoResume() {
     return (
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
                 <CustomerInfoCard
                     label="Total de Clientes"
-                    value={totalCustomers}
+                    url={"/customers/count"}
                     icon={Users}
                     colorClass="text-blue-600"
                 />
 
                 <CustomerInfoCard
                     label="Total de Residencias"
-                    value={totalAddress}
+                    url={"/address/count"}
                     icon={Building}
                     colorClass="text-purple-600"
                 />

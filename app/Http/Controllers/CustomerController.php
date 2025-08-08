@@ -23,15 +23,7 @@ class CustomerController extends Controller
             return $this->customerService->getDataTable($request->all());
         }
 
-        $cardInfos = [
-            'totalCustomers' => Customer::count(),
-            'totalAddresses' => Address::count(),
-        ];
-
-        return Inertia::render('Customers/Index', [
-            'cardInfos' => $cardInfos,
-            'customerDataTableUrl' => route('customers.index') 
-        ]);
+        return Inertia::render('Customers/Index', ['customerDataTableUrl' => route('customers.index')]);
     }
 
     public function create()
@@ -63,8 +55,6 @@ class CustomerController extends Controller
         return redirect()->route('customers.show', $customer->id)->with('success', 'Cliente atualizado com sucesso.');
     }
 
-
-
     public function destroy(string $id)
     {
         $this->customerService->delete($id);
@@ -72,7 +62,13 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
     }
 
-    private function requisicaoWithDataTable(Request $request): bool
+    public function count()
+    {
+        return $this->customerService->count();
+    }
+
+
+    private function requisicaoWithDataTable(Request $request)
     {
         return $request->ajax() && (
             $request->has('page') ||
@@ -81,4 +77,5 @@ class CustomerController extends Controller
             $request->has('sortKey')
         );
     }
+
 }

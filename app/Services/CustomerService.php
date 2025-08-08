@@ -32,7 +32,7 @@ class CustomerService
 
     public function update($data, $id)
     {
-        return $this->customerRepository->update($id, $data);
+        return $this->customerRepository->update($data, $id);
     }
 
     public function delete($id)
@@ -44,5 +44,10 @@ class CustomerService
     {
         $dataTable = resolve(CustomerDataTable::class);
         return $dataTable->getTable($filters);
+    }
+
+    public function count()
+    {
+        return $this->customerRepository->count();
     }
 }

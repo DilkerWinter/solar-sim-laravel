@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use AddressRepository;
+use App\Repositories\AddressRepository;
 
 class AddressService
 {
@@ -37,5 +37,10 @@ class AddressService
     public function delete($id)
     {
        return $this->addressRepository->delete($id);
+    }
+
+    public function count()
+    {
+        return $this->addressRepository->count();
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use EnergyInfoRepository;
+use App\Repositories\EnergyInfoRepository;
 
-class AddressService
+class EnergyInfoService
 {
 
     protected $energyInfoRepository;

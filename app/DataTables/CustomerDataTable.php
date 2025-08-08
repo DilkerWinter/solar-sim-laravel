@@ -19,8 +19,7 @@ class CustomerDataTable
         if ($searchQuery) {
             $query->where(function ($q) use ($searchQuery) {
                 $q->where('name', 'ilike', '%' . $searchQuery . '%')
-                    ->orWhere('email', 'ilike', '%' . $searchQuery . '%')
-                    ->orWhere('document_number', 'ilike', '%' . $searchQuery . '%');
+                    ->orWhere('email', 'ilike', '%' . $searchQuery . '%');
             });
         }
 

@@ -1,7 +1,11 @@
-
 <?php
 
+namespace App\Repositories;
+
 use App\Models\Address;
+use App\Services\EnergyInfoService;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AddressRepository
 {
@@ -17,14 +21,23 @@ class AddressRepository
 
     public function create($data)
     {
+        DB::beginTransaction();
         try {
             $address = new Address;
             $address->fill($data);
             $address->save();
-            
-            return $address;
 
+            if(!empty($data['energy_info'])) {
+                $energyInfoService = resolve(EnergyInfoService::class);
+                $energyInfo = $data['energy_info'];
+                $energyInfo['address_id'] = $address->id;
+                $energyInfoService->create($energyInfo);
+            }
+
+            DB::commit();
+            return $address;
         } catch (Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }
@@ -45,5 +58,10 @@ class AddressRepository
     public function delete($id)
     {
         return Address::destroy($id);
+    }
+
+    public function count()
+    {
+        return Address::count();
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
+use App\Services\AddressService;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CustomerRepository
 {
@@ -19,27 +21,51 @@ class CustomerRepository
 
     public function create($data)
     {
+        DB::beginTransaction();
         try {
+            
             $customer = new Customer;
             $customer->fill($data);
             $customer->save();
 
+            foreach ($data['addresses'] as $address) {
+                $addressService = resolve(AddressService::class);
+                $address['customer_id'] = $customer->id;
+                $addressService->create($address);
+            }
+
+            DB::commit();
             return $customer;
 
         } catch (Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }
 
     public function update($data, $id)
     {
+        DB::beginTransaction();
         try {
             $customer = Customer::findOrFail($id);
-            $customer->fill($data);
-            $customer->save();
 
+            $customerData = $data;
+            unset($customerData['addresses']);
+
+            $customer->fill($customerData);
+            $customer->save();
+            dd($data);
+            foreach ($data['addresses'] as $address) {
+                $addressService = resolve(AddressService::class);
+                $address['customer_id'] = $customer->id;
+                $addressService->update($address, $address['id']);
+            }
+
+
+            DB::commit();
             return $customer;
         } catch (Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }
@@ -49,5 +75,8 @@ class CustomerRepository
         return Customer::destroy($id);
     }
 
-    
+    public function count()
+    {
+        return Customer::count();
+    }
 }

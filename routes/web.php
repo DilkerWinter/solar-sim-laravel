@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
@@ -38,8 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('kits', KitController::class);
     
     //All routes for Costumer
+    Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');
     Route::resource('customers', CustomerController::class);
 
+    //All routes for Address
+    Route::get('/address/count', [AddressController::class, 'count'])->name('address.count');
 });
 
 /**
