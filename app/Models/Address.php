@@ -30,8 +30,8 @@ class Address extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function addressEnergyInfo(): HasOne
+    public function energyInfo(): HasOne
     {
-        return $this->hasOne(AddressEnergyInfo::class);
+        return $this->hasOne(EnergyInfo::class);
     }
 }

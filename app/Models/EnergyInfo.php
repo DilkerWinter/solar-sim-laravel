@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AddressEnergyInfo extends Model
+class EnergyInfo extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $table='energy_infos';
+
     protected $fillable = [
         'address_id',
         'average_monthly_consumption_kwh',
