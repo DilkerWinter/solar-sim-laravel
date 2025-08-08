@@ -14,7 +14,7 @@ class CustomerDataTable
         $sortKey = data_get($params, 'sortKey', 'name');
         $sortOrder = data_get($params, 'sortOrder', 'asc');
 
-        $query = Customer::with('addresses.addressEnergyInfo');
+        $query = Customer::with('addresses.energyInfo');
 
         if ($searchQuery) {
             $query->where(function ($q) use ($searchQuery) {
@@ -37,14 +37,14 @@ class CustomerDataTable
                         $q->where('type', $type);
 
                         if (filter_var($withoutEnergyInfo, FILTER_VALIDATE_BOOLEAN)) {
-                            $q->whereDoesntHave('addressEnergyInfo');
+                            $q->whereDoesntHave('energyInfo');
                         }
                     });
                 }
             } else {
                 if (filter_var($withoutEnergyInfo, FILTER_VALIDATE_BOOLEAN)) {
                     $query->whereHas('addresses', function ($q) {
-                        $q->whereDoesntHave('addressEnergyInfo');
+                        $q->whereDoesntHave('energyInfo');
                     });
                 } else {
                     $query->whereHas('addresses');
@@ -63,7 +63,7 @@ class CustomerDataTable
             $totalBill = 0;
 
             foreach ($customer->addresses as $address) {
-                $info = $address->addressEnergyInfo;
+                $info = $address->energyInfo;
                 if ($info) {
                     $totalConsumption += $info->average_monthly_consumption_kwh ?? 0;
                     $totalBill += $info->average_energy_bill ?? 0;
