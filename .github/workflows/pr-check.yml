@@ -14,6 +14,9 @@ jobs:
       - name: 🔄 Checkout repository
         uses: actions/checkout@v3
 
+      - name: 🗄 Setup environment
+        run: cp .env.example .env
+
       - name: 🐳 Set up Docker Compose
         run: docker compose up --build -d
 
@@ -26,11 +29,11 @@ jobs:
       - name: 🛠 Build frontend
         run: docker compose exec -T app npm run build
 
-      - name: 🗄 Setup Laravel environment
-        run: docker compose exec -T app bash -c "cp .env.example .env && php artisan key:generate"
+      - name: 🗄 Setup Laravel key
+        run:  ./dartisan key:generate
 
-      - name: 🔄 Run migrations
-        run: docker compose exec -T app php artisan migrate --force
+      - name: 🔄 Run migrations and seeders
+        run: ./dartisan migrate:fresh --seed
 
       - name: ✅ Run PHPUnit tests
         run: docker compose exec -T app php artisan test
