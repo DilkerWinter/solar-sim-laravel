@@ -19,14 +19,14 @@ class ProductController extends Controller
     {
         $products = $this->productService->getAll();
 
-        return Inertia::render('products.index', [
+        return Inertia::render('Products/Index', [
             'products' => $products,
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('products.create');
+        return Inertia::render('Products/Create');
     }
 
     public function store(Request $request)
