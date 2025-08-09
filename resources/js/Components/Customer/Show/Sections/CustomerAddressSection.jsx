@@ -11,6 +11,7 @@ export default function CustomerAddressSection({
     function addNewAddress() {
         const newAddress = {
             id: Date.now(),
+            isNew: true,
             rua: "",
             numero: "",
             bairro: "",

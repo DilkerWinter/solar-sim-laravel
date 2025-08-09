@@ -17,7 +17,20 @@ export default function Show({ customer }) {
     };
 
     const handleSave = () => {
-        Inertia.put(route("customers.update", customer.id), editCustomer, {
+        const filterData = {
+          ...editCustomer,
+          addresses: editCustomer.addresses.map(address => {
+            if (address.isNew) {
+              const { isNew, id, ...rest } = address;
+              return rest;
+            }
+            return address;
+          }),
+        };
+
+
+
+        Inertia.put(route("customers.update", customer.id), filterData, {
         onSuccess: () => {
             console.log("Atualizado com sucesso");
             handleToggleEdit();
