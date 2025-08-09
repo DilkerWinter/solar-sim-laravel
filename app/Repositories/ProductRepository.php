@@ -31,7 +31,7 @@ class ProductRepository
         }
     }
 
-    public function update($id, $data)
+    public function update($data, $id)
     {
         try {
             $product = Product::findOrFail($id);
