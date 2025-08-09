@@ -20,14 +20,14 @@ jobs:
       - name: 🐳 Set up Docker Compose
         run: docker compose up -d --build
 
-      - name: 📦 Composer install inside container
-        run: docker compose exec -T solarsim composer install --no-progress --prefer-dist
-
       - name: Listar containers ativos
         run: docker compose ps
 
       - name: Logs do container solarsim
         run: docker compose logs solarsim
+
+      - name: 📦 Composer install inside container
+        run: docker compose exec -T solarsim composer install --no-progress --prefer-dist
 
       - name: 🗄 Setup Laravel key
         run: docker compose exec -T solarsim php artisan key:generate
