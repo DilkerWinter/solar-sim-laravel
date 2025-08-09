@@ -17,6 +17,8 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 RUN npm install
 
+RUN npm run build
+
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 9000 5173

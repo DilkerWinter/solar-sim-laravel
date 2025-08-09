@@ -20,23 +20,17 @@ jobs:
       - name: 🐳 Set up Docker Compose
         run: docker compose up --build -d
 
-      - name: 🛠 Install PHP dependencies
-        run: docker compose exec -T app composer install --no-progress --prefer-dist
-
-      - name: 🛠 Install NPM dependencies
-        run: docker compose exec -T app npm ci
-
       - name: 🛠 Build frontend
         run: docker compose exec -T app npm run build
 
       - name: 🗄 Setup Laravel key
-        run:  ./dartisan key:generate
+        run: ./dartisan key:generate
 
       - name: 🔄 Run migrations and seeders
         run: ./dartisan migrate:fresh --seed
 
       - name: ✅ Run PHPUnit tests
-        run: docker compose exec -T app php artisan test
+        run: ./dartisan test
 
       - name: 🐳 Tear down containers
         run: docker compose down
