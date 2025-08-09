@@ -20,6 +20,12 @@ jobs:
       - name: 🐳 Set up Docker Compose
         run: docker compose up -d --build
 
+      - name: Listar containers ativos
+        run: docker compose ps
+      
+      - name: Logs do container solarsim
+        run: docker compose logs solarsim
+
       - name: 🗄 Setup Laravel key
         run: docker compose exec -T solarsim php artisan key:generate
 
