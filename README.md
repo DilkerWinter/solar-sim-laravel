@@ -28,49 +28,33 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - PostgreSQL >= 16
 - NPM ou Yarn
 
+Ou utilize Docker para rodar os containers de desenvolvimento
+
 ---
 
 ## ⚙️ Instalação
 
 ### Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-```
-### Instale as dependências do backend
-```bash
-composer install
+git clone git@github.com:DilkerWinter/solar-sim-laravel.git
+cd solar-sim-laravel
 ```
 
 ### Copie o arquivo de ambiente e configure
 ```bash
 cp .env.example .env
+cp docker-compose.yml.example docker-compose.yml
 php artisan key:generate
 ```
 
-### Configure o banco de dados PostgreSQL no arquivo .env
+### Suba os containers
 ```bash
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=nome_do_banco
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
+docker compose up -d --build
 ```
 
 ### Execute as migrações
 ```bash
-php artisan migrate
-```
-
-### Instale as dependências do frontend
-```bash
-npm install
-```
-
-### Compile os assets
-```bash
-npm run dev
+./dartisan migrate:fresh --seed
 ```
 
 ---
@@ -80,9 +64,7 @@ npm run dev
 Para rodar os testes com PHPUnit:
 
 ```bash
-php artisan test
-# ou
-vendor/bin/phpunit
+./dartisan test
 ```
 
 ---
