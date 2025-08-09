@@ -1,4 +1,4 @@
-name: Build and Test on Pull Request (Docker)
+name: Build and Test on Pull Request
 
 on:
   pull_request:
@@ -10,30 +10,59 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: laravel
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: 🔄 Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🛠 Setup environment
-        run: cp .env.example .env
+      - name: 🧰 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: pdo_pgsql
+          coverage: none
 
-      - name: 🐳 Set up Docker Compose
-        run: docker compose up -d --build
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-      - name: Listar containers ativos
-        run: docker compose ps
+      - name: 📦 Install PHP dependencies
+        run: composer install --no-progress --prefer-dist
 
-      - name: Logs do container solarsim
-        run: docker compose logs solarsim
+      - name: 📦 Install NPM dependencies
+        run: npm ci
 
-      - name: 🗄 Setup Laravel key
-        run: docker compose exec -T solarsim php artisan key:generate
+      - name: 🛠 Build frontend
+        run: npm run build
 
-      - name: 🔄 Run migrations and seeders
-        run: docker compose exec -T solarsim php artisan migrate:fresh --seed
+      - name: 🗄 Setup Laravel environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          echo "DB_CONNECTION=pgsql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_DATABASE=laravel" >> .env
+          echo "DB_USERNAME=postgres" >> .env
+          echo "DB_PASSWORD=postgres" >> .env
+
+
+      - name: 🔄 Run migrations
+        run: php artisan migrate --force
 
       - name: ✅ Run PHPUnit tests
-        run: docker compose exec -T solarsim php artisan test
-
-      - name: 🐳 Tear down containers
-        run: docker compose down
+        run: php artisan test
