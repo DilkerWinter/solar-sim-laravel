@@ -20,17 +20,14 @@ jobs:
       - name: 🐳 Set up Docker Compose
         run: docker compose up -d --build
 
-      - name: test docker ps
-        run: docker ps
-
       - name: 🗄 Setup Laravel key
-        run: ./dartisan key:generate
+        run: docker compose exec -T solarsim php artisan key:generate
 
       - name: 🔄 Run migrations and seeders
-        run: ./dartisan migrate:fresh --seed
+        run: docker compose exec -T solarsim php artisan migrate:fresh --seed
 
       - name: ✅ Run PHPUnit tests
-        run: ./dartisan test
+        run: docker compose exec -T solarsim php artisan test
 
       - name: 🐳 Tear down containers
         run: docker compose down
