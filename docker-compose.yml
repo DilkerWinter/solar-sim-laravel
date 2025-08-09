@@ -6,8 +6,6 @@ services:
     container_name: solarsim
     volumes:
       - ./:/var/www/html
-      - ./vendor:/var/www/html/vendor
-      - ./node_modules:/var/www/html/node_modules
     ports:
       - "9000:9000"
       - "5173:5173"

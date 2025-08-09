@@ -26,9 +26,6 @@ jobs:
       - name: Logs do container solarsim
         run: docker compose logs solarsim
 
-      - name: 📦 Composer install inside container
-        run: docker compose exec -T solarsim composer install --no-progress --prefer-dist
-
       - name: 🗄 Setup Laravel key
         run: docker compose exec -T solarsim php artisan key:generate
 
