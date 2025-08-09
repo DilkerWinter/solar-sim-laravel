@@ -18,7 +18,10 @@ jobs:
         run: cp .env.example .env
 
       - name: 🐳 Set up Docker Compose
-        run: docker compose up --build -d
+        run: docker compose up -d --build
+
+      - name: test docker ps
+        run: docker ps
 
       - name: 🗄 Setup Laravel key
         run: ./dartisan key:generate
