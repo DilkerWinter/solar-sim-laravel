@@ -60,7 +60,6 @@ jobs:
           echo "DB_USERNAME=postgres" >> .env
           echo "DB_PASSWORD=postgres" >> .env
 
-
       - name: 🔄 Run migrations
         run: php artisan migrate --force
 

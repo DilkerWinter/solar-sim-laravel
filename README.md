@@ -71,20 +71,19 @@ Para rodar os testes com PHPUnit:
 
 ## 🧠 Estrutura do Projeto
 
-O projeto segue a arquitetura padrão Laravel com Inertia.js:
+O projeto segue a arquitetura padrão Laravel com Inertia.js e React:
 
 ```
-├── app/
+├── app/            # Código Laravel
 ├── bootstrap/
 ├── database/
 ├── public/
 ├── resources/
 │   ├── js/         # Código React
-│   └── views/      # Views blade (apenas para fallback)
+│   └── views/      
 ├── routes/
-│   └── web.php
+│   └── web.php     # Rotas 
 ├── tests/
-└── .env
 ```
 
 ---
