@@ -25,7 +25,7 @@ export default function EnergyInfoCard({
     
         const updatedAddresses = customer.addresses.map((a) =>
             a.id === address.id
-                ? { ...a, address_energy_info: updatedInfo }
+                ? { ...a, energy_info: updatedInfo }
                 : a
         );
     
@@ -59,7 +59,7 @@ export default function EnergyInfoCard({
 
     function handleDelete() {
         const updatedAddresses = customer.addresses.map((a) =>
-            a.id === address.id ? { ...a, address_energy_info: null } : a
+            a.id === address.id ? { ...a, energy_info: null } : a
         );
 
         setCustomer((prev) => ({

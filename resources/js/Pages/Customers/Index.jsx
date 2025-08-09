@@ -4,15 +4,12 @@ import CustomerIndexHeader from "@/Components/Customer/Index/Sections/CustomerIn
 import CustomerInfoResume from "@/Components/Customer/Index/Sections/CustomerInfoResume";
 import AppLayout from "@/Layouts/AppLayout";
 
-export default function Index({ cardInfos, customerDataTableUrl }) {
+export default function Index({ customerDataTableUrl }) {
     return (
         <div className="w-full mx-auto p-8">
             <CustomerIndexHeader />
 
-            <CustomerInfoResume
-                totalCustomers={cardInfos.totalCustomers}
-                totalAddress={cardInfos.totalAddresses}
-            />
+            <CustomerInfoResume/>
 
             <CustomerDataTableSection dataTableUrl={customerDataTableUrl} />
         </div>

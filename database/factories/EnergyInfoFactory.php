@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\AddressEnergyInfo;
+use App\Models\EnergyInfo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AddressEnergyInfoFactory extends Factory
+class EnergyInfoFactory extends Factory
 {
-    protected $model = AddressEnergyInfo::class;
+    protected $model = EnergyInfo::class;
 
     public function definition(): array
     {

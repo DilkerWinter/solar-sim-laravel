@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Customer;
 use App\Models\Address;
 use App\Models\AddressEnergyInfo;
+use App\Models\EnergyInfo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CustomerFactory extends Factory
@@ -30,7 +31,7 @@ class CustomerFactory extends Factory
                 ->create()
                 ->each(function (Address $address) {
                     if (rand(0, 1) === 1) {
-                        AddressEnergyInfo::factory()->for($address)->create();
+                        EnergyInfo::factory()->for($address)->create();
                     }
                 });
         });

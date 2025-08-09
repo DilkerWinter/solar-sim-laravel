@@ -2,195 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\CustomerDataTable;
 use App\Models\Address;
 use App\Models\Customer;
+use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    protected $customerService;
+
+    public function __construct(CustomerService $customerService)
     {
-        $dataTable = resolve(CustomerDataTable::class);
-
-        if($this->requisicaoWithDataTable($request)) {
-            return $dataTable->getTable($request->all());
-        }
-
-        $cardInfos = [
-            'totalCustomers' => Customer::count(),
-            'totalAddresses' => Address::count(),
-        ];
-
-        return Inertia::render('Customers/Index', [
-            'cardInfos' => $cardInfos,
-            'customerDataTableUrl' => route('customers.index') 
-        ]);
+        $this->customerService = $customerService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index(Request $request)
+    {
+        if ($this->requisicaoWithDataTable($request)) {
+            return $this->customerService->getDataTable($request->all());
+        }
+
+        return Inertia::render('Customers/Index', ['customerDataTableUrl' => route('customers.index')]);
+    }
+
     public function create()
     {
         return Inertia::render('Customers/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'document_number' => 'nullable|string|max:50',
-
-            'addresses' => 'nullable|array',
-            'addresses.*.id' => 'nullable|integer|exists:addresses,id',
-            'addresses.*.neighborhood' => 'nullable|string|max:255',
-            'addresses.*.street' => 'nullable|string|max:255',
-            'addresses.*.number' => 'nullable|string|max:50',
-            'addresses.*.city' => 'nullable|string|max:255',
-            'addresses.*.state' => 'nullable|string|max:255',
-            'addresses.*.cep' => 'nullable|string|max:20',
-            'addresses.*.type' => 'nullable|in:residencial,comercial,industrial,rural',
-            'addresses.*.roof_type' => 'nullable|string|max:255',
-
-
-            'addresses.*.energy_info' => 'nullable|array',
-            'addresses.*.energy_info.average_monthly_consumption_kwh' => 'nullable|string',
-            'addresses.*.energy_info.average_annual_consumption_kwh' => 'nullable|string',
-            'addresses.*.energy_info.average_energy_bill' => 'nullable|string',
-
-            'addresses.*.energy_info.energy_provider' => 'nullable|string|max:255',
-            'addresses.*.energy_info.notes' => 'nullable|string',
-        ]);
-
-        $customer = Customer::create([
-            'name' => $validated['name'],
-            'phone' => $validated['phone'] ?? null,
-            'email' => $validated['email'] ?? null,
-            'document_number' => $validated['document_number'] ?? null,
-        ]);
-
-        foreach ($validated['addresses'] ?? [] as $addressData) {
-            $energyInfoData = $addressData['energy_info'] ?? null;
-            unset($addressData['energy_info']);
-
-            $address = $customer->addresses()->create($addressData);
-
-            if ($energyInfoData) {
-                foreach (['average_monthly_consumption_kwh', 'average_annual_consumption_kwh', 'average_energy_bill'] as $field) {
-                    if (isset($energyInfoData[$field])) {
-                        $num = str_replace(',', '.', $energyInfoData[$field]);
-                        $formatted = number_format((float) $num, 2, '.', '');
-                        $energyInfoData[$field] = (float) $formatted;
-                    }
-                }
-                $address->addressEnergyInfo()->create($energyInfoData);
-            }
-
-        }
+        $this->customerService->create($request->all());
 
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $customer = Customer::with(['addresses.addressEnergyInfo'])->findOrFail($id);
-
+        
+        $customer = $this->customerService->get($id);
+        
         return Inertia::render('Customers/Show', [
             'customer' => $customer,
         ]);
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $customer = Customer::with('addresses.addressEnergyInfo')->findOrFail($id);
-
-        return Inertia::render('Customers/Edit', [
-            'customer' => $customer,
-        ]);
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        $customer = Customer::with('addresses.addressEnergyInfo')->findOrFail($id);
-    
-        $customer->update([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'document_number' => $request->input('document_number'),
-        ]);
-    
-        $addresses = $request->input('addresses', []);
-        foreach ($addresses as $addressData) {
-            $energyInfoData = $addressData['address_energy_info'] ?? null;
-            unset($addressData['address_energy_info']);
-        
-            if (isset($addressData['id'])) {
-                $address = $customer->addresses()->find($addressData['id']);
-                if ($address) {
-                    $address->update($addressData);
-                }
-            } else {
-                $address = $customer->addresses()->create($addressData);
-            }
-        
-            if ($energyInfoData && isset($address)) {
-                foreach (['average_monthly_consumption_kwh', 'average_annual_consumption_kwh', 'average_energy_bill'] as $field) {
-                    if (isset($energyInfoData[$field])) {
-                        $energyInfoData[$field] = str_replace(',', '.', str_replace('.', '', $energyInfoData[$field]));
-                    }
-                }
-            
-                $energyInfo = $address->energyInfo;
-                if ($energyInfo) {
-                    $energyInfo->update($energyInfoData);
-                } else {
-                    $address->addressEnergyInfo()->create($energyInfoData);
-                }
-            }
-            
-        }
-    
-        return redirect()->route('customers.show', $customer->id)
-            ->with('success', 'Cliente atualizado com sucesso.');
+        $customer = $this->customerService->update($request->all(), $id);
+
+        return redirect()->route('customers.show', $customer->id)->with('success', 'Cliente atualizado com sucesso.');
     }
 
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->delete();
+        $this->customerService->delete($id);
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
     }
 
-    private function requisicaoWithDataTable(Request $request): bool
+    public function count()
+    {
+        return $this->customerService->count();
+    }
+
+
+    private function requisicaoWithDataTable(Request $request)
     {
         return $request->ajax() && (
             $request->has('page') ||
@@ -199,4 +78,5 @@ class CustomerController extends Controller
             $request->has('sortKey')
         );
     }
+
 }
