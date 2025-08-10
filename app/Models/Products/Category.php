@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Represents the catogory of a product 
  */
-class Product extends Model
+class Category extends Model
 {
    use HasFactory, SoftDeletes;
 
