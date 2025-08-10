@@ -22,7 +22,6 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 10, 500),
             'brand' => $this->faker->company,
             'category' => $this->faker->word,
-            'data' => json_encode(['sample' => 'data']),
         ];
     }
 }

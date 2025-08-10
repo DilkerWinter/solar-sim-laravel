@@ -7,20 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Represents a product that can be used to assemble kits.
+ * Represents the catogory of a product 
  */
 class Product extends Model
 {
    use HasFactory, SoftDeletes;
 
-   protected $table = 'products';
+   protected $table = 'categories';
 
    protected $fillable = [
         'id',
         'name',
-        'description',
-        'price',
-        'category_id',
      ];
 
+     public function products()
+     {
+        return $this->hasMany(Product::class);
+     }
 }

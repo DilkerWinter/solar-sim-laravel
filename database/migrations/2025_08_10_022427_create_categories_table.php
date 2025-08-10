@@ -1,3 +1,4 @@
+sudo chown -R $USER:$USER .
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,8 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('document_type');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->string('document_type', 20)->nullable();
-        });
+        Schema::dropIfExists('categories');
     }
 };
