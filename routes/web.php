@@ -36,9 +36,6 @@ Route::middleware('auth')->group(function () {
     //All routes for Product
     Route::resource('products', ProductController::class);
     
-    //All routes for Kits
-    Route::resource('kits', KitController::class);
-    
     //All routes for Costumer
     Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');
     Route::resource('customers', CustomerController::class);
