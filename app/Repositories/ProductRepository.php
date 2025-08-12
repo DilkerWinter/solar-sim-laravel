@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
+use App\Models\Products\Product;
 use Exception;
 
 class ProductRepository

@@ -98,6 +98,18 @@ export default function Create() {
         }
     }
 
+    function formatMoney(value) {
+        if (value == null || value === "") return "0,00";
+        let digits = String(value).replace(/\D/g, "");
+        if (digits === "") return "0,00";
+
+        const number = parseFloat(digits) / 100;
+        return number.toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    }
+
     const formatDecimalNumber = (value) => {
         let formattedValue = value.replace(/[^0-9,]/g, "");
 
@@ -507,7 +519,7 @@ export default function Create() {
                                         }
                                         type="text"
                                         regex="^\d+(,\d{1,2})?$"
-                                        formatFunction={formatDecimalNumber}
+                                        formatFunction={formatMoney}
                                         suffix="kWh"
                                     />
                                     <InputField
@@ -527,7 +539,7 @@ export default function Create() {
                                             )
                                         }
                                         regex="^\d+(,\d{1,2})?$"
-                                        formatFunction={formatDecimalNumber}
+                                        formatFunction={formatMoney}
                                         suffix="kWh"
                                     />
                                     <InputField
@@ -546,7 +558,7 @@ export default function Create() {
                                             )
                                         }
                                         regex="^\d+(,\d{1,2})?$"
-                                        formatFunction={formatDecimalNumber}
+                                        formatFunction={formatMoney}
                                         prefix="R$"
                                     />
                                     <InputField
