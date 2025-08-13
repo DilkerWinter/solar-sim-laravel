@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { Trash, Trash2, TrashIcon, User } from "lucide-react";
 import EditableField from "@/Components/UI/EditableField";
 import Field from "./TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
@@ -68,9 +68,9 @@ export default function CustomerCard({ customer, setCustomer, isEditing, onDelet
                 {isEditing && (
                     <button
                         onClick={handleDeleteClick}
-                        className="flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-200 shadow-sm bg-red-600 text-white hover:bg-red-700"
+                        className="flex items-center gap-2 px-2 py-2 rounded-2xl text-sm font-medium transition-all duration-200 shadow-sm text-red-600  hover:text-red-700 hover:bg-gray-300"
                     >
-                        <span>Deletar</span>
+                        <Trash2 size={22}/>
                     </button>
                 )}
             </div>

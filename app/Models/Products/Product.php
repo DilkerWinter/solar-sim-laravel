@@ -20,15 +20,11 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'type_id',
+        'brand',
+        'type',
     ];
     
-    protected $with = ['type', 'solarPanel', 'inverter'];
-
-    public function type()
-    {
-        return $this->belongsTo(ProductType::class, 'type_id');
-    }
+    protected $with = ['solarPanel', 'inverter'];
 
     public function solarPanel()
     {
