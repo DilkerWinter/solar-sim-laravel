@@ -13,6 +13,8 @@ class ProductTypeSeeder extends Seeder
             'Cabo',
             'ConectorMc4',
             'Suporte de placa solar',
+            'Painel Solar',
+            'Inversor',
         ];
 
         foreach ($categories as $name) {

@@ -23,7 +23,7 @@ class Product extends Model
         'type_id',
     ];
     
-    protected $with = ['type', 'solarPanel'];
+    protected $with = ['type', 'solarPanel', 'inverter'];
 
     public function type()
     {
