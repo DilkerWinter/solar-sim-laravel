@@ -13,7 +13,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
             'price' => $this->faker->numberBetween(4),
-            'type_id' => ProductType::inRandomOrder()->first()->id,
+            'type_id' => ProductType::whereIn('id', [1, 2, 3])->inRandomOrder()->first()->id,
         ];
     }
 }

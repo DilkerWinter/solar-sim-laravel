@@ -18,11 +18,13 @@ class ProductRepository
         return Product::find($id);
     }
 
+    //TODO: Finish function based on wich one of the type or inherited objects is
     public function create($data)
     {
         try {
             $product = new Product;
-            $product->fill($data);
+            
+
             $product->save();
             
             return $product;
