@@ -7,21 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Represents the catogory of a product 
+ * Represents the type of a product
  */
-class Category extends Model
+class ProductType extends Model
 {
    use HasFactory, SoftDeletes;
 
-   protected $table = 'categories';
+   protected $table = 'product_types';
 
    protected $fillable = [
         'id',
         'name',
      ];
 
-     public function products()
-     {
-        return $this->hasMany(Product::class);
-     }
 }

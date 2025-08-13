@@ -20,7 +20,10 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'category_id',
+        'type_id',
      ];
-
+    public function type()
+    {
+        return $this->belongsTo(ProductType::class, 'type_id');
+    }
 }

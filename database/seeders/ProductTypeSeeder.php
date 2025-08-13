@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
+use App\Models\Products\ProductType;
 use Illuminate\Database\Seeder;
 
-class CategorySeeder extends Seeder
+class ProductTypeSeeder extends Seeder
 {
     public function run(): void
     {
@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $name) {
-            Category::firstOrCreate(['name' => $name]);
+            ProductType::firstOrCreate(['name' => $name]);
         }
     }
 }

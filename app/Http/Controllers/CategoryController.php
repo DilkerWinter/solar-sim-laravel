@@ -2,36 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\CategoryService;
+use App\Services\ProductTypeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 
-class CategoryController extends Controller
+class ProductTypeController extends Controller
 {
-    protected $categoryService;
+    protected $productTypeService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(ProductTypeService $productTypeService)
     {
-        $this->categoryService = $categoryService;
+        $this->productTypeService = $productTypeService;
     }
 
     public function index()
     {
-        return $this->categoryService->getAll();
+        return $this->productTypeService->getAll();
     }
 
     public function get($id)
     {
-        return $this->categoryService->get($id);
+        return $this->productTypeService->get($id);
     }
 
     public function store(Request $request)
     {
-        return $this->categoryService->create($request->all());
+        return $this->productTypeService->create($request->all());
     }
 
     public function destoy($id)
     {
-        return $this->categoryService->delete($id);
+        return $this->productTypeService->delete($id);
     }
 }

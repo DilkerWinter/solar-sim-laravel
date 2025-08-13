@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Products;
 
-use App\Models\Category;
+use App\Models\Products\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -13,7 +13,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
             'price' => $this->faker->numberBetween(4),
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'type_id' => ProductType::inRandomOrder()->first()->id,
         ];
     }
 }

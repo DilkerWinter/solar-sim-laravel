@@ -11,10 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('solar_panel', function (Blueprint $table) {
+        Schema::create('solar_panels', function (Blueprint $table) {
             $table->id();
-            
+            $table->integer('potency_watts');               
+            $table->integer('efficiency_percentage');       
+            $table->integer('average_daily_energy_wh');
+            $table->integer('max_operating_temperature');   
+            $table->integer('operating_voltage');           
+
+            $table->integer('height');   
+            $table->integer('width');               
+            $table->integer('weight');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -23,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('solar_panel');
+        Schema::dropIfExists('solar_panels');
     }
 };

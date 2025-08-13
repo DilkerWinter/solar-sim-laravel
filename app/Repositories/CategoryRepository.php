@@ -2,29 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
+use App\Models\Products\ProductType;
 use Exception;
 
-class CategoryRepository
+class ProductTypeRepository
 {
     public function getAll()
     {
-        return Category::all();
+        return ProductType::all();
     }
 
     public function get($id)
     {
-        return Category::find($id);
+        return ProductType::find($id);
     }
 
     public function create($data)
     {
         try {
-            $category = new Category;
-            $category->fill($data);
-            $category->save();
+            $productType = new ProductType;
+            $productType->fill($data);
+            $productType->save();
             
-            return $category;
+            return $productType;
 
         } catch (Exception $e) {
             throw $e;
@@ -33,6 +33,6 @@ class CategoryRepository
 
     public function delete($id)
     {
-        return Category::destroy($id);
+        return ProductType::destroy($id);
     }
 }

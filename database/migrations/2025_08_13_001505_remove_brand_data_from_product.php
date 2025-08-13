@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('brand');
-            $table->dropColumn('data');
+            if (Schema::hasColumn('products', 'data')) {
+                $table->dropColumn('data');
+            }
 
-            $table->foreignId('category_id')
-                  ->constrained('categories')
-                  ->onDelete('cascade');
+            if (Schema::hasColumn('products', 'category')) {
+                $table->dropColumn('category');
+            }
+
+            $table->string('brand')->nullable()->change();
         });
     }
 
@@ -27,11 +30,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('brand')->nullable();
             $table->json('data')->nullable();
 
-            $table->dropForeign(['category_id']);
-            $table->dropColumn('category_id');
+            $table->string('category');
+
+            $table->string('brand')->nullable(false)->change();
         });
     }
 };
