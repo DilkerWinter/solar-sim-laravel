@@ -12,14 +12,15 @@ class SolarPanel extends Product
    protected $table = 'solar_panels';
 
    protected $fillable = [
-       'potency_watts',
-       'efficiency_percentage',
-       'average_daily_energy_wh',
-       'max_operating_temperature',
-       'operating_voltage',
-       'height',
-       'width',
-       'weight',
+        'product_id',
+        'potency_watts',
+        'efficiency_percentage',
+        'average_daily_energy_wh',
+        'max_operating_temperature',
+        'operating_voltage',
+        'height',
+        'width',
+        'weight',
    ];
 
 
