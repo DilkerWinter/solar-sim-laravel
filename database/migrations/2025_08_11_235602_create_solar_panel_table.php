@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('solar_panels', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('potency_watts');               
             $table->integer('efficiency_percentage');       
             $table->integer('average_daily_energy_wh');
