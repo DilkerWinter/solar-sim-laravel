@@ -11,19 +11,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Product extends Model
 {
-   use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-   protected $table = 'products';
+    protected $table = 'products';
 
-   protected $fillable = [
+    protected $fillable = [
         'id',
         'name',
         'description',
         'price',
         'type_id',
-     ];
+    ];
+    
+    protected $with = ['type', 'solarPanel'];
+
     public function type()
     {
         return $this->belongsTo(ProductType::class, 'type_id');
+    }
+
+    public function solarPanel()
+    {
+        return $this->hasOne(SolarPanel::class, 'product_id');
+    }
+
+    public function inverter()
+    {
+        return $this->hasOne(Inverter::class, 'product_id');
     }
 }

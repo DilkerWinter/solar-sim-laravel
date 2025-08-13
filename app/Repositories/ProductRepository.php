@@ -9,6 +9,7 @@ class ProductRepository
 {
     public function getAll()
     {
+        dd(Product::get()->first()->toArray());
         return Product::all();
     }
 

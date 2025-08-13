@@ -15,7 +15,7 @@ import {
 const itensMenu = [
     { title: "Painel", url: "/dashboard", icon: Home },
     { title: "Clientes", url: "/customers", icon: Users },
-    { title: "Produtos", url: "/produtos", icon: Package },
+    { title: "Produtos", url: "/products", icon: Package },
     { title: "Kits Solares", url: "/kits", icon: Sun },
     { title: "Propostas", url: "/propostas", icon: FileText },
     { title: "Relatórios", url: "/relatorios", icon: BarChart3 },

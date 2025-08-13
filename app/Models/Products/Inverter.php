@@ -3,24 +3,22 @@
 namespace App\Models\Products;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SolarPanel extends Product
+class Inverter extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'solar_panels';
+    protected $table = 'inverters';
 
     protected $fillable = [
         'product_id',
-        'potency_watts',
-        'efficiency_percentage',
-        'average_daily_energy_wh',
-        'max_operating_temperature', 
+        'type',
+        'supported_panel_count',
+        'supported_panel_max_power_watts',
+        'max_power_watts',
         'operating_voltage',
-        'height',
-        'width',
-        'weight',
     ];
 
     public function product()
