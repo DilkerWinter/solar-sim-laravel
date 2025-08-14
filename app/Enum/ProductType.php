@@ -8,4 +8,5 @@ enum ProductType: string
     case INVERTER = 'Inversor';
     case CABO = 'Cabo';
     case CONECTORMC4 = 'ConectorMc4';
+    case SOLARPANELBASE = 'Suporte de Placa Solar';
 }

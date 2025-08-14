@@ -35,7 +35,7 @@ class ProductController extends Controller
 
         return redirect()
         ->route('products.index')
-        ->with('success', 'Produto atualizado com sucesso!');
+        ->with('success', 'Produto criado com sucesso!');
     }
 
     public function show(string $id)

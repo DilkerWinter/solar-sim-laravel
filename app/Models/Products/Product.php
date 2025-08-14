@@ -22,7 +22,7 @@ class Product extends Model
         'price',
         'brand',
         'type',
-    ];
+    ]; 
     
     protected $with = ['solarPanel', 'inverter'];
 

@@ -2,14 +2,16 @@
 
 namespace App\Repositories;
 
+use App\Enum\ProductType;
+use App\Models\Products\Inverter;
 use App\Models\Products\Product;
+use App\Models\Products\SolarPanel;
 use Exception;
 
 class ProductRepository
 {
     public function getAll()
     {
-        dd(Product::get()->first()->toArray());
         return Product::all();
     }
 
@@ -18,15 +20,34 @@ class ProductRepository
         return Product::find($id);
     }
 
-    //TODO: Finish function based on wich one of the type or inherited objects is
     public function create($data)
     {
         try {
             $product = new Product;
-            
-
+            $product->fill($data);
             $product->save();
-            
+
+            switch ($data['type']) {
+                case ProductType::SOLARPANEL->value:
+                    if(!empty($data['solar_panel'])) {
+                        $solarPanel = $data['solar_panel'];
+                        $solarPanel['product_id'] = $product->id;
+                        SolarPanel::create($solarPanel);
+                    }
+                break;
+
+                case ProductType::INVERTER->value:
+                    if(!empty($data['inverter'])) {
+                        $inverter = $data['inverter'];
+                        $inverter['product_id'] = $product->id;
+                        Inverter::create($inverter);
+                    }
+                break;
+
+                default:
+                break;
+            }
+
             return $product;
 
         } catch (Exception $e) {
