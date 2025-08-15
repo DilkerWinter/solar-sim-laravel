@@ -11,16 +11,16 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
 
 WORKDIR /var/www/html
 
-COPY . .
-
+COPY composer.json composer.lock ./
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
+COPY package.json package-lock.json* ./
 RUN npm install
 
-RUN npm run build
+COPY . .
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 9000 5173
 
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=9000 & npm run dev"]
+CMD ["sh", "-c", "php artisan key:generate && php artisan serve --host=0.0.0.0 --port=9000 & npm run dev"]
