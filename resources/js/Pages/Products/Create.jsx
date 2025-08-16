@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 export default function Create( { productTypes } ) {
   const [formData, setFormData] = useState({});
-  const [productTypeForm, setProductTypeForm] = useState({visible: true, value: ""});
+  const [productTypeForm, setProductTypeForm] = useState({visible: false, value: ""});
 
   function handleSubmit(e) {
     e.preventDefault();
