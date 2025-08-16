@@ -15,8 +15,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->numberBetween(4),
             'brand' => $this->faker->word,
             'type_id' => ProductType::query()
-                ->orderBy('id')
-                ->limit(3)
+                ->where('id', '>', 2)
                 ->inRandomOrder()
                 ->value('id'),
         ];
