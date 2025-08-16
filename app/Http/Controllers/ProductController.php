@@ -26,6 +26,8 @@ class ProductController extends Controller
 
     public function create()
     {
+        $productTypes = $this->productTypeService->index();
+
         return Inertia::render('Products/Create');
     }
 

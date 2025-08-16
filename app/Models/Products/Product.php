@@ -21,7 +21,7 @@ class Product extends Model
         'description',
         'price',
         'brand',
-        'type',
+        'type_id',
     ]; 
     
     protected $with = ['solarPanel', 'inverter'];
@@ -34,5 +34,10 @@ class Product extends Model
     public function inverter()
     {
         return $this->hasOne(Inverter::class, 'product_id');
+    }
+
+    public function type()
+    {
+        return $this->hasOne(ProductType::class, 'product_id');
     }
 }
