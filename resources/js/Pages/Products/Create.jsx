@@ -17,7 +17,7 @@ export default function Create( { productTypes } ) {
       description: "Painel solar monocristalino de alta eficiência para geração de energia.",
       price: 129990,
       brand: "EcoEnergy",
-      type: "Painel Solar",
+      type_id: "1",
       solar_panel: {
         potency_watts: 550,
         efficiency_percentage: 21,
@@ -38,10 +38,13 @@ export default function Create( { productTypes } ) {
       <CreteProductHeader/>
 
       <form className="w-full max-w-5xl mx-auto space-y-8 bg-white rounded-2xl p-6">
-        <CreateBaseProduct formData={formData} productTypes={productTypes} setFormData={setFormData} setProductTypeForm={setProductTypeForm}/>
-        {showProductTypeForm.visible && (
-                <CreateExtraProduct selectedProductType={showProductTypeForm.value}/>
+        
+        <CreateBaseProduct formData={formData} productTypes={productTypes} setFormData={setFormData} setProductTypeForm={setProductTypeForm} productTypeForm={productTypeForm}/>
+        
+        {productTypeForm.visible && (
+                <CreateExtraProduct selectedProductType={productTypeForm.value}/>
         )}
+
       </form>
     </div>
   );

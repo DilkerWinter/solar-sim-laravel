@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ProductService;
+use App\Services\ProductTypeService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,9 +27,12 @@ class ProductController extends Controller
 
     public function create()
     {
-        $productTypes = $this->productTypeService->index();
+        $productTypeService = resolve(ProductTypeService::class);
+        $productTypes = $productTypeService->getAll();
 
-        return Inertia::render('Products/Create');
+        return Inertia::render('Products/Create', [
+            'productTypes' => $productTypes
+        ]);
     }
 
     public function store(Request $request)
