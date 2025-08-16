@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Home, Plus } from "lucide-react";
+import { ChevronDown, ChevronUp, Home, Plus, Trash2 } from "lucide-react";
 import EnergyInfoCard from "./EnergyInfoCard";
 import { useState } from "react";
 import EditableField from "../../../UI/EditableField";
@@ -105,11 +105,10 @@ export default function AddressCard({
                 <div className="flex items-center gap-2">
                     {isEditing && (
                         <button
-                            aria-label="Excluir endereço"
-                            className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white p-2 px-3 rounded-full shadow transition-colors duration-300"
                             onClick={handleDeleteClick}
+                            className="flex items-center gap-2 px-2 py-2 rounded-2xl text-sm font-medium transition-all duration-200 shadow-sm text-red-600  hover:text-red-700 hover:bg-gray-300"
                         >
-                            Deletar
+                            <Trash2 size={22}/>
                         </button>
                     )}
 

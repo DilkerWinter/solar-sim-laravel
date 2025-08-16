@@ -68,7 +68,6 @@ export default function InputField({
         onBlur: handleBlur,
         placeholder: placeholder || "",
         className: `flex-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 ${
-            // Adjusted for flex
             error ? "border-red-500" : "border-gray-300"
         }`,
         required,

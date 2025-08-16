@@ -4,7 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\KitController;
+use App\Http\Controllers\ProductTypeController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,11 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
     //All routes for Product
     Route::resource('products', ProductController::class);
-    
-    //All routes for Kits
-    Route::resource('kits', KitController::class);
+
+    //All routes for Product Types
+    Route::resource('products/types', ProductTypeController::class);
     
     //All routes for Costumer
     Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');

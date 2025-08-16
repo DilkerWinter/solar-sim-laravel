@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Customer;
+use App\Utils\NumberFormat;
 
 class CustomerDataTable
 {
@@ -71,12 +72,14 @@ class CustomerDataTable
 
             $addressTypes = $this->countAddressTypes($customer->addresses);
 
+            $numberFormat = new NumberFormat();
+
             return [
                 'id' => $customer->id,
                 'customer_info' => [$customer->name, $customer->email, $customer->phone],
                 'address_info' => ['count' => $customer->addresses->count(), 'types' => $addressTypes],
-                'total_consumption' => number_format($totalConsumption, 0, ',', ''),
-                'total_bill' => number_format($totalBill, 2, ',', '.'),
+                'total_consumption' => $numberFormat->integerToDouble($totalConsumption),
+                'total_bill' => $numberFormat->integerToDouble($totalBill),
                 'actions' => $this->getActions($customer),
             ];
         });
