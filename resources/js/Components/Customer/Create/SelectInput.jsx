@@ -6,7 +6,10 @@ export default function SelectField({
   optional = false,
   value,
   onChange,
+  placeholder = "Selecione uma opção",
 }) {
+  const hasValue = value && value !== "";
+
   const commonProps = {
     id: name,
     name,
@@ -26,7 +29,11 @@ export default function SelectField({
         )}
       </label>
       <select {...commonProps}>
-        <option value="">Selecione uma opção</option>
+        {!hasValue && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

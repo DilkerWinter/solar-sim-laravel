@@ -38,7 +38,7 @@ export default function CreateBaseProduct({
         label="Tipo de Produto"
         options={productTypes.map(type => ({ value: type.id, label: type.name }))}
         required
-        value={productTypeForm.value?.id || ""} 
+        value={productTypeForm.value?.id} 
         onChange={handleTypeChange}
       />
     </section>
