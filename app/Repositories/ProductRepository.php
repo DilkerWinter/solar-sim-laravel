@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Enum\ProductType;
 use App\Models\Products\Inverter;
 use App\Models\Products\Product;
+use App\Models\Products\ProductType as ProductsProductType;
 use App\Models\Products\SolarPanel;
 use Exception;
 
@@ -27,8 +28,14 @@ class ProductRepository
             $product->fill($data);
             $product->save();
 
-            switch ($data['type']) {
-                case ProductType::SOLARPANEL->value:
+            $productType = ProductsProductType::find($data['product_type_id']);
+
+            if (!$productType) {
+                throw new Exception("Tipo de produto inválido.", 500);
+            }
+
+            switch (($productType->name)) {
+                case 'Placa Solar':
                     if(!empty($data['solar_panel'])) {
                         $solarPanel = $data['solar_panel'];
                         $solarPanel['product_id'] = $product->id;
@@ -36,7 +43,7 @@ class ProductRepository
                     }
                 break;
 
-                case ProductType::INVERTER->value:
+                case 'Inversor':
                     if(!empty($data['inverter'])) {
                         $inverter = $data['inverter'];
                         $inverter['product_id'] = $product->id;
