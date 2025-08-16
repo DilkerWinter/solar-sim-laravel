@@ -1,9 +1,10 @@
-export default function CreateExtraProduct( {productType} ) {
+export default function CreateExtraProduct( {selectedProductType} ) {
+    console.log(selectedProductType)
     return (
         <section>
         <hr />
             <h1>
-                {productType}
+                {selectedProductType.name}
             </h1>
         </section>
     );
