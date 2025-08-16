@@ -3,10 +3,12 @@ import SolarPanelCreate from "./SolarPanelCreate";
 
 const PRODUCT_COMPONENTS = {
   'inversor': InverterCreate,
-  'painel solar': SolarPanelCreate,
+  'placa solar': SolarPanelCreate,
 };
 
 export default function CreateExtraProduct({ selectedProductType }) {
+
+    console.log(selectedProductType);
   if (!selectedProductType || !selectedProductType.name) {
     return (
       <section>
