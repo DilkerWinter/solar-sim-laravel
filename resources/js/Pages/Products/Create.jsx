@@ -7,43 +7,51 @@ import { Inertia } from '@inertiajs/inertia';
 import React, { useState } from 'react';
 
 export default function Create( { productTypes } ) {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: 0,
+    brand: '',
+    type_id: '',
+    extra_product: {},
+  });
+  const [extraProductData, setExtraProductData] = useState({});
   const [productTypeForm, setProductTypeForm] = useState({visible: false, value: ""});
 
   function handleSubmit(e) {
-    e.preventDefault();
-    const product = {
-      name: "Painel Solar 550W",
-      description: "Painel solar monocristalino de alta eficiência para geração de energia.",
-      price: 129990,
-      brand: "EcoEnergy",
-      type_id: "1",
-      solar_panel: {
-        potency_watts: 550,
-        efficiency_percentage: 21,
-        average_daily_energy_wh: 2200,
-        max_operating_temperature: 85,
-        operating_voltage: 48,
-        height: 2000,
-        width: 1000,
-        weight: 25
-      }
-    };
+      e.preventDefault();
 
-    Inertia.post('/products', product);
+      const formatedData = {
+        ...formData,
+        extra_product: extraProductData
+      };
+
+      console.log('Complete Form Data:', formatedData);
+      // Inertia.post(route('products.store'), formatedData);
   }
 
   return (
     <div>
       <CreteProductHeader/>
 
-      <form className="w-full max-w-5xl mx-auto space-y-8 bg-white rounded-2xl p-6">
+      <form
+        onSubmit={handleSubmit} 
+        className="w-full max-w-5xl mx-auto space-y-8 bg-white rounded-2xl p-6">
         
         <CreateBaseProduct formData={formData} productTypes={productTypes} setFormData={setFormData} setProductTypeForm={setProductTypeForm} productTypeForm={productTypeForm}/>
         
         {productTypeForm.visible && (
-                <CreateExtraProduct selectedProductType={productTypeForm.value}/>
+                <CreateExtraProduct selectedProductType={productTypeForm.value} onExtraDataChange={setExtraProductData}/>
         )}
+
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Criar Produto
+          </button>
+        </div>
 
       </form>
     </div>

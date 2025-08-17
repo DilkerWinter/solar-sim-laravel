@@ -10,12 +10,24 @@ export default function CreateBaseProduct({
 }) {
   const visibleTypes = ["Placa Solar", "Inversor"];
 
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+
   function handleTypeChange(selectedId) {
     if (!selectedId) {
       setProductTypeForm({
         value: null,
         visible: false
       });
+      setFormData(prev => ({
+        ...prev,
+        type_id: ''
+      }));
       return;
     }
 
@@ -26,19 +38,51 @@ export default function CreateBaseProduct({
       value: selectedType,
       visible: isVisible
     });
+
+    setFormData(prev => ({
+      ...prev,
+      type_id: selectedId
+    }));
   }
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <InputField label="Nome" name="name" required />
-      <InputField label="Descricao" name="description" required />
-      <InputField label="Preco" name="price" required />
-      <InputField label="Marca" name="Brand" required />
+      <InputField 
+        label="Nome" 
+        name="name" 
+        required 
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <InputField 
+        label="Descricao" 
+        name="description" 
+        required 
+        value={formData.description}
+        onChange={handleChange}
+      />
+      <InputField 
+        label="Preco" 
+        name="price" 
+        type="number"
+        required 
+        value={formData.price}
+        onChange={handleChange}
+        prefix={"R$"}
+      />
+      <InputField 
+        label="Marca" 
+        name="brand" 
+        required 
+        value={formData.brand}
+        onChange={handleChange}
+      />
       <SelectField
         label="Tipo de Produto"
+        name="type_id"
         options={productTypes.map(type => ({ value: type.id, label: type.name }))}
         required
-        value={productTypeForm.value?.id} 
+        value={formData.type_id} 
         onChange={handleTypeChange}
       />
     </section>
