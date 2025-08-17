@@ -44,12 +44,16 @@ cd solar-sim-laravel
 ```bash
 cp .env.example .env
 cp docker-compose.yml.example docker-compose.yml
-php artisan key:generate
 ```
 
 ### Suba os containers
 ```bash
 docker compose up -d --build
+```
+
+### Gerar chave de app
+```bash
+./dartisan key:generate
 ```
 
 ### Execute as migrações
