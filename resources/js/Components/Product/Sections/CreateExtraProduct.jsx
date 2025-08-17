@@ -1,18 +1,20 @@
-import InverterCreate from "./InverterCreate";
-import SolarPanelCreate from "./SolarPanelCreate";
+import InverterCreate from "./ExtraProducts/InverterCreate";
+import SolarPanelCreate from "./ExtraProducts/SolarPanelCreate";
 
-const PRODUCT_COMPONENTS = {
-    "inversor": InverterCreate,
-    "placa solar": SolarPanelCreate,
-};
+export default function CreateExtraProduct({ selectedProductType, onExtraDataChange }) {
+    const PRODUCT_COMPONENTS = {
+        "inversor": InverterCreate,
+        "placa solar": SolarPanelCreate,
+    };
 
-export default function CreateExtraProduct({ selectedProductType }) {
     const ProductComponent = PRODUCT_COMPONENTS[selectedProductType.name.toLowerCase()];
 
     return (
         <section>
             <hr />
-            <ProductComponent />
+            {ProductComponent && (
+                <ProductComponent onDataChange={onExtraDataChange} />
+            )}
         </section>
     );
 }
