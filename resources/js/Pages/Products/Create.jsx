@@ -28,7 +28,7 @@ export default function Create( { productTypes } ) {
       };
 
       console.log('Complete Form Data:', formatedData);
-      // Inertia.post(route('products.store'), formatedData);
+      Inertia.post(route('products.store'), formatedData);
   }
 
   return (
