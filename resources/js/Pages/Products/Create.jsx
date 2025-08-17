@@ -41,7 +41,10 @@ export default function Create( { productTypes } ) {
         <CreateBaseProduct formData={formData} productTypes={productTypes} setFormData={setFormData} setProductTypeForm={setProductTypeForm} productTypeForm={productTypeForm}/>
         
         {productTypeForm.visible && (
-                <CreateExtraProduct selectedProductType={productTypeForm.value} onExtraDataChange={setExtraProductData}/>
+            <CreateExtraProduct
+                selectedProductType={productTypeForm.value}
+                onExtraDataChange={setExtraProductData}
+            />
         )}
 
         <div className="flex justify-end">

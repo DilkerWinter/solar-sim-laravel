@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputText from "../../../Customer/Create/InputText";
 
 export default function SolarPanelCreate({ onDataChange }) {
@@ -13,23 +13,20 @@ export default function SolarPanelCreate({ onDataChange }) {
     weight: "",
   });
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    const numberValue = value === "" ? "" : Number(value);
-    
-    const updatedData = {
-      ...solarPanelFormData,
-      [name]: value
-    };
-
-    setSolarPanelFormData(updatedData);
-
-    const numberData = Object.keys(updatedData).reduce((acc, key) => {
-      acc[key] = updatedData[key] === "" ? "" : Number(updatedData[key]);
+  useEffect(() => {
+    const numberData = Object.keys(solarPanelFormData).reduce((acc, key) => {
+      acc[key] = solarPanelFormData[key] === "" ? "" : Number(solarPanelFormData[key]);
       return acc;
     }, {});
-
     onDataChange(numberData);
+  }, [solarPanelFormData, onDataChange]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setSolarPanelFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   }
 
   return (
