@@ -28,33 +28,32 @@ class ProductRepository
             $product->fill($data);
             $product->save();
 
-            $productType = ProductsProductType::find($data['product_type_id']);
+            $productType = ProductsProductType::find($data['type_id']);
 
             if (!$productType) {
                 throw new Exception("Tipo de produto inválido.", 500);
             }
+            
+            if(!empty($data['extra_product'])) {
+                switch (($productType->name)) {
+                    case 'Placa Solar':
+                            $solarPanel = new SolarPanel;
+                            $solarPanel->fill($data['extra_product']);
+                            $solarPanel->product_id = $product->id;
+                            $solarPanel->save();
+                    break;
 
-            switch (($productType->name)) {
-                case 'Placa Solar':
-                    if(!empty($data['solar_panel'])) {
-                        $solarPanel = $data['solar_panel'];
-                        $solarPanel['product_id'] = $product->id;
-                        SolarPanel::create($solarPanel);
-                    }
-                break;
+                    case 'Inversor':
+                            $inverter = $data['extra_product'];
+                            $inverter['product_id'] = $product->id;
+                            Inverter::create($inverter);
+                    break;
 
-                case 'Inversor':
-                    if(!empty($data['inverter'])) {
-                        $inverter = $data['inverter'];
-                        $inverter['product_id'] = $product->id;
-                        Inverter::create($inverter);
-                    }
-                break;
-
-                default:
-                break;
+                    default:
+                    break;
+                }
             }
-
+            
             return $product;
 
         } catch (Exception $e) {
