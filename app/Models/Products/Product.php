@@ -2,6 +2,7 @@
 
 namespace App\Models\Products;
 
+use App\Utils\NumberFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,6 +27,10 @@ class Product extends Model
     
     protected $with = ['solarPanel', 'inverter'];
 
+    protected $appends = [
+        'price_formatted',
+    ];
+
     public function solarPanel()
     {
         return $this->hasOne(SolarPanel::class, 'product_id');
@@ -39,5 +44,15 @@ class Product extends Model
     public function type()
     {
         return $this->hasOne(ProductType::class, 'product_id');
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = (new NumberFormat())->doubleToInteger($value);
+    }
+
+    public function getPriceFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['price']);
     }
 }

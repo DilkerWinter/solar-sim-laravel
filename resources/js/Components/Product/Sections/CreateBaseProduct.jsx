@@ -12,10 +12,22 @@ export default function CreateBaseProduct({
 
   function handleChange(e) {
     const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === "price" ? formatMoney(value) : value
     }));
+  }
+
+  function formatMoney(value) {
+    if (value == null || value === "") return "0,00";
+      let digits = String(value).replace(/\D/g, "");
+      if (digits === "") return "0,00"
+        const number = parseFloat(digits) / 100;
+        return number.toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+    });
   }
 
   function handleTypeChange(selectedId) {
@@ -64,7 +76,7 @@ export default function CreateBaseProduct({
       <InputField 
         label="Preco" 
         name="price" 
-        type="number"
+        type="text"
         required 
         value={formData.price}
         onChange={handleChange}

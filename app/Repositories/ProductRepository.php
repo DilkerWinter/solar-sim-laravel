@@ -33,7 +33,6 @@ class ProductRepository
             if (!$productType) {
                 throw new Exception("Tipo de produto inválido.", 500);
             }
-            
             if(!empty($data['extra_product'])) {
                 switch (($productType->name)) {
                     case 'Placa Solar':
