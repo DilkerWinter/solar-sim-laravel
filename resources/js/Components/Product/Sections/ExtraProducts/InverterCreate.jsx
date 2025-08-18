@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import InputText from "../../../Customer/Create/InputText";
+import SelectField from "@/Components/Customer/Create/SelectInput";
 
 export default function InverterCreate({ onDataChange }) {
-  const [solarPanelFormData, setSolarPanelFormData] = useState({
-    potency_watts: "",
-    efficiency_percentage: "",
-    average_daily_energy_wh: "",
-    max_operating_temperature: "",
-    operating_voltage: "",
-    height: "",
-    width: "",
-    weight: "",
-  });
+    const [inverterFormData, setInverterFormData] = useState({
+        type: "",
+        supported_panel_count: "",
+        supported_panel_max_power_watts: "",
+        max_power_watts: "",
+        operating_voltage: "",
+    });
 
-  function formatMoney(value) {
+    const inverterTypeOptions = [
+        { value: "Microinversor", label: "Microinversor" },
+        { value: "Bifásico", label: "Bifásico" },
+        { value: "Trifásico", label: "Trifásico" },
+    ];
+
+    function formatMoney(value) {
     if (value == null || value === "") return "0,00";
       let digits = String(value).replace(/\D/g, "");
       if (digits === "") return "0,00"
@@ -24,99 +28,84 @@ export default function InverterCreate({ onDataChange }) {
     });
   }
 
-  useEffect(() => {
-    onDataChange(solarPanelFormData);
-  }, [solarPanelFormData, onDataChange]);
+    useEffect(() => {
+        onDataChange(inverterFormData);
+    }, [inverterFormData, onDataChange]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setSolarPanelFormData(prev => ({
-      ...prev,
-      [name]: formatMoney(value)
-    }));
-  }
+    function handleChange(e) {
+        const { name, value } = e.target;
 
-  return (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-      <InputText
-        label="Potência"
-        name="potency_watts"
-        type="text"
-        required
-        value={solarPanelFormData.potency_watts}
-        onChange={handleChange}
-        suffix="W"
-      />
+        let formattedValue = value;
 
-      <InputText
-        label="Eficiência"
-        name="efficiency_percentage"
-        type="text"
-        required
-        value={solarPanelFormData.efficiency_percentage}
-        onChange={handleChange}
-        suffix="%"
-      />
+        if (name === "operating_voltage" || name === 'max_power_watts'|| name == 'supported_panel_max_power_watts') {
+            formattedValue = formatMoney(value);
+        } else if (name === "type") {
+            formattedValue = value;
+        }
+        
+        setInverterFormData((prev) => ({
+            ...prev,
+            [name]: formattedValue,
+        }));
+    }
 
-      <InputText
-        label="Energia Diária Média"
-        name="average_daily_energy_wh"
-        type="text"
-        required
-        value={solarPanelFormData.average_daily_energy_wh}
-        onChange={handleChange}
-        suffix="Wh"
-      />
+    function handleSelectChange(value) {
+        setInverterFormData((prev) => ({
+            ...prev,
+            type: value,
+        }));
+    }
 
-      <InputText
-        label="Temperatura Máxima de Operação"
-        name="max_operating_temperature"
-        type="text"
-        required
-        value={solarPanelFormData.max_operating_temperature}
-        onChange={handleChange}
-        suffix="°C"
-      />
+    return (
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <SelectField
+                label="Tipo"
+                name="type"
+                options={inverterTypeOptions}
+                required
+                value={inverterFormData.type}
+                onChange={handleSelectChange}
+                placeholder="Selecione o tipo do inversor"
+            />
 
-      <InputText
-        label="Tensão de Operação"
-        name="operating_voltage"
-        type="text"
-        required
-        value={solarPanelFormData.operating_voltage}
-        onChange={handleChange}
-        suffix="V"
-      />
+            <InputText
+                label="Quantidade de Painéis Suportados"
+                name="supported_panel_count"
+                type="text"
+                required
+                value={inverterFormData.supported_panel_count}
+                onChange={handleChange}
+            />
 
-      <InputText
-        label="Altura"
-        name="height"
-        type="text"
-        required
-        value={solarPanelFormData.height}
-        onChange={handleChange}
-        suffix="M"
-      />
+            <InputText
+                label="Potência Máxima dos Painéis Suportados"
+                name="supported_panel_max_power_watts"
+                type="text"
+                required
+                value={inverterFormData.supported_panel_max_power_watts}
+                onChange={handleChange}
+                suffix="W"
+            />
 
-      <InputText
-        label="Largura"
-        name="width"
-        type="text"
-        required
-        value={solarPanelFormData.width}
-        onChange={handleChange}
-        suffix="M"
-      />
+            <InputText
+                label="Potência Máxima"
+                name="max_power_watts"
+                type="text"
+                required
+                value={inverterFormData.max_power_watts}
+                onChange={handleChange}
+                suffix="W"
+            />
 
-      <InputText
-        label="Peso"
-        name="weight"
-        type="text"
-        required
-        value={solarPanelFormData.weight}
-        onChange={handleChange}
-        suffix="Kg"
-      />
-    </section>
-  );
+            <InputText
+                label="Tensão de Operação"
+                name="operating_voltage"
+                type="text"
+                required
+                value={inverterFormData.operating_voltage}
+                onChange={handleChange}
+                suffix="V"
+            />
+        </section>
+    );
 }

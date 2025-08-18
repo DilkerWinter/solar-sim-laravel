@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Models\Products;
 
+use App\Utils\NumberFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,8 +21,44 @@ class Inverter extends Model
         'operating_voltage',
     ];
 
+    protected $appends = [
+        'supported_panel_max_power_watts_formatted',
+        'max_power_watts_formatted',
+        'operating_voltage_formatted',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function setSupportedPanelMaxPowerWattsAttribute($value)
+    {
+        $this->attributes['supported_panel_max_power_watts'] = (new NumberFormat())->doubleToInteger($value);
+    }
+
+    public function setMaxPowerWattsAttribute($value)
+    {
+        $this->attributes['max_power_watts'] = (new NumberFormat())->doubleToInteger($value);
+    }
+
+    public function setOperatingVoltageAttribute($value)
+    {
+        $this->attributes['operating_voltage'] = (new NumberFormat())->doubleToInteger($value);
+    }
+
+    public function getSupportedPanelMaxPowerWattsFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['supported_panel_max_power_watts']);
+    }
+
+    public function getMaxPowerWattsFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['max_power_watts']);
+    }
+
+    public function getOperatingVoltageFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['operating_voltage']);
     }
 }

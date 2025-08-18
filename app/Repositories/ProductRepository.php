@@ -43,9 +43,10 @@ class ProductRepository
                     break;
 
                     case 'Inversor':
-                            $inverter = $data['extra_product'];
-                            $inverter['product_id'] = $product->id;
-                            Inverter::create($inverter);
+                            $inverter = new Inverter;
+                            $inverter->fill($data['extra_product']);
+                            $inverter->product_id = $product->id;
+                            $inverter->save();
                     break;
 
                     default:
