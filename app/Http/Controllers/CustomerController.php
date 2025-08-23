@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
-use App\Models\Customer;
 use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -53,7 +51,12 @@ class CustomerController extends Controller
     {
         $customer = $this->customerService->update($request->all(), $id);
 
-        return redirect()->route('customers.show', $customer->id)->with('success', 'Cliente atualizado com sucesso.');
+        return redirect()->route('customers.index')
+    ->with('toast', [
+        'type' => 'success',
+        'message' => 'Cliente atualizado com sucesso.'
+    ]);
+
     }
 
     public function destroy(string $id)
