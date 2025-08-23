@@ -15,18 +15,19 @@ export default function InverterCreate({ onDataChange }) {
         { value: "Microinversor", label: "Microinversor" },
         { value: "Bifásico", label: "Bifásico" },
         { value: "Trifásico", label: "Trifásico" },
+        { value: "Hibrido", label: "Hibrido" },
     ];
 
     function formatMoney(value) {
-    if (value == null || value === "") return "0,00";
-      let digits = String(value).replace(/\D/g, "");
-      if (digits === "") return "0,00"
+        if (value == null || value === "") return "0,00";
+        let digits = String(value).replace(/\D/g, "");
+        if (digits === "") return "0,00";
         const number = parseFloat(digits) / 100;
         return number.toLocaleString("pt-BR", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-    });
-  }
+        });
+    }
 
     useEffect(() => {
         onDataChange(inverterFormData);
@@ -37,12 +38,16 @@ export default function InverterCreate({ onDataChange }) {
 
         let formattedValue = value;
 
-        if (name === "operating_voltage" || name === 'max_power_watts'|| name == 'supported_panel_max_power_watts') {
+        if (
+            name === "operating_voltage" ||
+            name === "max_power_watts" ||
+            name == "supported_panel_max_power_watts"
+        ) {
             formattedValue = formatMoney(value);
         } else if (name === "type") {
             formattedValue = value;
         }
-        
+
         setInverterFormData((prev) => ({
             ...prev,
             [name]: formattedValue,

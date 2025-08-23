@@ -12,7 +12,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'price' => $this->faker->numberBetween(4),
+            'price' => $this->faker->numberBetween(100, 10000),
             'brand' => $this->faker->word,
             'type_id' => ProductType::query()
                 ->where('id', '>', 2)
