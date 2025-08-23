@@ -5,8 +5,10 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import PageNavigator from "../UI/PageNavigator";
 import CustomerSearchBar from "../UI/CustomerSearchBar";
 import CustomerSearchParameters from "../UI/CustomerSearchParameters";
+import { useToast } from "@/Contexts/ToastContext";
 
 export default function CustomerDataTableSection({ dataTableUrl }) {
+    const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
     const [customers, setCustomers] = useState([]);
@@ -39,8 +41,8 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
             setCustomers(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
-        } catch (error) {
-            console.error("Erro ao buscar dados:", error);
+        } catch (e) {
+            error('Erro ao buscar dados dos Clientes')
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);

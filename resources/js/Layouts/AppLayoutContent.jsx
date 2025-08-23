@@ -12,27 +12,13 @@ export default function AppLayoutContent({ children, breadcrumb }) {
   const { toast, success, error } = useToast(); 
 
   useEffect(() => {
-    console.log('=== PROPS COMPLETAS ===');
-    console.log('Todas as props:', props);
-    console.log('Chaves das props:', Object.keys(props));
-    console.log('props.toast:', props.toast);
-    console.log('props.flash:', props.flash);
-    
     if (props.toast) {
-        const { type, message } = props.toast;
-        console.log('✅ Toast encontrado - Tipo:', type, 'Mensagem:', message);
-        
-        if (type === 'success') success(message);
-        else if (type === 'error') error(message);
-        else toast(message);
-    } else {
-        console.log('❌ props.toast não encontrado');
-        
-        if (props.flash) {
-            console.log('Verificando props.flash:', props.flash);
-        }
+      const { type, message } = props.toast;
+      if (type === 'success') success(message);
+      else if (type === 'error') error(message);
+      else toast(message);
     }
-}, [props]);
+  }, [props.toast]);
 
   return (
     <div className="flex min-h-screen">

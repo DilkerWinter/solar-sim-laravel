@@ -37,11 +37,7 @@ export default function Show({ customer }) {
 
         Inertia.put(route("customers.update", customer.id), filterData, {
         onSuccess: () => {
-            console.log("Atualizado com sucesso");
             handleToggleEdit();
-        },
-        onError: (errors) => {
-            console.error("Erros:", errors); 
         },
     });
     };

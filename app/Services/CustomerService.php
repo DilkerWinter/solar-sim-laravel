@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DataTables\CustomerDataTable;
 use App\Repositories\CustomerRepository;
+use Exception;
 
 class CustomerService
 {
