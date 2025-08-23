@@ -15,6 +15,7 @@ class ProductTypeSeeder extends Seeder
             'Conector MC4',
             'Suporte de Placa Solar',
             'Cabo',
+            'Outro',
         ];
 
         foreach ($types as $type) {

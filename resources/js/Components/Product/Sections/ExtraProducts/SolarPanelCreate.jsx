@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import InputText from "../../../Customer/Create/InputText";
+import SelectField from "@/Components/Customer/Create/SelectInput";
 
 export default function SolarPanelCreate({ onDataChange }) {
   const [solarPanelFormData, setSolarPanelFormData] = useState({
@@ -13,19 +14,38 @@ export default function SolarPanelCreate({ onDataChange }) {
     weight: "",
   });
 
+  const operateVoltage = [
+        { value: "12", label: "12V"},
+        { value: "24", label: "24V"},
+    ];
+
+  function formatMoney(value) {
+    if (value == null || value === "") return "0,00";
+      let digits = String(value).replace(/\D/g, "");
+      if (digits === "") return "0,00"
+        const number = parseFloat(digits) / 100;
+        return number.toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+    });
+  }
+
+  function handleOperationSelectChange(value) {
+    setSolarPanelFormData((prev) => ({
+        ...prev,
+        operating_voltage: value,
+    }));
+  }
+
   useEffect(() => {
-    const numberData = Object.keys(solarPanelFormData).reduce((acc, key) => {
-      acc[key] = solarPanelFormData[key] === "" ? "" : Number(solarPanelFormData[key]);
-      return acc;
-    }, {});
-    onDataChange(numberData);
+    onDataChange(solarPanelFormData);
   }, [solarPanelFormData, onDataChange]);
 
   function handleChange(e) {
     const { name, value } = e.target;
     setSolarPanelFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: formatMoney(value)
     }));
   }
 
@@ -34,7 +54,7 @@ export default function SolarPanelCreate({ onDataChange }) {
       <InputText
         label="Potência"
         name="potency_watts"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.potency_watts}
         onChange={handleChange}
@@ -44,7 +64,7 @@ export default function SolarPanelCreate({ onDataChange }) {
       <InputText
         label="Eficiência"
         name="efficiency_percentage"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.efficiency_percentage}
         onChange={handleChange}
@@ -54,7 +74,7 @@ export default function SolarPanelCreate({ onDataChange }) {
       <InputText
         label="Energia Diária Média"
         name="average_daily_energy_wh"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.average_daily_energy_wh}
         onChange={handleChange}
@@ -64,27 +84,27 @@ export default function SolarPanelCreate({ onDataChange }) {
       <InputText
         label="Temperatura Máxima de Operação"
         name="max_operating_temperature"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.max_operating_temperature}
         onChange={handleChange}
         suffix="°C"
       />
 
-      <InputText
-        label="Tensão de Operação"
-        name="operating_voltage"
-        type="number"
-        required
-        value={solarPanelFormData.operating_voltage}
-        onChange={handleChange}
-        suffix="V"
+      <SelectField
+          label="Tensão de Operação"
+          name="operating_voltage"
+          options={operateVoltage}
+          required
+          value={solarPanelFormData.operating_voltage}
+          onChange={handleOperationSelectChange}
+          placeholder="Selecione a voltagem da placa"
       />
 
       <InputText
         label="Altura"
         name="height"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.height}
         onChange={handleChange}
@@ -94,7 +114,7 @@ export default function SolarPanelCreate({ onDataChange }) {
       <InputText
         label="Largura"
         name="width"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.width}
         onChange={handleChange}
@@ -104,7 +124,7 @@ export default function SolarPanelCreate({ onDataChange }) {
       <InputText
         label="Peso"
         name="weight"
-        type="number"
+        type="text"
         required
         value={solarPanelFormData.weight}
         onChange={handleChange}

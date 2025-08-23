@@ -11,12 +11,30 @@ export default function CreateBaseProduct({
   const visibleTypes = ["Placa Solar", "Inversor"];
 
   function handleChange(e) {
-    const { name, value } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
+    
+     if (name === "price") {
+      value = formatMoney(value);
+    } 
+
     setFormData(prev => ({
-      ...prev,
-      [name]: value
+        ...prev,
+        [name]: value,
     }));
   }
+
+
+  function formatMoney(value) {
+        if (value == null || value === "") return "0,00";
+        let digits = String(value).replace(/\D/g, "");
+        if (digits === "") return "0,00";
+        const number = parseFloat(digits) / 100;
+        return number.toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    }
 
   function handleTypeChange(selectedId) {
     if (!selectedId) {
@@ -64,7 +82,7 @@ export default function CreateBaseProduct({
       <InputField 
         label="Preco" 
         name="price" 
-        type="number"
+        type="text"
         required 
         value={formData.price}
         onChange={handleChange}
