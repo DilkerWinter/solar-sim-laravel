@@ -17,7 +17,6 @@ class EnergyInfo extends Model
 
     protected $fillable = [
         'address_id',
-        'average_monthly_consumption_kwh',
         'average_annual_consumption_kwh',
         'average_energy_bill',
         'energy_provider',
@@ -30,15 +29,9 @@ class EnergyInfo extends Model
     }
 
     protected $appends = [
-        'average_monthly_consumption_kwh_formatted',
         'average_annual_consumption_kwh_formatted',
         'average_energy_bill_formatted',
     ];
-
-    public function setAverageMonthlyConsumptionKwhAttribute($value)
-    {
-        $this->attributes['average_monthly_consumption_kwh'] = (new NumberFormat)->doubleToInteger($value);
-    }
 
     public function setAverageAnnualConsumptionKwhAttribute($value)
     {
@@ -48,11 +41,6 @@ class EnergyInfo extends Model
     public function setAverageEnergyBillAttribute($value)
     {
         $this->attributes['average_energy_bill'] = (new NumberFormat())->doubleToInteger($value);
-    }
-
-    public function getAverageMonthlyConsumptionKwhFormattedAttribute()
-    {
-        return (new NumberFormat)->integerToDouble($this->attributes['average_monthly_consumption_kwh']);
     }
 
     public function getAverageAnnualConsumptionKwhFormattedAttribute()

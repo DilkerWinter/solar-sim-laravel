@@ -48,10 +48,10 @@ export default function EnergyInfoCard({
     }
 
     const resumo =
-        editedEnergyInfo?.average_monthly_consumption_kwh != null &&
+        editedEnergyInfo?.average_annual_consumption_kwh != null &&
         editedEnergyInfo?.average_energy_bill != null
             ? `Consumo médio: ${formatMoney(
-                  editedEnergyInfo.average_monthly_consumption_kwh
+                  (editedEnergyInfo.average_annual_consumption_kwh / 12).toFixed(0)
               )} kWh/mês – R$ ${formatMoney(
                   editedEnergyInfo.average_energy_bill
               )}`
