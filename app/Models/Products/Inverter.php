@@ -24,7 +24,6 @@ class Inverter extends Model
     protected $appends = [
         'supported_panel_max_power_watts_formatted',
         'max_power_watts_formatted',
-        'operating_voltage_formatted',
     ];
 
     public function product()
@@ -42,11 +41,6 @@ class Inverter extends Model
         $this->attributes['max_power_watts'] = (new NumberFormat())->doubleToInteger($value);
     }
 
-    public function setOperatingVoltageAttribute($value)
-    {
-        $this->attributes['operating_voltage'] = (new NumberFormat())->doubleToInteger($value);
-    }
-
     public function getSupportedPanelMaxPowerWattsFormattedAttribute()
     {
         return (new NumberFormat())->integerToDouble($this->attributes['supported_panel_max_power_watts']);
@@ -55,10 +49,5 @@ class Inverter extends Model
     public function getMaxPowerWattsFormattedAttribute()
     {
         return (new NumberFormat())->integerToDouble($this->attributes['max_power_watts']);
-    }
-
-    public function getOperatingVoltageFormattedAttribute()
-    {
-        return (new NumberFormat())->integerToDouble($this->attributes['operating_voltage']);
     }
 }

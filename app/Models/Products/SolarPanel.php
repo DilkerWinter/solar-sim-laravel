@@ -28,7 +28,6 @@ class SolarPanel extends Product
         'efficiency_percentage_formatted',
         'average_daily_energy_wh_formatted',
         'max_operating_temperature_formatted',
-        'operating_voltage_formatted',
         'height_formatted',
         'width_formatted',
         'weight_formatted',
@@ -57,11 +56,6 @@ class SolarPanel extends Product
     public function setMaxOperatingTemperatureAttribute($value)
     {
         $this->attributes['max_operating_temperature'] = (new NumberFormat())->doubleToInteger($value);
-    }
-
-    public function setOperatingVoltageAttribute($value)
-    {
-        $this->attributes['operating_voltage'] = (new NumberFormat())->doubleToInteger($value);
     }
 
     public function setHeightAttribute($value)
@@ -97,11 +91,6 @@ class SolarPanel extends Product
     public function getMaxOperatingTemperatureFormattedAttribute()
     {
         return (new NumberFormat())->integerToDouble($this->attributes['max_operating_temperature']);
-    }
-
-    public function getOperatingVoltageFormattedAttribute()
-    {
-        return (new NumberFormat())->integerToDouble($this->attributes['operating_voltage']);
     }
 
     public function getHeightFormattedAttribute()
