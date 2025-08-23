@@ -48,10 +48,10 @@ export default function EnergyInfoCard({
     }
 
     const resumo =
-        editedEnergyInfo?.average_monthly_consumption_kwh != null &&
+        editedEnergyInfo?.average_annual_consumption_kwh != null &&
         editedEnergyInfo?.average_energy_bill != null
             ? `Consumo médio: ${formatMoney(
-                  editedEnergyInfo.average_monthly_consumption_kwh
+                  (editedEnergyInfo.average_annual_consumption_kwh / 12).toFixed(0)
               )} kWh/mês – R$ ${formatMoney(
                   editedEnergyInfo.average_energy_bill
               )}`
@@ -118,19 +118,6 @@ export default function EnergyInfoCard({
                     {isEditing ? (
                         <>
                             <EditableField
-                                label="Consumo Médio Mensal (kWh)"
-                                name="average_monthly_consumption_kwh"
-                                value={formatMoney(
-                                    editedEnergyInfo.average_monthly_consumption_kwh ?? ""
-                                )}
-                                onChange={(e) =>
-                                    handleEnergyInfoChange(
-                                        "average_monthly_consumption_kwh",
-                                        formatMoney(e.target.value)
-                                    )
-                                }
-                            />
-                            <EditableField
                                 label="Consumo Médio Anual (kWh)"
                                 name="average_annual_consumption_kwh"
                                 value={formatMoney(
@@ -182,12 +169,6 @@ export default function EnergyInfoCard({
                         </>
                     ) : (
                         <>
-                            <Field
-                                label="Consumo Médio Mensal (kWh)"
-                                value={`${formatMoney(
-                                    energyInfo.average_monthly_consumption_kwh
-                                )} kWh`}
-                            />
                             <Field
                                 label="Consumo Médio Anual (kWh)"
                                 value={`${formatMoney(

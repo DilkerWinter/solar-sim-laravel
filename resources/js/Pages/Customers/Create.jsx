@@ -281,7 +281,6 @@ export default function Create() {
                         label="Telefone"
                         name="phone"
                         required
-                        regex="^(\+55)?[\s]?\(?(\d{2})?\)?[\s-]?(9?\d{4}[\s-]?\d{4})$"
                         placeholder="(67) 99999-9999"
                         formatFunction={formatPhone}
                         value={clientInfo.phone}
@@ -502,27 +501,6 @@ export default function Create() {
                             children: (
                                 <>
                                     <InputField
-                                        label="Consumo Médio Mensal (kWh)"
-                                        name={`addresses[${idx}].energyInfo.average_monthly_consumption_kwh`}
-                                        required
-                                        value={
-                                            address.energyInfo
-                                                .average_monthly_consumption_kwh ||
-                                            ""
-                                        }
-                                        onChange={(e) =>
-                                            handleAddressFieldChange(
-                                                address.id,
-                                                "energyInfo.average_monthly_consumption_kwh",
-                                                e.target.value
-                                            )
-                                        }
-                                        type="text"
-                                        regex="^\d+(,\d{1,2})?$"
-                                        formatFunction={formatMoney}
-                                        suffix="kWh"
-                                    />
-                                    <InputField
                                         label="Consumo Médio Anual (kWh)"
                                         name={`addresses[${idx}].energyInfo.average_annual_consumption_kwh`}
                                         required
@@ -538,7 +516,6 @@ export default function Create() {
                                                 e.target.value
                                             )
                                         }
-                                        regex="^\d+(,\d{1,2})?$"
                                         formatFunction={formatMoney}
                                         suffix="kWh"
                                     />
@@ -557,7 +534,6 @@ export default function Create() {
                                                 e.target.value
                                             )
                                         }
-                                        regex="^\d+(,\d{1,2})?$"
                                         formatFunction={formatMoney}
                                         prefix="R$"
                                     />

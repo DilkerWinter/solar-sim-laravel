@@ -65,8 +65,8 @@ class CustomerDataTable
             foreach ($customer->addresses as $address) {
                 $info = $address->energyInfo;
                 if ($info) {
-                    $totalConsumption += $info->average_monthly_consumption_kwh ?? 0;
-                    $totalBill += $info->average_energy_bill ?? 0;
+                    $totalConsumption += $info->average_annual_consumption_kwh ?? 0;
+                    $totalBill += $info->average_energy_bill * 12 ?? 0;
                 }
             }
 

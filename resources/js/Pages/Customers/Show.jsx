@@ -16,6 +16,11 @@ export default function Show({ customer }) {
         Inertia.delete(route("customers.destroy", customer.id));
     };
 
+    const handleCancel = () => {
+        setEditCustomer({ ...customer });
+        handleToggleEdit();
+    }
+
     const handleSave = () => {
         const filterData = {
           ...editCustomer,
@@ -46,6 +51,7 @@ export default function Show({ customer }) {
             <CustomerShowHeaderSection
                 isEditing={isEditing}
                 onSave={handleSave}
+                onCancel={handleCancel}
                 onToggleEdit={handleToggleEdit}
             />
             <CustomerSection

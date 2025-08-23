@@ -6,6 +6,7 @@ export default function CustomerShowHeaderSection({
   isEditing,
   onToggleEdit,
   onSave,
+  onCancel,
 }) {
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function CustomerShowHeaderSection({
   const handleSaveClick = () => setConfirmSaveOpen(true);
 
   function handleCancelClick() {
-    onToggleEdit();
+    onCancel();
   }
 
   const confirmEdit = () => {
