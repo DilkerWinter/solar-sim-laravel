@@ -13,7 +13,7 @@ export default function Create( { productTypes } ) {
     description: '',
     price: '',
     brand: '',
-    type_id: {},
+    type_id: '',
   });
   const [extraProductData, setExtraProductData] = useState({});
   const [productTypeForm, setProductTypeForm] = useState({visible: false, value: ""});
@@ -26,8 +26,7 @@ export default function Create( { productTypes } ) {
         extra_product: extraProductData
       };
 
-      console.log('Complete Form Data:', formatedData);
-      // Inertia.post(route('products.store'), formatedData);
+      Inertia.post(route('products.store'), formatedData);
   }
 
   return (
