@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
-use App\Models\Customer;
 use App\Services\CustomerService;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,55 +18,112 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
-        if ($this->requisicaoWithDataTable($request)) {
-            return $this->customerService->getDataTable($request->all());
-        }
+        try {
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->customerService->getDataTable($request->all());
+            }
 
-        return Inertia::render('Customers/Index', ['customerDataTableUrl' => route('customers.index')]);
+            return Inertia::render('Customers/Index', [
+                'customerDataTableUrl' => route('customers.index')
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar clientes: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function create()
     {
-        return Inertia::render('Customers/Create');
+        try {
+            return Inertia::render('Customers/Create');
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao abrir formulário de cadastro: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function store(Request $request)
     {
-        $this->customerService->create($request->all());
+        try {
+            $this->customerService->create($request->all());
 
-        return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
+            return redirect()->route('customers.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Cliente cadastrado com sucesso.'
+            ]);
+
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao cadastrar cliente: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
-
 
     public function show(string $id)
     {
-        
-        $customer = $this->customerService->get($id);
-        
-        return Inertia::render('Customers/Show', [
-            'customer' => $customer,
-        ]);
+        try {
+            $customer = $this->customerService->get($id);
+
+            return Inertia::render('Customers/Show', [
+                'customer' => $customer,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar cliente: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function update(Request $request, string $id)
     {
-        $customer = $this->customerService->update($request->all(), $id);
+        try {
+            $customer = $this->customerService->update($request->all(), $id);
 
-        return redirect()->route('customers.show', $customer->id)->with('success', 'Cliente atualizado com sucesso.');
+            return redirect()->route('customers.show', $customer->id)->with('toast', [
+                'type' => 'success',
+                'message' => 'Cliente atualizado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao atualizar cliente: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
     public function destroy(string $id)
     {
-        $this->customerService->delete($id);
+        try {
+            $this->customerService->delete($id);
 
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+            return redirect()->route('customers.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Cliente deletado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao deletar cliente: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function count()
     {
-        return $this->customerService->count();
+        try {
+            return $this->customerService->count();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar clientes: ' . $e->getMessage()
+            ], 500);
+        }
     }
-
 
     private function requisicaoWithDataTable(Request $request)
     {
@@ -78,5 +134,4 @@ class CustomerController extends Controller
             $request->has('sortKey')
         );
     }
-
 }

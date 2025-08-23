@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'is_admin' => $request->user()?->isAdmin() ?? false,
             ],
+            'toast' => fn () => $request->session()->get('toast'),
         ];
     }
 }

@@ -13,6 +13,7 @@ import ConfirmModal from "@/Components/ConfirmModal";
 import InputStateField from "@/Components/Customer/Create/InputStateField";
 import AppLayout from "@/Layouts/AppLayout";
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
+import { useToast } from "@/Contexts/ToastContext";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -22,6 +23,7 @@ export default function Create() {
         document_number: "",
     });
     const [addresses, setAddresses] = useState([]);
+    const {error} = useToast();
     const [removingIds, setRemovingIds] = useState([]);
     const [confirmRemoveAdressId, setConfirmRemoveAdressId] = useState();
     const [confirmRemoveEnergyInfoId, setConfirmRemoveEnergyInfoId] =
@@ -91,10 +93,10 @@ export default function Create() {
                     )
                 );
             } else {
-                console.error("CEP not found.");
+                error("CEP não encontrado.");
             }
-        } catch (error) {
-            console.error("Error to get CEP:", error);
+        } catch (e) {
+            error("Erro ao buscar o CEP");
         }
     }
 
@@ -233,7 +235,7 @@ export default function Create() {
                 return newAddress;
             }),
         };
-        console.log(data);
+
         Inertia.post("/customers", data);
     }
 
