@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import InputText from "../../../Customer/Create/InputText";
+import SelectField from "@/Components/Customer/Create/SelectInput";
 
 export default function SolarPanelCreate({ onDataChange }) {
   const [solarPanelFormData, setSolarPanelFormData] = useState({
@@ -13,6 +14,11 @@ export default function SolarPanelCreate({ onDataChange }) {
     weight: "",
   });
 
+  const operateVoltage = [
+        { value: "12", label: "12V"},
+        { value: "24", label: "24V"},
+    ];
+
   function formatMoney(value) {
     if (value == null || value === "") return "0,00";
       let digits = String(value).replace(/\D/g, "");
@@ -22,6 +28,13 @@ export default function SolarPanelCreate({ onDataChange }) {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
     });
+  }
+
+  function handleOperationSelectChange(value) {
+    setSolarPanelFormData((prev) => ({
+        ...prev,
+        operating_voltage: value,
+    }));
   }
 
   useEffect(() => {
@@ -78,14 +91,14 @@ export default function SolarPanelCreate({ onDataChange }) {
         suffix="°C"
       />
 
-      <InputText
-        label="Tensão de Operação"
-        name="operating_voltage"
-        type="text"
-        required
-        value={solarPanelFormData.operating_voltage}
-        onChange={handleChange}
-        suffix="V"
+      <SelectField
+          label="Tensão de Operação"
+          name="operating_voltage"
+          options={operateVoltage}
+          required
+          value={solarPanelFormData.operating_voltage}
+          onChange={handleOperationSelectChange}
+          placeholder="Selecione a voltagem da placa"
       />
 
       <InputText

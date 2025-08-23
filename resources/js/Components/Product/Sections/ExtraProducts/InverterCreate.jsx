@@ -18,6 +18,11 @@ export default function InverterCreate({ onDataChange }) {
         { value: "Hibrido", label: "Hibrido" },
     ];
 
+    const operateVoltage = [
+        { value: "110", label: "110V"},
+        { value: "220", label: "220V"},
+    ];
+
     function formatMoney(value) {
         if (value == null || value === "") return "0,00";
         let digits = String(value).replace(/\D/g, "");
@@ -38,15 +43,11 @@ export default function InverterCreate({ onDataChange }) {
 
         let formattedValue = value;
 
-        if (
-            name === "operating_voltage" ||
-            name === "max_power_watts" ||
-            name == "supported_panel_max_power_watts"
-        ) {
+        if (name === "max_power_watts" || name == "supported_panel_max_power_watts") {
             formattedValue = formatMoney(value);
-        } else if (name === "type") {
+        } else {
             formattedValue = value;
-        }
+        } 
 
         setInverterFormData((prev) => ({
             ...prev,
@@ -54,10 +55,17 @@ export default function InverterCreate({ onDataChange }) {
         }));
     }
 
-    function handleSelectChange(value) {
+    function handleTypeSelectChange(value) {
         setInverterFormData((prev) => ({
             ...prev,
             type: value,
+        }));
+    }
+
+    function handleOperationSelectChange(value) {
+        setInverterFormData((prev) => ({
+            ...prev,
+            operating_voltage: value,
         }));
     }
 
@@ -69,14 +77,14 @@ export default function InverterCreate({ onDataChange }) {
                 options={inverterTypeOptions}
                 required
                 value={inverterFormData.type}
-                onChange={handleSelectChange}
+                onChange={handleTypeSelectChange}
                 placeholder="Selecione o tipo do inversor"
             />
 
             <InputText
                 label="Quantidade de Painéis Suportados"
                 name="supported_panel_count"
-                type="text"
+                type="number"
                 required
                 value={inverterFormData.supported_panel_count}
                 onChange={handleChange}
@@ -102,14 +110,14 @@ export default function InverterCreate({ onDataChange }) {
                 suffix="W"
             />
 
-            <InputText
+            <SelectField
                 label="Tensão de Operação"
                 name="operating_voltage"
-                type="text"
+                options={operateVoltage}
                 required
                 value={inverterFormData.operating_voltage}
-                onChange={handleChange}
-                suffix="V"
+                onChange={handleOperationSelectChange}
+                placeholder="Selecione a voltagem do inversor"
             />
         </section>
     );
