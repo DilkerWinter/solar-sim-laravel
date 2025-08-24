@@ -1,5 +1,5 @@
 import { Trash, Trash2, TrashIcon, User } from "lucide-react";
-import EditableField from "@/Components/UI/EditableField";
+import EditableField from "@/Components/UI/Inputs/EditableField";
 import Field from "./TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useState } from "react";

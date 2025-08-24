@@ -1,8 +1,8 @@
 import { ChevronDown, ChevronUp, Home, Plus, Trash2 } from "lucide-react";
 import EnergyInfoCard from "./EnergyInfoCard";
 import { useState } from "react";
-import EditableField from "../../../UI/EditableField";
-import EditableSelectField from "@/Components/UI/EditableSelectField";
+import EditableField from "../../../UI/Inputs/EditableField";
+import EditableSelectField from "@/Components/UI/Inputs/EditableSelectField";
 import Field from "./TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
 

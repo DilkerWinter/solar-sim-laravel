@@ -1,8 +1,8 @@
 import CustomBreadcrumb from '@/Components/AppLayout/CustomBreadcrumb';
-import SubmitButton from '@/Components/Customer/Create/SubmitButton';
-import CreateBaseProduct from '@/Components/Product/Sections/CreateBaseProduct';
-import CreateExtraProduct from '@/Components/Product/Sections/CreateExtraProduct';
-import CreteProductHeader from '@/Components/Product/Sections/CreteProductHeader';
+import SubmitButton from '@/Components/UI/Inputs/SubmitButton';
+import CreateBaseProduct from '@/Components/Product/Create/Sections/CreateBaseProduct';
+import CreateExtraProduct from '@/Components/Product/Create/Sections/CreateExtraProduct';
+import CreteProductHeader from '@/Components/Product/Create/Sections/CreteProductHeader';
 import AppLayout from '@/Layouts/AppLayout';
 import { Inertia } from '@inertiajs/inertia';
 import React, { useState } from 'react';
