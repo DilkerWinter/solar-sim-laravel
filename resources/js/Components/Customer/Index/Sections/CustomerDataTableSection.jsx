@@ -67,11 +67,8 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
 
     return (
         <div className="mt-8">
-            {/* Container  */}
             <div className="border shadow-md rounded-2xl p-4 border-gray-300 bg-white">
-                {/* Header */}
                 <div className="mb-2 flex items-center justify-between gap-4">
-                    {/* Search Field ocupa o máximo possível */}
                     <div className="flex-grow">
                         <CustomerSearchBar
                             search={search}
@@ -80,7 +77,6 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                         />
                     </div>
 
-                    {/* Botão de filtro fica à direita */}
                     <div className="flex-shrink-0">
                         <CustomerSearchParameters
                             onFilter={handleFilterChange}
@@ -88,10 +84,8 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                     </div>
                 </div>
 
-                {/* Table And Spinner */}
                 <div className="overflow-x-auto relative min-h-[150px]">
                     <table className="min-w-full">
-                        {/* DataTable Header */}
                         <thead>
                             <tr>
                                 {headers.map((header) => (
@@ -105,7 +99,6 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                             </tr>
                         </thead>
 
-                        {/* DataTable Body */}
                         <tbody>
                             {customers.length === 0 && !loading ? (
                                 <tr>
@@ -128,12 +121,10 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                         </tbody>
                     </table>
 
-                    {/* Loading Spinner */}
                     {showSpinner && <LoadingSpinner />}
                 </div>
             </div>
 
-            {/* Navigator */}
             <PageNavigator
                 currentPage={page}
                 totalPages={totalPages}
