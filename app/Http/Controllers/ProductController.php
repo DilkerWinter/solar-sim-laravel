@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ProductService;
 use App\Services\ProductTypeService;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,65 +19,117 @@ class ProductController extends Controller
     
     public function index()
     {
-        $products = $this->productService->getAll();
+        try {
+            $products = $this->productService->getAll();
 
-        return Inertia::render('Products/Index', [
-            'products' => $products,
-        ]);
+            return Inertia::render('Products/Index', [
+                'products' => $products,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar produtos: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function create()
     {
-        $productTypeService = resolve(ProductTypeService::class);
-        $productTypes = $productTypeService->getAll();
+        try {
+            $productTypeService = resolve(ProductTypeService::class);
+            $productTypes = $productTypeService->getAll();
 
-        return Inertia::render('Products/Create', [
-            'productTypes' => $productTypes
-        ]);
+            return Inertia::render('Products/Create', [
+                'productTypes' => $productTypes
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao abrir formulário de produtos: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function store(Request $request)
     {
-        $this->productService->create($request->all());
+        try {
+            $this->productService->create($request->all());
 
-        return redirect()
-        ->route('products.index')
-        ->with('success', 'Produto criado com sucesso!');
+            return redirect()->route('products.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Produto criado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao criar produto: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
     public function show(string $id)
     {
-        $product = $this->productService->get($id);
+        try {
+            $product = $this->productService->get($id);
 
-        return Inertia::render('Products/Show', [
-            'product' => $product,
-        ]);
+            return Inertia::render('Products/Show', [
+                'product' => $product,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar produto: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function edit(string $id)
     {
-        $product = $this->productService->get($id);
+        try {
+            $product = $this->productService->get($id);
 
-        return Inertia::render('Products/Edit', [
-            'product' => $product,
-        ]);
+            return Inertia::render('Products/Edit', [
+                'product' => $product,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao editar produto: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function update(Request $request, string $id)
     {
-        $this->productService->update($request->all(), $id);
+        try {
+            $this->productService->update($request->all(), $id);
 
-        return redirect()
-        ->route('products.edit', $id)
-        ->with('success', 'Produto atualizado com sucesso!');
+            return redirect()->route('products.edit', $id)->with('toast', [
+                'type' => 'success',
+                'message' => 'Produto atualizado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao atualizar produto: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
     public function destroy(string $id)
     {
-        $this->productService->delete($id);
+        try {
+            $this->productService->delete($id);
 
-        return redirect()
-            ->route('products.index')
-            ->with('success', 'Produto deletado com sucesso!');
+            return redirect()->route('products.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Produto deletado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao deletar produto: ' . $e->getMessage()
+            ]);
+        }
     }
 }
