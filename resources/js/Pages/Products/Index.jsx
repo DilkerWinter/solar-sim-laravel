@@ -1,7 +1,6 @@
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
-import CustomerDataTableSection from "@/Components/Customer/Index/Sections/CustomerDataTableSection";
-import CustomerInfoResume from "@/Components/Customer/Index/Sections/CustomerInfoResume";
 import ProductIndexHeader from "@/Components/Product/Index/Sections/ProductIndexHeader";
+import ProductInfoResume from "@/Components/Product/Index/Sections/ProductInfoResume";
 import AppLayout from "@/Layouts/AppLayout";
 
 export default function Index({ productDataTableUrl }) {
@@ -9,7 +8,7 @@ export default function Index({ productDataTableUrl }) {
         <div className="w-full mx-auto p-8">
             <ProductIndexHeader />
 
-            <CustomerInfoResume/>
+            <ProductInfoResume/>
 
             {/* <CustomerDataTableSection dataTableUrl={productDataTableUrl} /> */}
         </div>

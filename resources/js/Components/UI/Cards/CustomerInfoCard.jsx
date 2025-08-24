@@ -1,7 +1,7 @@
 import { useToast } from "@/Contexts/ToastContext";
 import { useEffect, useState } from "react";
 
-export default function CustomerInfoCard({ label, value, url , unit, icon: Icon, colorClass }) {
+export default function InfoResumeCard({ label, value, url , unit, icon: Icon, colorClass }) {
   const [displayValue, setDisplayValue] = useState (value);
   const { error } = useToast();
 

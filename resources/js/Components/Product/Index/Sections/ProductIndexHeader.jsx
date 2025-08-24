@@ -1,4 +1,4 @@
-import RedirectButton from "@/Components/UI/CreateRedirectButton";
+import RedirectButton from "@/Components/UI/Buttons/CreateRedirectButton";
 import { router } from "@inertiajs/react";
 import { Plus } from "lucide-react";
 
