@@ -1,34 +1,34 @@
 import InfoResumeCard from "@/Components/UI/Cards/CustomerInfoCard";
-import { Building, Clock, FileBarChart, Users} from "lucide-react";
+import { Building, Clock, File, FileBarChart, List, ListCollapse, Package, Sun, Users, Zap} from "lucide-react";
 
 export default function ProductInfoResume() {
     return (
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
                 <InfoResumeCard
                     label="Total de Produtos"
-                    url={"/customers/count"}
-                    icon={Users}
+                    url={"/products/count"}
+                    icon={Package}
                     colorClass="text-blue-600"
                 />
 
                 <InfoResumeCard
                     label="Total de Placas Solares"
-                    url={"/address/count"}
-                    icon={Building}
+                    url={"/products/count?type=Placa%20Solar"}
+                    icon={Sun}
                     colorClass="text-purple-600"
                 />
 
                 <InfoResumeCard
                     label="Total de Inversores"
-                    value={100}
-                    icon={Clock}
+                    url={"/products/count?type=Inversor"}
+                    icon={Zap}
                     colorClass="text-yellow-600"
                 />
 
                 <InfoResumeCard
                     label="Categorias de Produtos"
-                    value={20}
-                    icon={FileBarChart}
+                    url={"/products/types/count"}
+                    icon={List}
                     colorClass="text-green-600"
                 />
 

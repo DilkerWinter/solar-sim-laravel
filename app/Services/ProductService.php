@@ -38,4 +38,9 @@ class ProductService
     {
        return $this->productRepository->delete($id);
     }
+
+    public function count($type)
+    {
+        return $this->productRepository->count($type);
+    }
 }

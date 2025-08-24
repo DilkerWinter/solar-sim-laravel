@@ -132,4 +132,20 @@ class ProductController extends Controller
             ]);
         }
     }
+
+    
+    public function count(Request $request)
+    {
+        try {
+            $type = $request->input('type');
+        
+            return $this->productService->count($type);
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar produtos: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 }

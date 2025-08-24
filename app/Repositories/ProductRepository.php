@@ -78,4 +78,19 @@ class ProductRepository
     {
         return Product::destroy($id);
     }
+
+    public function count($type = null)
+    {
+        $query = Product::query();
+    
+        if (!is_null($type)) {
+            $query->whereHas('type', function ($q) use ($type) {
+                $q->where('name', $type);
+            });
+        }
+    
+        return $query->count();
+    }
+
+
 }

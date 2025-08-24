@@ -1,3 +1,4 @@
+import { Filter } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function CustomerSearchFilterButton({ onFilter }) {
@@ -75,13 +76,15 @@ export default function CustomerSearchFilterButton({ onFilter }) {
 
     return (
         <div className="relative inline-block text-left" ref={menuRef}>
-            <button
-                ref={buttonRef}
-                onClick={() => setIsOpen(!isOpen)}
-                className="bg-gray-200 text-gray-700 px-5 py-2 rounded-2xl hover:bg-gray-300 transition focus:outline-none border border-gray-300"
-            >
-                Filtrar Clientes
-            </button>
+
+        <button
+            ref={buttonRef}
+            onClick={() => setIsOpen(!isOpen)}
+            className="bg-gray-200 text-gray-700 px-5 py-2 rounded-2xl hover:bg-gray-300 transition focus:outline-none border border-gray-300 flex items-center gap-2"
+        >
+            <Filter className="w-4 h-4" /> 
+            <p>Filtrar Clientes</p>    
+        </button>
 
             {isOpen && (
                 <div

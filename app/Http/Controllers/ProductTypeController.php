@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\ProductTypeService;
+use Exception;
 
 class ProductTypeController extends Controller
 {
@@ -36,5 +37,17 @@ class ProductTypeController extends Controller
     {
         $this->productTypeService->delete($id);
         return response()->json(null, 200);
+    }
+
+    public function count()
+    {
+        try {
+            return $this->productTypeService->count();
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar produtos: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

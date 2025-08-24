@@ -13,7 +13,7 @@ export default function InfoResumeCard({ label, value, url , unit, icon: Icon, c
           setDisplayValue(total);
         })
         .catch(e => {
-          error("Erro ao buscar dados do Cliente");
+          error("Erro ao buscar");
           setDisplayValue(value);
         });
     }

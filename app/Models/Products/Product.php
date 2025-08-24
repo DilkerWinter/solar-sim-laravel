@@ -43,7 +43,7 @@ class Product extends Model
 
     public function type()
     {
-        return $this->hasOne(ProductType::class, 'product_id');
+        return $this->belongsTo(ProductType::class, 'type_id');
     }
 
     public function setPriceAttribute($value)
