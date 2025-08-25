@@ -1,4 +1,5 @@
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
+import ProductDataTableSection from "@/Components/Product/Index/Sections/ProductDataTableSection";
 import ProductIndexHeader from "@/Components/Product/Index/Sections/ProductIndexHeader";
 import ProductInfoResume from "@/Components/Product/Index/Sections/ProductInfoResume";
 import AppLayout from "@/Layouts/AppLayout";
@@ -10,7 +11,7 @@ export default function Index({ productDataTableUrl }) {
 
             <ProductInfoResume/>
 
-            {/* <CustomerDataTableSection dataTableUrl={productDataTableUrl} /> */}
+            <ProductDataTableSection dataTableUrl={productDataTableUrl} />
         </div>
     );
 }
