@@ -17,13 +17,15 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
     
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $products = $this->productService->getAll();
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->productService->getDataTable($request->all());
+            }
 
             return Inertia::render('Products/Index', [
-                'products' => $products,
+                'productDataTableUrl' => route('products.index')
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
@@ -148,4 +150,13 @@ class ProductController extends Controller
         }
     }
 
+    private function requisicaoWithDataTable(Request $request)
+    {
+        return $request->ajax() && (
+            $request->has('page') ||
+            $request->has('perPage') ||
+            $request->has('search') ||
+            $request->has('sortKey')
+        );
+    }
 }
