@@ -6,12 +6,13 @@ import CustomerDataTableRow from "../UI/CustomerDataTableRow";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import CustomerSearchFilterButton from "../UI/CustomerSearchParameters";
 import PageNavigator from "../UI/PageNavigator";
+import ProductDataTableRow from "../UI/ProductDataTableRow";
 
 export default function ProductDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
-    const [customers, setCustomers] = useState([]);
+    const [products, setProducts] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage] = useState(5);
@@ -38,11 +39,11 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                 params: { page, perPage, search, ...filters },
             });
 
-            setCustomers(response.data.data);
+            setProducts(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error('Erro ao buscar dados dos Clientes')
+            error('Erro ao buscar dados dos Produtos')
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
@@ -100,7 +101,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                         </thead>
 
                         <tbody>
-                            {customers.length === 0 && !loading ? (
+                            {products.length === 0 && !loading ? (
                                 <tr>
                                     <td
                                         colSpan={headers.length}
@@ -110,10 +111,10 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                                     </td>
                                 </tr>
                             ) : (
-                                customers.map((customer) => (
-                                    <CustomerDataTableRow
-                                        key={customer.id}
-                                        customer={customer}
+                                products.map((product) => (
+                                    <ProductDataTableRow
+                                        key={product.id}
+                                        product={product}
                                         headers={headers}
                                     />
                                 ))

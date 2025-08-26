@@ -94,7 +94,7 @@ export default function CustomerSearchFilterButton({ onFilter }) {
                     style={{ maxHeight: "80vh", overflowY: "auto" }}
                 >
                     <h2 className="text-lg font-bold text-gray-800 mb-2">
-                        Filtros de Cliente
+                        Filtros de Produto
                     </h2>
 
                     <div>
