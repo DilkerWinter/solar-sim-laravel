@@ -64,8 +64,11 @@ php artisan config:clear\n\
 php artisan route:clear\n\
 php artisan view:clear\n\
 \n\
+# Inicia o Laravel em background\n\
 php artisan serve --host=0.0.0.0 --port=9000 &\n\
-npm run dev\n\
+\n\
+# Inicia o Vite dev server\n\
+npm run dev -- --host 0.0.0.0 --port 5173\n\
 ' > /usr/local/bin/start-dev.sh \
     && chmod +x /usr/local/bin/start-dev.sh
 
