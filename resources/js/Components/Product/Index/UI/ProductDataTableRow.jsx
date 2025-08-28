@@ -5,7 +5,7 @@ import { capitalize } from "@/Utils/capitalize";
 function Name({ name }) {
     return (
         <div className="flex flex-col">
-            <span className="text-lg font-semibold text-gray-700">
+            <span className="font-semibold text-gray-700">
                 {capitalize(name)}
             </span>
         </div>
@@ -49,7 +49,7 @@ function Price({ price }) {
 function Brand({ brand }) {
     return (
         <div className="flex flex-col">
-            <span className="text-lg font-semibold text-gray-700">
+            <span className=" font-semibold text-gray-700">
                 {brand}
             </span>
         </div>

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useToast } from "@/Contexts/ToastContext";
 import LoadingSpinner from "../UI/LoadingSpinner";
-import CustomerSearchFilterButton from "../UI/CustomerSearchParameters";
+import CustomerSearchFilterButton from "../UI/ProductSearchParameters";
 import PageNavigator from "../UI/PageNavigator";
 import ProductDataTableRow from "../UI/ProductDataTableRow";
 import ProductSearchBar from "../UI/ProductSearchBar";
