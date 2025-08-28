@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DataTables\ProductDataTable;
 use App\Repositories\ProductRepository;
 
 class ProductService
@@ -37,5 +38,16 @@ class ProductService
     public function delete($id)
     {
        return $this->productRepository->delete($id);
+    }
+
+    public function count($type)
+    {
+        return $this->productRepository->count($type);
+    }
+
+    public function getDataTable($filters) 
+    {
+        $dataTable = resolve(ProductDataTable::class);
+        return $dataTable->getTable($filters);
     }
 }

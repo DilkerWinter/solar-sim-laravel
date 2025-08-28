@@ -1,17 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import CustomerDataTableRow from "../UI/CustomerDataTableRow";
-import LoadingSpinner from "../UI/LoadingSpinner";
-import PageNavigator from "../UI/PageNavigator";
-import CustomerSearchBar from "../UI/CustomerSearchBar";
-import CustomerSearchParameters from "../UI/CustomerSearchParameters";
 import { useToast } from "@/Contexts/ToastContext";
+import LoadingSpinner from "../UI/LoadingSpinner";
+import CustomerSearchFilterButton from "../UI/ProductSearchParameters";
+import PageNavigator from "../UI/PageNavigator";
+import ProductDataTableRow from "../UI/ProductDataTableRow";
+import ProductSearchBar from "../UI/ProductSearchBar";
 
-export default function CustomerDataTableSection({ dataTableUrl }) {
+export default function ProductDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
-    const [customers, setCustomers] = useState([]);
+    const [products, setProducts] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage] = useState(5);
@@ -38,11 +38,11 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                 params: { page, perPage, search, ...filters },
             });
 
-            setCustomers(response.data.data);
+            setProducts(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error('Erro ao buscar dados dos Clientes')
+            error('Erro ao buscar dados dos Produtos')
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
@@ -70,7 +70,7 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
             <div className="border shadow-md rounded-2xl p-4 border-gray-300 bg-white">
                 <div className="mb-2 flex items-center justify-between gap-4">
                     <div className="flex-grow">
-                        <CustomerSearchBar
+                        <ProductSearchBar
                             search={search}
                             onSearchChange={handleSearchChange}
                             onClear={onClearSerchBar}
@@ -78,7 +78,7 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                     </div>
 
                     <div className="flex-shrink-0">
-                        <CustomerSearchParameters
+                        <CustomerSearchFilterButton
                             onFilter={handleFilterChange}
                         />
                     </div>
@@ -100,7 +100,7 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                         </thead>
 
                         <tbody>
-                            {customers.length === 0 && !loading ? (
+                            {products.length === 0 && !loading ? (
                                 <tr>
                                     <td
                                         colSpan={headers.length}
@@ -110,10 +110,10 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                                     </td>
                                 </tr>
                             ) : (
-                                customers.map((customer) => (
-                                    <CustomerDataTableRow
-                                        key={customer.id}
-                                        customer={customer}
+                                products.map((product) => (
+                                    <ProductDataTableRow
+                                        key={product.id}
+                                        product={product}
                                         headers={headers}
                                     />
                                 ))

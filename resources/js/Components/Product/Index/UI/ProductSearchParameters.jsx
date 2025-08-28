@@ -1,14 +1,10 @@
+import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { Filter } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-export default function CustomerSearchFilterButton({ onFilter }) {
+export default function ProductSearchFilterButton({ onFilter }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedTypes, setSelectedTypes] = useState([]);
-    const [onlyWithoutAddresses, setOnlyWithoutAddresses] = useState(false);
-    const [onlyWithEnergyInfo, setOnlyWithEnergyInfo] = useState(false);
-
-    const addressTypes = ["residencial", "comercial", "industrial", "rural"];
-
     const buttonRef = useRef(null);
     const menuRef = useRef(null);
     const [menuPosition, setMenuPosition] = useState("left");
@@ -23,17 +19,12 @@ export default function CustomerSearchFilterButton({ onFilter }) {
 
     const clearFilters = () => {
         setSelectedTypes([]);
-        setOnlyWithoutAddresses(false);
-        setOnlyWithEnergyInfo(false);
         onFilter({});
         setIsOpen(false);
     };
 
     const applyFilters = () => {
-        const hasFilters =
-            selectedTypes.length > 0 ||
-            onlyWithoutAddresses ||
-            onlyWithEnergyInfo;
+        const hasFilters = selectedTypes.length > 0;
 
         const payload = hasFilters
             ? {
@@ -83,7 +74,7 @@ export default function CustomerSearchFilterButton({ onFilter }) {
             className="bg-gray-200 text-gray-700 px-5 py-2 rounded-2xl hover:bg-gray-300 transition focus:outline-none border border-gray-300 flex items-center gap-2"
         >
             <Filter className="w-4 h-4" /> 
-            <p>Filtrar Clientes</p>    
+            <p>Filtrar Produtos</p>    
         </button>
 
             {isOpen && (
@@ -94,63 +85,21 @@ export default function CustomerSearchFilterButton({ onFilter }) {
                     style={{ maxHeight: "80vh", overflowY: "auto" }}
                 >
                     <h2 className="text-lg font-bold text-gray-800 mb-2">
-                        Filtros de Cliente
+                        Filtros de Produto
                     </h2>
 
                     <div>
                         <h3 className="text-gray-700 font-semibold text-sm mb-2">
-                            Tipo de Endereço
+                            Categoria
                         </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
-                            {addressTypes.map((type) => (
-                                <label
-                                    key={type}
-                                    className="flex items-center gap-2 text-gray-700 text-sm"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        className="accent-blue-600"
-                                        checked={selectedTypes.includes(type)}
-                                        onChange={() => toggleType(type)}
-                                    />
-                                    <span className="capitalize">{type}</span>
-                                </label>
-                            ))}
-                        </div>
                     </div>
 
                     <hr className="border-t border-gray-300" />
 
-                    <div className="space-y-4">
-                        <label className="flex items-center gap-3 text-gray-700 text-sm">
-                            <input
-                                type="checkbox"
-                                className="accent-blue-600"
-                                checked={onlyWithoutAddresses}
-                                onChange={() =>
-                                    setOnlyWithoutAddresses(
-                                        !onlyWithoutAddresses
-                                    )
-                                }
-                            />
-                            <span>
-                                Somente clientes <strong>sem endereço</strong>
-                            </span>
-                        </label>
-
-                        <label className="flex items-center gap-3 text-gray-700 text-sm">
-                            <input
-                                type="checkbox"
-                                className="accent-blue-600"
-                                checked={onlyWithEnergyInfo}
-                                onChange={() =>
-                                    setOnlyWithEnergyInfo(!onlyWithEnergyInfo)
-                                }
-                            />
-                            <span>
-                                Filtrar endereços <strong>sem dados de energia</strong>
-                            </span>
-                        </label>
+                    <div>
+                        <h3 className="text-gray-700 font-semibold text-sm mb-2">
+                            Preço
+                        </h3>
                     </div>
 
                     <div className="flex justify-between gap-4 pt-2">

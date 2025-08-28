@@ -1,7 +1,7 @@
 import { useToast } from "@/Contexts/ToastContext";
 import { useEffect, useState } from "react";
 
-export default function CustomerInfoCard({ label, value, url , unit, icon: Icon, colorClass }) {
+export default function InfoResumeCard({ label, value, url , unit, icon: Icon, colorClass }) {
   const [displayValue, setDisplayValue] = useState (value);
   const { error } = useToast();
 
@@ -13,7 +13,7 @@ export default function CustomerInfoCard({ label, value, url , unit, icon: Icon,
           setDisplayValue(total);
         })
         .catch(e => {
-          error("Erro ao buscar dados do Cliente");
+          error("Erro ao buscar");
           setDisplayValue(value);
         });
     }

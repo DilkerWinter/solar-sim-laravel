@@ -17,13 +17,15 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
     
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $products = $this->productService->getAll();
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->productService->getDataTable($request->all());
+            }
 
             return Inertia::render('Products/Index', [
-                'products' => $products,
+                'productDataTableUrl' => route('products.index')
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
@@ -131,5 +133,30 @@ class ProductController extends Controller
                 'message' => 'Erro ao deletar produto: ' . $e->getMessage()
             ]);
         }
+    }
+
+    
+    public function count(Request $request)
+    {
+        try {
+            $type = $request->input('type');
+        
+            return $this->productService->count($type);
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar produtos: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function requisicaoWithDataTable(Request $request)
+    {
+        return $request->ajax() && (
+            $request->has('page') ||
+            $request->has('perPage') ||
+            $request->has('search') ||
+            $request->has('sortKey')
+        );
     }
 }

@@ -1,5 +1,5 @@
-import InputField from "@/Components/Customer/Create/InputText";
-import SelectField from "@/Components/Customer/Create/SelectInput";
+import InputField from "@/Components/UI/Inputs/InputText";
+import SelectField from "@/Components/UI/Inputs/SelectInput";
 
 export default function CreateBaseProduct({ 
   formData, 

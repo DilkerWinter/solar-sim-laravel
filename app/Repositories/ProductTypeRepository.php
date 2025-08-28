@@ -40,4 +40,9 @@ class ProductTypeRepository
     {
         return ProductType::destroy($id);
     }
+
+    public function count()
+    {
+        return ProductType::count();
+    }
 }

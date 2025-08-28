@@ -34,9 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     //All routes for Product
+    Route::get('/products/count', [ProductController::class, 'count'])->name('products.count');
     Route::resource('products', ProductController::class);
 
     //All routes for Product Types
+    Route::get('/products/types/count', [ProductTypeController::class, 'count'])->name('products.types.count');
     Route::resource('products/types', ProductTypeController::class);
     
     //All routes for Costumer

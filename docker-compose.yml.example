@@ -24,6 +24,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    # Adicione estas linhas para melhor desenvolvimento
+    stdin_open: true
+    tty: true
 
   solarsim_postgres:
     image: postgres:16-alpine

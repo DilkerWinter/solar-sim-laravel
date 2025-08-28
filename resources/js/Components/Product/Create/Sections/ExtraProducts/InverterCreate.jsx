@@ -1,6 +1,6 @@
+import InputField from "@/Components/UI/Inputs/InputText";
+import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { useEffect, useState } from "react";
-import InputText from "../../../Customer/Create/InputText";
-import SelectField from "@/Components/Customer/Create/SelectInput";
 
 export default function InverterCreate({ onDataChange }) {
     const [inverterFormData, setInverterFormData] = useState({
@@ -81,7 +81,7 @@ export default function InverterCreate({ onDataChange }) {
                 placeholder="Selecione o tipo do inversor"
             />
 
-            <InputText
+            <InputField
                 label="Quantidade de Painéis Suportados"
                 name="supported_panel_count"
                 type="number"
@@ -90,7 +90,7 @@ export default function InverterCreate({ onDataChange }) {
                 onChange={handleChange}
             />
 
-            <InputText
+            <InputField
                 label="Potência Máxima dos Painéis Suportados"
                 name="supported_panel_max_power_watts"
                 type="text"
@@ -100,7 +100,7 @@ export default function InverterCreate({ onDataChange }) {
                 suffix="W"
             />
 
-            <InputText
+            <InputField
                 label="Potência Máxima"
                 name="max_power_watts"
                 type="text"

@@ -1,6 +1,6 @@
 import { Zap, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { useState } from "react";
-import EditableField from "../../../UI/EditableField";
+import EditableField from "../../../UI/Inputs/EditableField";
 import Field from "./TextField";
 
 export default function EnergyInfoCard({

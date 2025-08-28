@@ -47,7 +47,7 @@ export default function SnackBar({ type = 'default', message, onClose }) {
   return (
     <div
       className={`
-        fixed top-24 right-4 z-50 min-w-80 max-w-md
+        fixed bottom-4 right-4 z-50 min-w-80 max-w-md
         flex items-center gap-3 px-4 py-3
         text-white rounded-lg shadow-xl border-l-4
         cursor-pointer backdrop-blur-sm

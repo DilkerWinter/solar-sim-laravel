@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import InputText from "../../../Customer/Create/InputText";
-import SelectField from "@/Components/Customer/Create/SelectInput";
+import SelectField from "@/Components/UI/Inputs/SelectInput";
+import InputField from "@/Components/UI/Inputs/InputText";
 
 export default function SolarPanelCreate({ onDataChange }) {
   const [solarPanelFormData, setSolarPanelFormData] = useState({
@@ -51,7 +51,7 @@ export default function SolarPanelCreate({ onDataChange }) {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-      <InputText
+      <InputField
         label="Potência"
         name="potency_watts"
         type="text"
@@ -61,7 +61,7 @@ export default function SolarPanelCreate({ onDataChange }) {
         suffix="W"
       />
 
-      <InputText
+      <InputField
         label="Eficiência"
         name="efficiency_percentage"
         type="text"
@@ -71,7 +71,7 @@ export default function SolarPanelCreate({ onDataChange }) {
         suffix="%"
       />
 
-      <InputText
+      <InputField
         label="Energia Diária Média"
         name="average_daily_energy_wh"
         type="text"
@@ -81,7 +81,7 @@ export default function SolarPanelCreate({ onDataChange }) {
         suffix="Wh"
       />
 
-      <InputText
+      <InputField
         label="Temperatura Máxima de Operação"
         name="max_operating_temperature"
         type="text"
@@ -101,7 +101,7 @@ export default function SolarPanelCreate({ onDataChange }) {
           placeholder="Selecione a voltagem da placa"
       />
 
-      <InputText
+      <InputField
         label="Altura"
         name="height"
         type="text"
@@ -111,7 +111,7 @@ export default function SolarPanelCreate({ onDataChange }) {
         suffix="M"
       />
 
-      <InputText
+      <InputField
         label="Largura"
         name="width"
         type="text"
@@ -121,7 +121,7 @@ export default function SolarPanelCreate({ onDataChange }) {
         suffix="M"
       />
 
-      <InputText
+      <InputField
         label="Peso"
         name="weight"
         type="text"
