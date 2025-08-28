@@ -1,7 +1,4 @@
-import {
-    Banknote,
-    Eye,
-} from "lucide-react";
+import {Banknote, Eye} from "lucide-react";
 import { router } from "@inertiajs/react";
 
 function Name({ name }) {
