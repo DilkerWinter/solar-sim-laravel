@@ -1,25 +1,41 @@
 import {Banknote, Eye} from "lucide-react";
 import { router } from "@inertiajs/react";
+import { capitalize } from "@/Utils/capitalize";
 
 function Name({ name }) {
     return (
         <div className="flex flex-col">
-            <span className="text-lg font-semibold text-gray-800">
-                {name}
+            <span className="text-lg font-semibold text-gray-700">
+                {capitalize(name)}
             </span>
         </div>
     );
 }
 
 function Type({ type }) {
+    let bgColor = "bg-gray-200";
+    let textColor = "text-gray-800";
+    let borderColor = "border-gray-400";
+
+    if (type.toLowerCase() === "placa solar") {
+        bgColor = "bg-yellow-100";
+        textColor = "text-yellow-700";
+        borderColor = "border-yellow-500";
+    } else if (type.toLowerCase() === "inversor") {
+        bgColor = "bg-green-100";
+        textColor = "text-green-700";
+        borderColor = "border-green-500";
+    }
+
     return (
-        <div className="flex flex-col">
-            <span className="text-lg font-semibold text-gray-800">
-                {type}
-            </span>
+        <div
+            className={`inline-flex items-center gap-1 px-3 py-1 rounded-md text-sm font-medium border ${bgColor} ${textColor} ${borderColor}`}
+        >
+            {type}
         </div>
     );
 }
+
 
 function Price({ price }) {
     return (
@@ -33,7 +49,7 @@ function Price({ price }) {
 function Brand({ brand }) {
     return (
         <div className="flex flex-col">
-            <span className="text-lg font-semibold text-gray-800">
+            <span className="text-lg font-semibold text-gray-700">
                 {brand}
             </span>
         </div>
@@ -45,7 +61,7 @@ function Actions({ actions }) {
         <button
             onClick={() => router.visit(actions[0].route)}
             title="Ver detalhes"
-            className="flex items-center font-semibold gap-1 text-gray-700 hover:text-gray-900 transition"
+            className="flex items-center font-semibold gap-1 text-gray-600 hover:text-gray-900 transition"
         >
             <Eye size={16} />
             <span>Ver Detalhes</span>

@@ -1,12 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useToast } from "@/Contexts/ToastContext";
-import CustomerSearchBar from "../UI/CustomerSearchBar";
-import CustomerDataTableRow from "../UI/CustomerDataTableRow";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import CustomerSearchFilterButton from "../UI/CustomerSearchParameters";
 import PageNavigator from "../UI/PageNavigator";
 import ProductDataTableRow from "../UI/ProductDataTableRow";
+import ProductSearchBar from "../UI/ProductSearchBar";
 
 export default function ProductDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
@@ -15,7 +14,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
     const [products, setProducts] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage] = useState(5);
+    const [perPage] = useState(8);
     const [search, setSearch] = useState("");
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
@@ -71,7 +70,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
             <div className="border shadow-md rounded-2xl p-4 border-gray-300 bg-white">
                 <div className="mb-2 flex items-center justify-between gap-4">
                     <div className="flex-grow">
-                        <CustomerSearchBar
+                        <ProductSearchBar
                             search={search}
                             onSearchChange={handleSearchChange}
                             onClear={onClearSerchBar}
