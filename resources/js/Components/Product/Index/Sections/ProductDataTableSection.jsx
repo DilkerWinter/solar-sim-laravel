@@ -14,7 +14,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
     const [products, setProducts] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage] = useState(8);
+    const [perPage] = useState(5);
     const [search, setSearch] = useState("");
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
