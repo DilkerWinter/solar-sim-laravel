@@ -13,29 +13,28 @@ function Name({ name }) {
 }
 
 function Type({ type }) {
-    let bgColor = "bg-gray-200";
-    let textColor = "text-gray-800";
-    let borderColor = "border-gray-400";
+    let bgColor = "bg-gray-100";
+    let textColor = "text-gray-700";
+    let borderColor = "border-gray-300";
 
     if (type.toLowerCase() === "placa solar") {
         bgColor = "bg-yellow-100";
         textColor = "text-yellow-700";
-        borderColor = "border-yellow-500";
+        borderColor = "border-yellow-300";
     } else if (type.toLowerCase() === "inversor") {
         bgColor = "bg-green-100";
         textColor = "text-green-700";
-        borderColor = "border-green-500";
+        borderColor = "border-green-300";
     }
 
     return (
         <div
-            className={`inline-flex items-center gap-1 px-3 py-1 rounded-md text-sm font-medium border ${bgColor} ${textColor} ${borderColor}`}
+            className={`inline-flex items-center gap-1 px-3 py-1 rounded-2xl text-sm font-medium border ${bgColor} ${textColor} ${borderColor}`}
         >
             {type}
         </div>
     );
 }
-
 
 function Price({ price }) {
     return (
