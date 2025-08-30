@@ -2,8 +2,6 @@ import { Trash2, User } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useState } from "react";
-import { formatPhone } from "@/Utils/formatPhone";
-import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
 import TextField from "@/Components/UI/Fields/TextField";
 import { formatMoney } from "@/Utils/formatMoney";
 

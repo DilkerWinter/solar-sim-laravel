@@ -1,5 +1,8 @@
+import CustomBreadcrumb from '@/Components/AppLayout/CustomBreadcrumb';
 import ProductHeaderSection from '@/Components/Product/Show/Sections/ProductHeaderSection';
 import ProductSection from '@/Components/Product/Show/Sections/ProductSection';
+import AppLayout from '@/Layouts/AppLayout';
+import { capitalize } from '@/Utils/capitalize';
 import React, { useState } from 'react';
 
 export default function Show({ product }) {
@@ -44,3 +47,23 @@ export default function Show({ product }) {
       </div>
   );
 }
+
+Show.layout = (page) => {
+    const product = page.props.product;
+
+    return (
+        <AppLayout
+            breadcrumb={
+                <CustomBreadcrumb
+                    items={[
+                        { name: "Início", href: "/dashboard" },
+                        { name: "Produtos", href: "/products" },
+                        { name: capitalize(product.name) || "Detalhes" },
+                    ]}
+                />
+            }
+        >
+            {page}
+        </AppLayout>
+    );
+};
