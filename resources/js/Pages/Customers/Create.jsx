@@ -14,6 +14,9 @@ import InputStateField from "@/Components/Customer/Create/InputStateField";
 import AppLayout from "@/Layouts/AppLayout";
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
 import { useToast } from "@/Contexts/ToastContext";
+import { formatPhone } from "@/Utils/formatPhone";
+import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
+import { formatMoney } from "@/Utils/formatMoney";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -100,18 +103,6 @@ export default function Create() {
         }
     }
 
-    function formatMoney(value) {
-        if (value == null || value === "") return "0,00";
-        let digits = String(value).replace(/\D/g, "");
-        if (digits === "") return "0,00";
-
-        const number = parseFloat(digits) / 100;
-        return number.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    }
-
     const formatDecimalNumber = (value) => {
         let formattedValue = value.replace(/[^0-9,]/g, "");
 
@@ -151,40 +142,6 @@ export default function Create() {
             return numericValue.slice(0, 5) + "-" + numericValue.slice(5, 8);
         }
         return numericValue;
-    }
-
-    function formatPhone(val) {
-        let digits = val.replace(/\D/g, "").slice(0, 11);
-
-        if (digits.length === 0) {
-            return "";
-        } else if (digits.length <= 2) {
-            return `(${digits}`;
-        } else if (digits.length <= 6) {
-            return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-        } else {
-            return `(${digits.slice(0, 2)}) ${digits.slice(
-                2,
-                7
-            )}-${digits.slice(7)}`;
-        }
-    }
-
-    function formatDocumentNumber(value) {
-        const digits = value.replace(/\D/g, "").slice(0, 14);
-
-        if (digits.length <= 11) {
-            return digits
-                .replace(/^(\d{3})(\d)/, "$1.$2")
-                .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
-                .replace(/\.(\d{3})(\d)/, ".$1-$2");
-        } else {
-            return digits
-                .replace(/^(\d{2})(\d)/, "$1.$2")
-                .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
-                .replace(/\.(\d{3})(\d)/, ".$1/$2")
-                .replace(/(\d{4})(\d)/, "$1-$2");
-        }
     }
 
     function addEnergyInfo(addressId) {

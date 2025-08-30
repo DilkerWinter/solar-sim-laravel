@@ -6,7 +6,7 @@ import { useState } from "react";
 import { formatPhone } from "@/Utils/formatPhone";
 import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
 
-export default function CustomerCard({ customer, setCustomer, isEditing, onDelete}) {
+export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
@@ -17,11 +17,14 @@ export default function CustomerCard({ customer, setCustomer, isEditing, onDelet
     };
 
     function onChange(field, value){
-        setCustomer((prev) => ({
+        setProduct((prev) => ({
             ...prev,
             [field]: value,
         }));
     }
+
+
+
 
     return (
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">

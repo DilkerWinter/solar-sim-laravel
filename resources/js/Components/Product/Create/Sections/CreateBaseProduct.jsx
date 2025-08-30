@@ -1,5 +1,6 @@
 import InputField from "@/Components/UI/Inputs/InputText";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
+import { formatMoney } from "@/Utils/formatMoney";
 
 export default function CreateBaseProduct({ 
   formData, 
@@ -23,18 +24,6 @@ export default function CreateBaseProduct({
         [name]: value,
     }));
   }
-
-
-  function formatMoney(value) {
-        if (value == null || value === "") return "0,00";
-        let digits = String(value).replace(/\D/g, "");
-        if (digits === "") return "0,00";
-        const number = parseFloat(digits) / 100;
-        return number.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    }
 
   function handleTypeChange(selectedId) {
     if (!selectedId) {

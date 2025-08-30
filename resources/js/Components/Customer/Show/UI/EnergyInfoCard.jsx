@@ -2,6 +2,7 @@ import { Zap, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
 import Field from "./TextField";
+import { formatMoney } from "@/Utils/formatMoney";
 
 export default function EnergyInfoCard({
     customer,
@@ -33,18 +34,6 @@ export default function EnergyInfoCard({
             ...prev,
             addresses: updatedAddresses,
         }));
-    }
-
-    function formatMoney(value) {
-        if (value == null || value === "") return "0,00";
-        let digits = String(value).replace(/\D/g, "");
-        if (digits === "") return "0,00";
-
-        const number = parseFloat(digits) / 100;
-        return number.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
     }
 
     const resumo =
