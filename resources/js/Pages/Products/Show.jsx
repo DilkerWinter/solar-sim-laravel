@@ -1,18 +1,41 @@
-import React from 'react';
+import ProductHeaderSection from '@/Components/Product/Show/Sections/ProductHeaderSection';
+import React, { useState } from 'react';
 
 export default function Show({ product }) {
-  return (
-    <div>
-      <h1>Detalhes do Produto</h1>
-      <p><strong>Nome:</strong> {product.name}</p>
-      <p><strong>Descrição:</strong> {product.description}</p>
-      <p><strong>Preço:</strong> R$ {product.price.toFixed(2)}</p>
-      <p><strong>Marca:</strong> {product.brand}</p>
-      <p><strong>Categoria:</strong> {product.category}</p>
-      <p><strong>Data:</strong> {product.data}</p>
+      const [isEditing, setIsEditing] = useState(false);
+      const [editProduct, setEditProduct] = useState({ ...product });
+  
+      const handleToggleEdit = () => setIsEditing((prev) => !prev);
+  
+      const handleDelete = () => {
+          Inertia.delete(route("products.destroy", product.id));
+      };
+  
+      const handleCancel = () => {
+          setEditProduct({ ...product });
+          handleToggleEdit();
+      }
+  
+      const handleSave = () => {
+          console.log(editProduct)
+  
+        // Inertia.put(route("products.update", product.id), filterData, {
+        //   onSuccess: () => {
+        //       handleToggleEdit();
+        //   },
+        // });
+      };
 
-      <button onClick={() => Inertia.visit(`/products/${product.id}/edit`)}>Editar</button>
-      <button onClick={() => Inertia.visit('/products')}>Voltar para lista</button>
-    </div>
+  return (
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
+          <ProductHeaderSection
+                isEditing={isEditing}
+                onSave={handleSave}
+                onCancel={handleCancel}
+                onToggleEdit={handleToggleEdit}
+          />
+          {/* <ProductSection
+          /> */}
+      </div>
   );
 }
