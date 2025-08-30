@@ -3,6 +3,7 @@ import ProductHeaderSection from '@/Components/Product/Show/Sections/ProductHead
 import ProductSection from '@/Components/Product/Show/Sections/ProductSection';
 import AppLayout from '@/Layouts/AppLayout';
 import { capitalize } from '@/Utils/capitalize';
+import { Inertia } from '@inertiajs/inertia';
 import React, { useState } from 'react';
 
 export default function Show({ product }) {
