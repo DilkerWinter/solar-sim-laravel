@@ -1,3 +1,5 @@
+import ProductCard from "../UI/ProductCard";
+
 export default function ProductSection({ product, setProduct, isEditing, onDelete}) {
   if (!product) {
     return (
