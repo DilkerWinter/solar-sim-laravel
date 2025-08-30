@@ -1,6 +1,6 @@
 import { Trash, Trash2, TrashIcon, User } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
-import Field from "./TextField";
+import TextField from "../../../UI/Fields/TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useState } from "react";
 import { formatPhone } from "@/Utils/formatPhone";
@@ -83,10 +83,10 @@ export default function CustomerCard({ customer, setCustomer, isEditing, onDelet
                     </>
                 ) : (
                     <>
-                        <Field label="Nome" value={customer.name} />
-                        <Field label="Email" value={customer.email} />
-                        <Field label="Telefone" value={customer.phone} />
-                        <Field
+                        <TextField label="Nome" value={customer.name} />
+                        <TextField label="Email" value={customer.email} />
+                        <TextField label="Telefone" value={customer.phone} />
+                        <TextField
                             label="CPF/CNPJ"
                             value={customer.document_number}
                         />

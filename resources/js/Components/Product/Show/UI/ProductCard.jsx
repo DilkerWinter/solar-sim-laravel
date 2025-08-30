@@ -4,6 +4,8 @@ import ConfirmModal from "@/Components/ConfirmModal";
 import { useState } from "react";
 import { formatPhone } from "@/Utils/formatPhone";
 import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
+import TextField from "@/Components/UI/Fields/TextField";
+import { formatMoney } from "@/Utils/formatMoney";
 
 export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -22,16 +24,13 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
         }));
     }
 
-
-
-
     return (
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3 px-4 py-2 rounded-full shadow w-fit bg-blue-100 text-blue-700">
                     <User className="w-5 h-5" />
                     <h2 className="font-semibold text-lg">
-                        Informações do Cliente
+                        Informações do Produto
                     </h2>
                 </div>
                 {isEditing && (
@@ -51,54 +50,49 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                             required
                             label="Nome"
                             name="name"
-                            value={customer.name}
+                            value={product.name}
                             onChange={(e) => onChange("name", e.target.value)}
                         />
                         <EditableField
                             required
-                            label="Email"
-                            name="email"
-                            value={customer.email}
-                            onChange={(e) => onChange("email", e.target.value)}
+                            label="Marca"
+                            name="brand"
+                            value={product.brand}
+                            onChange={(e) => onChange("brand", e.target.value)}
                         />
                         <EditableField
                             required
-                            label="Telefone"
-                            name="phone"
-                            value={customer.phone}
+                            label="Descrição"
+                            name="description"
+                            value={product.description}
                             onChange={(e) =>
-                                onChange("phone", formatPhone(e.target.value))
+                                onChange("description", e.target.value)
                             }
                         />
                         <EditableField
                             required
-                            label="CPF/CNPJ"
-                            name="document_number"
-                            value={customer.document_number}
+                            label="Preço"
+                            name="price"
+                            value={product.price}
                             onChange={(e) =>
                                 onChange(
-                                    "document_number",
-                                    formatDocumentNumber(e.target.value)
-                                )
+                                    "price", formatMoney(e.target.value))
                             }
                         />
                     </>
                 ) : (
                     <>
-                        <Field label="Nome" value={customer.name} />
-                        <Field label="Email" value={customer.email} />
-                        <Field label="Telefone" value={customer.phone} />
-                        <Field
-                            label="CPF/CNPJ"
-                            value={customer.document_number}
-                        />
+                        <TextField label="Nome" value={product.name} />
+                        <TextField label="Marca" value={product.brand}/>
+                        <TextField label="Descrição" value={product.description} />
+                        <TextField label="Preço" value={`R$ ${formatMoney(product.price)}`} />
                     </>
                 )}
             </div>
             <ConfirmModal
                 isOpen={confirmDeleteOpen}
                 title="Confirmar deleção"
-                message="Tem certeza que deseja deletar este cliente? Esta ação não pode ser desfeita."
+                message="Tem certeza que deseja deletar este produto? Esta ação não pode ser desfeita."
                 onConfirm={confirmDelete}
                 onClose={() => setConfirmDeleteOpen(false)}
                 theme="danger"

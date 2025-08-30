@@ -1,4 +1,4 @@
-export default function Field({ label, value, capitalize = false }) {
+export default function TextField({ label, value, capitalize = false }) {
     return (
         <div>
             <p className="text-xs text-gray-500">{label}</p>

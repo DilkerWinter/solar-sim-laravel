@@ -1,7 +1,7 @@
 import { Zap, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
-import Field from "./TextField";
+import TextField from "../../../UI/Fields/TextField";
 import { formatMoney } from "@/Utils/formatMoney";
 
 export default function EnergyInfoCard({
@@ -158,25 +158,25 @@ export default function EnergyInfoCard({
                         </>
                     ) : (
                         <>
-                            <Field
+                            <TextField
                                 label="Consumo Médio Anual (kWh)"
                                 value={`${formatMoney(
                                     energyInfo.average_annual_consumption_kwh
                                 )} kWh`}
                             />
-                            <Field
+                            <TextField
                                 label="Conta de Energia Média (R$)"
                                 value={`R$ ${formatMoney(
                                     energyInfo.average_energy_bill
                                 )}`}
                             />
-                            <Field
+                            <TextField
                                 label="Concessionária de Energia"
                                 value={energyInfo.energy_provider}
                             />
                             {energyInfo.notes && (
                                 <div className="sm:col-span-2">
-                                    <Field
+                                    <TextField
                                         label="Observações"
                                         value={energyInfo.notes}
                                         multiline

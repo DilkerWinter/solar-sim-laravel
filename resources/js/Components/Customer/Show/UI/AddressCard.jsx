@@ -3,7 +3,7 @@ import EnergyInfoCard from "./EnergyInfoCard";
 import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
 import EditableSelectField from "@/Components/UI/Inputs/EditableSelectField";
-import Field from "./TextField";
+import TextField from "../../../UI/Fields/TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
 
 export default function AddressCard({
@@ -246,21 +246,21 @@ export default function AddressCard({
                         </>
                     ) : (
                         <>
-                            <Field label="Rua" value={address.street} />
-                            <Field label="CEP" value={address.cep} />
-                            <Field label="Número" value={address.number} />
-                            <Field
+                            <TextField label="Rua" value={address.street} />
+                            <TextField label="CEP" value={address.cep} />
+                            <TextField label="Número" value={address.number} />
+                            <TextField
                                 label="Bairro"
                                 value={address.neighborhood}
                             />
-                            <Field label="Cidade" value={address.city} />
-                            <Field label="Estado" value={address.state} />
-                            <Field
+                            <TextField label="Cidade" value={address.city} />
+                            <TextField label="Estado" value={address.state} />
+                            <TextField
                                 label="Natureza do imóvel"
                                 value={address.type}
                                 capitalize
                             />
-                            <Field
+                            <TextField
                                 label="Tipo de Telhado"
                                 value={address.roof_type}
                             />
