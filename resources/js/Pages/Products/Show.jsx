@@ -49,6 +49,8 @@ export default function Show({ product }) {
   );
 }
 
+
+
 Show.layout = (page) => {
     const product = page.props.product;
 

@@ -27,7 +27,7 @@ export default function ProductInfoResume() {
 
                 <InfoResumeCard
                     label="Categorias de Produtos"
-                    url={"/products/types/count"}
+                    url={"/products-types-count"}
                     icon={List}
                     colorClass="text-green-600"
                 />

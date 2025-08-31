@@ -1,14 +1,29 @@
 import { Trash2, User } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import ConfirmModal from "@/Components/ConfirmModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
 import { formatMoney } from "@/Utils/formatMoney";
+import SelectField from "@/Components/UI/Inputs/SelectInput";
+import { useToast } from "@/Contexts/ToastContext";
 
 export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+    const [produtTypes, setProductTypes] = useState([]);
+    const { error } = useToast();
 
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
+
+    useEffect(() => {
+        axios.get("/product-types")
+            .then(response => {
+                console.log(response.data)
+                setProductTypes(response.data);
+            })
+            .catch(error => {
+                error("Erro ao buscar os tipos de produtos");
+            });
+    }, []); 
 
     const confirmDelete = () => {
         onDelete();
@@ -77,6 +92,9 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                                     "price", formatMoney(e.target.value))
                             }
                         />
+                        {/* <SelectField
+                        
+                        /> */}
                     </>
                 ) : (
                     <>
@@ -84,6 +102,7 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                         <TextField label="Marca" value={product.brand}/>
                         <TextField label="Descrição" value={product.description} />
                         <TextField label="Preço" value={`R$ ${formatMoney(product.price)}`} />
+                        <TextField label="Categoria" value={product.type.name} />
                     </>
                 )}
             </div>

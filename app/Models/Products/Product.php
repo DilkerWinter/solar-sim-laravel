@@ -25,7 +25,7 @@ class Product extends Model
         'type_id',
     ]; 
     
-    protected $with = ['solarPanel', 'inverter'];
+    protected $with = ['type', 'solarPanel', 'inverter'];
 
     protected $appends = [
         'price_formatted',
