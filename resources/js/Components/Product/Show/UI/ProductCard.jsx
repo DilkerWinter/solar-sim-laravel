@@ -97,7 +97,11 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                             label="Categoria"
                             name="type_id"
                             value={product.type_id}
-                            onChange={(value) => onChange("type_id", value)}
+                            onChange={(value) => {
+                                const selectedType = productTypes.find((t) => t.id === Number(value));
+                                onChange("type_id", value);
+                                onChange("type", selectedType);
+                            }}
                             options={productTypes.map((type) => ({
                                 value: type.id,
                                 label: type.name,

@@ -1,4 +1,5 @@
 import ProductCard from "../UI/ProductCard";
+import ProductAdditionalSection from "./ProductAdditionalSection";
 
 export default function ProductSection({ product, setProduct, isEditing, onDelete}) {
   if (!product) {
@@ -16,6 +17,9 @@ export default function ProductSection({ product, setProduct, isEditing, onDelet
         product={product}
         setProduct={setProduct}
         isEditing={isEditing}
+      />
+      <ProductAdditionalSection
+        selectedProductType={product.type.name}
       />
     </section>
   );

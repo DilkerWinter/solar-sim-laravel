@@ -34,16 +34,16 @@ export default function Show({ product }) {
   return (
       <div className="max-w-6xl mx-auto p-6 space-y-6">
             <ProductHeaderSection
-                  isEditing={isEditing}
-                  onSave={handleSave}
-                  onCancel={handleCancel}
-                  onToggleEdit={handleToggleEdit}
+                isEditing={isEditing}
+                onSave={handleSave}
+                onCancel={handleCancel}
+                onToggleEdit={handleToggleEdit}
             />
             <ProductSection
-              product={editProduct}
-              setProduct={setEditProduct}
-              isEditing={isEditing}
-              onDelete={handleDelete}
+                product={editProduct}
+                setProduct={setEditProduct}
+                isEditing={isEditing}
+                onDelete={handleDelete}
             />
       </div>
   );
