@@ -19,7 +19,7 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
             .then(response => {
                 setProductTypes(response.data);
             })
-            .catch(error => {
+            .catch(err => {
                 error("Erro ao buscar os tipos de produtos");
             });
     }, []); 
