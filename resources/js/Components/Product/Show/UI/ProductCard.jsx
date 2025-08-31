@@ -9,7 +9,7 @@ import { useToast } from "@/Contexts/ToastContext";
 
 export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-    const [produtTypes, setProductTypes] = useState([]);
+    const [productTypes, setProductTypes] = useState([]);
     const { error } = useToast();
 
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
@@ -17,7 +17,6 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
     useEffect(() => {
         axios.get("/product-types")
             .then(response => {
-                console.log(response.data)
                 setProductTypes(response.data);
             })
             .catch(error => {
@@ -36,6 +35,8 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
             [field]: value,
         }));
     }
+
+    console.log(product);
 
     return (
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
@@ -86,15 +87,22 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                             required
                             label="Preço"
                             name="price"
-                            value={product.price}
+                            value={formatMoney(product.price)}
                             onChange={(e) =>
                                 onChange(
                                     "price", formatMoney(e.target.value))
                             }
                         />
-                        {/* <SelectField
-                        
-                        /> */}
+                        <SelectField
+                            label="Categoria"
+                            name="type_id"
+                            value={product.type_id}
+                            onChange={(value) => onChange("type_id", value)}
+                            options={productTypes.map((type) => ({
+                                value: type.id,
+                                label: type.name,
+                            }))}
+                        />
                     </>
                 ) : (
                     <>
