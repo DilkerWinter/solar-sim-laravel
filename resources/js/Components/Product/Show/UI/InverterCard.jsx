@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { formatMoney } from "@/Utils/formatMoney";
 import { useToast } from "@/Contexts/ToastContext";
 
-export default function InverterCard({ inverter, setInverter, isEditing, onDelete }) {
+export default function InverterCard({ inverter, setInverter, isEditing }) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const { error } = useToast();
 

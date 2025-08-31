@@ -20,6 +20,9 @@ export default function ProductSection({ product, setProduct, isEditing, onDelet
       />
       <ProductAdditionalSection
         selectedProductType={product.type.name}
+        product={product}          
+        setProduct={setProduct}    
+        isEditing={isEditing}
       />
     </section>
   );
