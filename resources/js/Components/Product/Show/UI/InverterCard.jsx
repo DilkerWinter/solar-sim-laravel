@@ -2,14 +2,11 @@ import { Trash2 } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import ConfirmModal from "@/Components/ConfirmModal";
-import { useEffect, useState } from "react";
+import TextField from "@/Components/UI/Fields/TextField";
+import { useState } from "react";
 import { formatMoney } from "@/Utils/formatMoney";
-import { useToast } from "@/Contexts/ToastContext";
 
-export default function InverterCard({ inverter, setInverter, isEditing }) {
-    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-    const { error } = useToast();
-
+export default function InverterCard({ inverter, setInverter, isEditing, onDelete }) {
     const inverterTypeOptions = [
         { value: "Microinversor", label: "Microinversor" },
         { value: "Bifásico", label: "Bifásico" },
@@ -22,23 +19,10 @@ export default function InverterCard({ inverter, setInverter, isEditing }) {
         { value: "220", label: "220V" },
     ];
 
-    const handleDeleteClick = () => setConfirmDeleteOpen(true);
-
-    const confirmDelete = () => {
-        onDelete();
-        setConfirmDeleteOpen(false);
-    };
-
     function onChange(field, value) {
-        let formattedValue = value;
-
-        if (field === "max_power_watts" || field === "supported_panel_max_power_watts") {
-            formattedValue = formatMoney(value);
-        }
-
         setInverter((prev) => ({
             ...prev,
-            [field]: formattedValue,
+            [field]: value,
         }));
     }
 
@@ -56,7 +40,7 @@ export default function InverterCard({ inverter, setInverter, isEditing }) {
                         <SelectField
                             label="Tipo"
                             name="type"
-                            value={inverter.type}
+                            value={inverter.type ?? ""}
                             onChange={(value) => onChange("type", value)}
                             options={inverterTypeOptions}
                             placeholder="Selecione o tipo do inversor"
@@ -66,14 +50,14 @@ export default function InverterCard({ inverter, setInverter, isEditing }) {
                             label="Quantidade de Painéis Suportados"
                             name="supported_panel_count"
                             type="number"
-                            value={inverter.supported_panel_count}
+                            value={inverter.supported_panel_count ?? ""}
                             onChange={(e) => onChange("supported_panel_count", e.target.value)}
                         />
                         <EditableField
                             required
                             label="Potência Máxima dos Painéis Suportados"
                             name="supported_panel_max_power_watts"
-                            value={inverter.supported_panel_max_power_watts}
+                            value={inverter.supported_panel_max_power_watts ?? ""}
                             onChange={(e) => onChange("supported_panel_max_power_watts", e.target.value)}
                             suffix="W"
                         />
@@ -81,14 +65,14 @@ export default function InverterCard({ inverter, setInverter, isEditing }) {
                             required
                             label="Potência Máxima"
                             name="max_power_watts"
-                            value={inverter.max_power_watts}
+                            value={inverter.max_power_watts ?? ""}
                             onChange={(e) => onChange("max_power_watts", e.target.value)}
                             suffix="W"
                         />
                         <SelectField
                             label="Tensão de Operação"
                             name="operating_voltage"
-                            value={inverter.operating_voltage}
+                            value={inverter.operating_voltage ?? ""}
                             onChange={(value) => onChange("operating_voltage", value)}
                             options={operateVoltageOptions}
                             placeholder="Selecione a voltagem do inversor"
@@ -96,11 +80,11 @@ export default function InverterCard({ inverter, setInverter, isEditing }) {
                     </>
                 ) : (
                     <>
-                        <div><strong>Tipo:</strong> {inverter.type}</div>
-                        <div><strong>Quantidade de Painéis Suportados:</strong> {inverter.supported_panel_count}</div>
-                        <div><strong>Potência Máxima dos Painéis Suportados:</strong> {inverter.supported_panel_max_power_watts} W</div>
-                        <div><strong>Potência Máxima:</strong> {inverter.max_power_watts} W</div>
-                        <div><strong>Tensão de Operação:</strong> {inverter.operating_voltage} V</div>
+                        <TextField label="Tipo" value={inverter.type} />
+                        <TextField label="Quantidade de Painéis Suportados" value={inverter.supported_panel_count} />
+                        <TextField label="Potência Máxima dos Painéis Suportados" value={`${inverter.supported_panel_max_power_watts} W`} />
+                        <TextField label="Potência Máxima" value={`${inverter.max_power_watts} W`} />
+                        <TextField label="Tensão de Operação" value={`${inverter.operating_voltage} V`} />
                     </>
                 )}
             </div>
