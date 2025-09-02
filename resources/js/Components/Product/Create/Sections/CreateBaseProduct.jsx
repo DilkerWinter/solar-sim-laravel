@@ -1,6 +1,6 @@
 import InputField from "@/Components/UI/Inputs/InputText";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatMoney";
 
 export default function CreateBaseProduct({ 
   formData, 
@@ -16,7 +16,7 @@ export default function CreateBaseProduct({
     let { value } = e.target;
     
      if (name === "price") {
-      value = formatMoney(value);
+      value = formatDecimal(value);
     } 
 
     setFormData(prev => ({

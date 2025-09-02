@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import InputField from "@/Components/UI/Inputs/InputText";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatMoney";
 
 export default function SolarPanelCreate({ onDataChange }) {
   const [solarPanelFormData, setSolarPanelFormData] = useState({
@@ -35,7 +35,7 @@ export default function SolarPanelCreate({ onDataChange }) {
     const { name, value } = e.target;
     setSolarPanelFormData(prev => ({
       ...prev,
-      [name]: formatMoney(value)
+      [name]: formatDecimal(value)
     }));
   }
 

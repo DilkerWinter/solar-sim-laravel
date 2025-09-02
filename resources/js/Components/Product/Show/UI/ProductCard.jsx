@@ -3,9 +3,10 @@ import EditableField from "@/Components/UI/Inputs/EditableField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useEffect, useState } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal, formatMoneyWithPrefix } from "@/Utils/formatMoney";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { useToast } from "@/Contexts/ToastContext";
+import InputField from "@/Components/UI/Inputs/InputText";
 
 export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -83,19 +84,21 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                                 onChange("description", e.target.value)
                             }
                         />
-                        <EditableField
+                        <InputField
                             required
                             label="Preço"
                             name="price"
-                            value={formatMoney(product.price)}
+                            value={formatDecimal(product.price)}
                             onChange={(e) =>
                                 onChange(
-                                    "price", formatMoney(e.target.value))
+                                    "price", formatDecimal(e.target.value))
                             }
+                            prefix="R$"
                         />
                         <SelectField
                             label="Categoria"
                             name="type_id"
+                            disabled
                             value={product.type_id}
                             onChange={(value) => {
                                 const selectedType = productTypes.find((t) => t.id === Number(value));
@@ -113,7 +116,7 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                         <TextField label="Nome" value={product.name} />
                         <TextField label="Marca" value={product.brand}/>
                         <TextField label="Descrição" value={product.description} />
-                        <TextField label="Preço" value={`R$ ${formatMoney(product.price)}`} />
+                        <TextField label="Preço" value={`R$ ${formatDecimal(product.price)}`} />
                         <TextField label="Categoria" value={product.type.name} />
                     </>
                 )}

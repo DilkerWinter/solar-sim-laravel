@@ -1,10 +1,7 @@
-import { Trash2 } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
-import ConfirmModal from "@/Components/ConfirmModal";
 import TextField from "@/Components/UI/Fields/TextField";
-import { useState } from "react";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatMoney";
 
 export default function InverterCard({ inverter, setInverter, isEditing, onDelete }) {
     const inverterTypeOptions = [
@@ -20,9 +17,18 @@ export default function InverterCard({ inverter, setInverter, isEditing, onDelet
     ];
 
     function onChange(field, value) {
+
+        let formattedValue = value;
+
+        if (field === "max_power_watts" || field == "supported_panel_max_power_watts") {
+            formattedValue = formatDecimal(value);
+        } else {
+            formattedValue = value;
+        } 
+
         setInverter((prev) => ({
             ...prev,
-            [field]: value,
+            [field]: formattedValue,
         }));
     }
 

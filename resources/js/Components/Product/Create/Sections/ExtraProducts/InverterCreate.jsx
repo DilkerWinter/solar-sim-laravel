@@ -1,6 +1,6 @@
 import InputField from "@/Components/UI/Inputs/InputText";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatMoney";
 import { useEffect, useState } from "react";
 
 export default function InverterCreate({ onDataChange }) {
@@ -34,7 +34,7 @@ export default function InverterCreate({ onDataChange }) {
         let formattedValue = value;
 
         if (name === "max_power_watts" || name == "supported_panel_max_power_watts") {
-            formattedValue = formatMoney(value);
+            formattedValue = formatDecimal(value);
         } else {
             formattedValue = value;
         } 

@@ -2,7 +2,7 @@ import { Zap, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
 import TextField from "../../../UI/Fields/TextField";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatMoney";
 
 export default function EnergyInfoCard({
     customer,
@@ -39,9 +39,9 @@ export default function EnergyInfoCard({
     const resumo =
         editedEnergyInfo?.average_annual_consumption_kwh != null &&
         editedEnergyInfo?.average_energy_bill != null
-            ? `Consumo médio: ${formatMoney(
+            ? `Consumo médio: ${formatDecimal(
                   (editedEnergyInfo.average_annual_consumption_kwh / 12).toFixed(0)
-              )} kWh/mês – R$ ${formatMoney(
+              )} kWh/mês – R$ ${formatDecimal(
                   editedEnergyInfo.average_energy_bill
               )}`
             : "Nova Informação de Energia";
@@ -109,26 +109,26 @@ export default function EnergyInfoCard({
                             <EditableField
                                 label="Consumo Médio Anual (kWh)"
                                 name="average_annual_consumption_kwh"
-                                value={formatMoney(
+                                value={formatDecimal(
                                     editedEnergyInfo.average_annual_consumption_kwh ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
                                         "average_annual_consumption_kwh",
-                                        formatMoney(e.target.value)
+                                        formatDecimal(e.target.value)
                                     )
                                 }
                             />
                             <EditableField
                                 label="Conta de Energia Média (R$)"
                                 name="average_energy_bill"
-                                value={formatMoney(
+                                value={formatDecimal(
                                     editedEnergyInfo.average_energy_bill ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
                                         "average_energy_bill",
-                                        formatMoney(e.target.value)
+                                        formatDecimal(e.target.value)
                                     )
                                 }
                             />
@@ -160,13 +160,13 @@ export default function EnergyInfoCard({
                         <>
                             <TextField
                                 label="Consumo Médio Anual (kWh)"
-                                value={`${formatMoney(
+                                value={`${formatDecimal(
                                     energyInfo.average_annual_consumption_kwh
                                 )} kWh`}
                             />
                             <TextField
                                 label="Conta de Energia Média (R$)"
-                                value={`R$ ${formatMoney(
+                                value={`R$ ${formatDecimal(
                                     energyInfo.average_energy_bill
                                 )}`}
                             />

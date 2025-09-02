@@ -16,7 +16,7 @@ import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
 import { useToast } from "@/Contexts/ToastContext";
 import { formatPhone } from "@/Utils/formatPhone";
 import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
-import { formatMoney } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatMoney";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -475,7 +475,7 @@ export default function Create() {
                                                 e.target.value
                                             )
                                         }
-                                        formatFunction={formatMoney}
+                                        formatFunction={formatDecimal}
                                         suffix="kWh"
                                     />
                                     <InputField
@@ -493,7 +493,7 @@ export default function Create() {
                                                 e.target.value
                                             )
                                         }
-                                        formatFunction={formatMoney}
+                                        formatFunction={formatDecimal}
                                         prefix="R$"
                                     />
                                     <InputField
