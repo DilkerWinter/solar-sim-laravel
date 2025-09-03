@@ -1,4 +1,4 @@
-import InputField from "@/Components/UI/Inputs/InputText";
+import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { formatDecimal } from "@/Utils/formatMoney";
 

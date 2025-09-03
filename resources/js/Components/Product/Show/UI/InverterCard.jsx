@@ -1,9 +1,12 @@
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import TextField from "@/Components/UI/Fields/TextField";
-import { formatDecimal } from "@/Utils/formatMoney";
+import InputField from "@/Components/UI/Inputs/InputField";
+import { formatDecimal } from "@/Utils/formatNumber";
 
-export default function InverterCard({ inverter, setInverter, isEditing, onDelete }) {
+export default function InverterCard({ product, setProduct, isEditing }) {
+    const { inverter } = product;
+
     const inverterTypeOptions = [
         { value: "Microinversor", label: "Microinversor" },
         { value: "Bifásico", label: "Bifásico" },
@@ -16,26 +19,20 @@ export default function InverterCard({ inverter, setInverter, isEditing, onDelet
         { value: "220", label: "220V" },
     ];
 
-    function onChange(field, value) {
-
-        let formattedValue = value;
-
-        if (field === "max_power_watts" || field == "supported_panel_max_power_watts") {
-            formattedValue = formatDecimal(value);
-        } else {
-            formattedValue = value;
-        } 
-
-        setInverter((prev) => ({
-            ...prev,
-            [field]: formattedValue,
+    const onChange = (field, value) => {
+        setProduct((prevProduct) => ({
+            ...prevProduct,
+            inverter: {
+                ...prevProduct.inverter,
+                [field]: value,
+            },
         }));
-    }
+    };
 
     return (
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
             <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3 px-4 py-2 rounded-full shadow w-fit bg-blue-100 text-blue-700">
+                <div className="flex items-center space-x-3 px-4 py-2 rounded-full shadow w-fit bg-yellow-100 text-yellow-700">
                     <h2 className="font-semibold text-lg">Informações do Inversor</h2>
                 </div>
             </div>
@@ -59,19 +56,19 @@ export default function InverterCard({ inverter, setInverter, isEditing, onDelet
                             value={inverter.supported_panel_count ?? ""}
                             onChange={(e) => onChange("supported_panel_count", e.target.value)}
                         />
-                        <EditableField
+                        <InputField
                             required
                             label="Potência Máxima dos Painéis Suportados"
                             name="supported_panel_max_power_watts"
-                            value={inverter.supported_panel_max_power_watts ?? ""}
+                            value={formatDecimal(inverter.supported_panel_max_power_watts) ?? ""}
                             onChange={(e) => onChange("supported_panel_max_power_watts", e.target.value)}
                             suffix="W"
                         />
-                        <EditableField
+                        <InputField
                             required
                             label="Potência Máxima"
                             name="max_power_watts"
-                            value={inverter.max_power_watts ?? ""}
+                            value={formatDecimal(inverter.max_power_watts) ?? ""}
                             onChange={(e) => onChange("max_power_watts", e.target.value)}
                             suffix="W"
                         />
@@ -88,8 +85,8 @@ export default function InverterCard({ inverter, setInverter, isEditing, onDelet
                     <>
                         <TextField label="Tipo" value={inverter.type} />
                         <TextField label="Quantidade de Painéis Suportados" value={inverter.supported_panel_count} />
-                        <TextField label="Potência Máxima dos Painéis Suportados" value={`${inverter.supported_panel_max_power_watts} W`} />
-                        <TextField label="Potência Máxima" value={`${inverter.max_power_watts} W`} />
+                        <TextField label="Potência Máxima dos Painéis Suportados" value={`${inverter.supported_panel_max_power_watts_formatted} W`} />
+                        <TextField label="Potência Máxima" value={`${inverter.max_power_watts_formatted} W`} />
                         <TextField label="Tensão de Operação" value={`${inverter.operating_voltage} V`} />
                     </>
                 )}

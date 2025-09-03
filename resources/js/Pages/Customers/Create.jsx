@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import AddOptionalFormButton from "@/Components/Customer/Create/AddOptionalFormButton";
 import BackButton from "@/Components/Customer/Create/BackButton";
 import FormCard from "@/Components/Customer/Create/FormCard";
-import InputField from "@/Components/UI/Inputs/InputText";
+import InputField from "@/Components/UI/Inputs/InputField";
 import SubmitButton from "@/Components/UI/Inputs/SubmitButton";
 import { House, User, Zap } from "lucide-react";
 import OptionalMultiSectionFormCard from "@/Components/Customer/Create/MultiSectionFormCard";

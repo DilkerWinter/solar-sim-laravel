@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
-import InputField from "@/Components/UI/Inputs/InputText";
+import InputField from "@/Components/UI/Inputs/InputField";
 import { formatDecimal } from "@/Utils/formatMoney";
 
 export default function SolarPanelCreate({ onDataChange }) {

@@ -3,10 +3,10 @@ import EditableField from "@/Components/UI/Inputs/EditableField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useEffect, useState } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
-import { formatDecimal, formatMoneyWithPrefix } from "@/Utils/formatMoney";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { useToast } from "@/Contexts/ToastContext";
-import InputField from "@/Components/UI/Inputs/InputText";
+import InputField from "@/Components/UI/Inputs/InputField";
+import { formatDecimal } from "@/Utils/formatNumber";
 
 export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -36,8 +36,6 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
             [field]: value,
         }));
     }
-
-    console.log(product);
 
     return (
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
