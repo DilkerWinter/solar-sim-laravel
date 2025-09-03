@@ -2,7 +2,7 @@ import { Zap, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
 import TextField from "../../../UI/Fields/TextField";
-import { formatDecimal } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatNumber";
 
 export default function EnergyInfoCard({
     customer,

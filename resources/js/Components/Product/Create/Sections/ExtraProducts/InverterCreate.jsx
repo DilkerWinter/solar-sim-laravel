@@ -1,6 +1,6 @@
 import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
-import { formatDecimal } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatNumber";
 import { useEffect, useState } from "react";
 
 export default function InverterCreate({ onDataChange }) {

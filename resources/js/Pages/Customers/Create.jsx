@@ -16,7 +16,7 @@ import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
 import { useToast } from "@/Contexts/ToastContext";
 import { formatPhone } from "@/Utils/formatPhone";
 import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
-import { formatDecimal } from "@/Utils/formatMoney";
+import { formatDecimal } from "@/Utils/formatNumber";
 
 export default function Create() {
     const [clientInfo, setClientInfo] = useState({
@@ -102,21 +102,6 @@ export default function Create() {
             error("Erro ao buscar o CEP");
         }
     }
-
-    const formatDecimalNumber = (value) => {
-        let formattedValue = value.replace(/[^0-9,]/g, "");
-
-        const parts = formattedValue.split(",");
-        if (parts.length > 2) {
-            formattedValue = parts[0] + "," + parts.slice(1).join("");
-        }
-
-        if (parts[1] && parts[1].length > 2) {
-            formattedValue = parts[0] + "," + parts[1].substring(0, 2);
-        }
-
-        return formattedValue;
-    };
 
     function addAddress() {
         setAddresses((prev) => [
