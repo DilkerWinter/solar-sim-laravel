@@ -15,7 +15,7 @@ export default function ProductAdditionalSection({ selectedProductType, product,
         <section>
             <hr />
             <ProductComponent
-                inverter={product}
+                product={product}
                 setProduct={setProduct}
                 isEditing={isEditing}
             />
