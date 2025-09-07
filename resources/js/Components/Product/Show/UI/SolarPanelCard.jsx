@@ -107,14 +107,14 @@ export default function SolarPanelCard({ product, setProduct, isEditing }) {
                     </>
                 ) : (
                     <>
-                        <TextField label="Potência" value={`${solar_panel.potency_watts} W`} />
-                        <TextField label="Eficiência" value={`${solar_panel.efficiency_percentage} %`} />
-                        <TextField label="Energia Diária Média" value={`${solar_panel.average_daily_energy_wh} Wh`} />
-                        <TextField label="Temperatura Máxima de Operação" value={`${solar_panel.max_operating_temperature} °C`} />
+                        <TextField label="Potência" value={`${formatDecimal(solar_panel.potency_watts)} W`} />
+                        <TextField label="Eficiência" value={`${formatDecimal(solar_panel.efficiency_percentage)} %`} />
+                        <TextField label="Energia Diária Média" value={`${formatDecimal(solar_panel.average_daily_energy_wh)} Wh`} />
+                        <TextField label="Temperatura Máxima de Operação" value={`${formatDecimal(solar_panel.max_operating_temperature)} °C`} />
                         <TextField label="Tensão de Operação" value={`${solar_panel.operating_voltage} V`} />
-                        <TextField label="Altura" value={`${solar_panel.height} M`} />
-                        <TextField label="Largura" value={`${solar_panel.width} M`} />
-                        <TextField label="Peso" value={`${solar_panel.weight} Kg`} />
+                        <TextField label="Altura" value={`${formatDecimal(solar_panel.height)} M`} />
+                        <TextField label="Largura" value={`${formatDecimal(solar_panel.width)} M`} />
+                        <TextField label="Peso" value={`${formatDecimal(solar_panel.weight)} Kg`} />
                     </>
                 )}
             </div>
