@@ -3,9 +3,10 @@ namespace App\Models\Products;
 
 use App\Utils\NumberFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SolarPanel extends Product
+class SolarPanel extends Model
 {
     use HasFactory, SoftDeletes;
 

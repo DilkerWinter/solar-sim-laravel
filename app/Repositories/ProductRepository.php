@@ -67,6 +67,11 @@ class ProductRepository
             $product = Product::findOrFail($id);
             $product->fill($data);
             $product->save();
+            if (!empty($data['solar_panel'])) {
+                $solarData = $data['solar_panel'];
+                $product->solarPanel->update($solarData);
+            }
+
 
             return $product;
         } catch (Exception $e) {

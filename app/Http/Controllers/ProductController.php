@@ -106,7 +106,7 @@ class ProductController extends Controller
         try {
             $this->productService->update($request->all(), $id);
 
-            return redirect()->route('products.edit', $id)->with('toast', [
+            return redirect()->route('products.show', $id)->with('toast', [
                 'type' => 'success',
                 'message' => 'Produto atualizado com sucesso.'
             ]);

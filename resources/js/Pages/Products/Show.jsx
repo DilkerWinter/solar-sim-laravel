@@ -24,11 +24,11 @@ export default function Show({ product }) {
       const handleSave = () => {
           console.log(editProduct)
   
-        // Inertia.put(route("products.update", product.id), filterData, {
-        //   onSuccess: () => {
-        //       handleToggleEdit();
-        //   },
-        // });
+        Inertia.put(route("products.update", product.id), editProduct, {
+          onSuccess: () => {
+              handleToggleEdit();
+          },
+        });
       };
 
   return (
