@@ -31,7 +31,7 @@ class KitController extends Controller
     public function create()
     {
         try {
-            return Inertia::render('Kits/Index', [route('kits.index')]);
+            return Inertia::render('Kits/Create');
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
