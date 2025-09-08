@@ -1,7 +1,16 @@
 import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
+import { useState } from "react";
 
 export default function CreateKitForm({ formData, setFormData, products }) {
+  const {selectedInverters, setSelectedInverters} = useState([]);
+  const {selectedSolarPanels, setSelectedSolarPanels} = useState([]);
+  const {selectedBaseProducts, setSelectedBaseProducts} = useState([]);
+
+  const defaultSolarPanels = products.solarPanels;
+  const defaultInverters = products.inverters;
+  const defaultBaseProducts = products.baseProducts;
+
   function handleChange(e) {
     const { name } = e.target;
     let { value } = e.target;
@@ -19,13 +28,6 @@ export default function CreateKitForm({ formData, setFormData, products }) {
         name="name" 
         required 
         value={formData.name}
-        onChange={handleChange}
-      />
-      <SelectField 
-        label="Descricao" 
-        name="description" 
-        required 
-        value={formData.description}
         onChange={handleChange}
       />
       <InputField 

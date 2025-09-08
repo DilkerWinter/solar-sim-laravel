@@ -7,7 +7,12 @@ import { useState } from "react";
 
 export default function Create( { products } ) {
   const [formData, setFormData] = useState({
-    //formdata
+    name: "",
+    description: "",
+    selectedProducts: [],
+    price: "",
+    monthlyKwh: "",
+    totalSize: "",
   });
 
   function handleSubmit(e) {
@@ -15,7 +20,7 @@ export default function Create( { products } ) {
       console.log(formData);
       // Inertia.post(route('kits.store'), formData);
   }
-
+  console.log(products);
   return (
     <div>
       <CreteKitHeader/>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Services\KitService;
+use App\Services\ProductService;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,7 +33,18 @@ class KitController extends Controller
     public function create()
     {
         try {
-            return Inertia::render('Kits/Create');
+            $productService = resolve(ProductService::class);
+            $products = $productService->getAll();
+
+            $grouped = [
+                'inverters'     => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Inversor'))->resolve(),
+                'solarpanels'   => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Placa Solar'))->resolve(),
+                'baseProducts'  => ProductResource::collection($products->filter(fn($product) => !in_array($product->type->name, ['Inversor', 'Placa Solar'])))->resolve(),
+            ];
+
+            return Inertia::render('Kits/Create', [
+                'products' => $grouped
+            ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
@@ -39,6 +52,7 @@ class KitController extends Controller
             ]);
         }
     }
+
 
     public function store(Request $request)
     {
