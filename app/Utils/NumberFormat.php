@@ -15,6 +15,6 @@ class NumberFormat
         $normalized = str_replace('.', '', $value);
         $normalized = str_replace(',', '', $normalized);
 
-        return (int) round(floatval($normalized) * 100);
+        return (int) round($normalized);
     }
 }
