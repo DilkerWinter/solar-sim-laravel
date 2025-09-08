@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\KitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
@@ -40,6 +41,9 @@ Route::middleware('auth')->group(function () {
     //All routes for Product Types
     Route::get('/products-types-count', [ProductTypeController::class, 'count'])->name('products.types.count');
     Route::resource('product-types', ProductTypeController::class);
+
+    //All routes for Kit
+    Route::resource('kits', KitController::class);
     
     //All routes for Costumer
     Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');
