@@ -11,6 +11,8 @@ export default function CreateKitForm({ formData, setFormData, products }) {
   const defaultInverters = products.inverters;
   const defaultBaseProducts = products.baseProducts;
 
+  console.log(defaultBaseProducts, defaultInverters, defaultSolarPanels);
+
   function handleChange(e) {
     const { name } = e.target;
     let { value } = e.target;

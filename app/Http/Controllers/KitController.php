@@ -38,7 +38,7 @@ class KitController extends Controller
 
             $grouped = [
                 'inverters'     => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Inversor'))->resolve(),
-                'solarpanels'   => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Placa Solar'))->resolve(),
+                'solarPanels'   => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Placa Solar'))->resolve(),
                 'baseProducts'  => ProductResource::collection($products->filter(fn($product) => !in_array($product->type->name, ['Inversor', 'Placa Solar'])))->resolve(),
             ];
 
