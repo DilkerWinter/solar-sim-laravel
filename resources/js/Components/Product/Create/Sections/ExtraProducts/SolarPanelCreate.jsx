@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
-import InputField from "@/Components/UI/Inputs/InputText";
+import InputField from "@/Components/UI/Inputs/InputField";
+import { formatDecimal } from "@/Utils/formatNumber";
 
 export default function SolarPanelCreate({ onDataChange }) {
   const [solarPanelFormData, setSolarPanelFormData] = useState({
@@ -19,17 +20,6 @@ export default function SolarPanelCreate({ onDataChange }) {
         { value: "24", label: "24V"},
     ];
 
-  function formatMoney(value) {
-    if (value == null || value === "") return "0,00";
-      let digits = String(value).replace(/\D/g, "");
-      if (digits === "") return "0,00"
-        const number = parseFloat(digits) / 100;
-        return number.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-    });
-  }
-
   function handleOperationSelectChange(value) {
     setSolarPanelFormData((prev) => ({
         ...prev,
@@ -45,7 +35,7 @@ export default function SolarPanelCreate({ onDataChange }) {
     const { name, value } = e.target;
     setSolarPanelFormData(prev => ({
       ...prev,
-      [name]: formatMoney(value)
+      [name]: formatDecimal(value)
     }));
   }
 

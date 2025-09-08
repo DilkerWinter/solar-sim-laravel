@@ -1,8 +1,10 @@
 import { Trash, Trash2, TrashIcon, User } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
-import Field from "./TextField";
+import TextField from "../../../UI/Fields/TextField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useState } from "react";
+import { formatPhone } from "@/Utils/formatPhone";
+import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";
 
 export default function CustomerCard({ customer, setCustomer, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -19,41 +21,6 @@ export default function CustomerCard({ customer, setCustomer, isEditing, onDelet
             ...prev,
             [field]: value,
         }));
-    }
-
-
-    function formatPhone(val) {
-        let digits = val.replace(/\D/g, "").slice(0, 11);
-
-        if (digits.length === 0) {
-            return "";
-        } else if (digits.length <= 2) {
-            return `(${digits}`;
-        } else if (digits.length <= 6) {
-            return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-        } else {
-            return `(${digits.slice(0, 2)}) ${digits.slice(
-                2,
-                7
-            )}-${digits.slice(7)}`;
-        }
-    }
-
-    function formatDocumentNumber(value) {
-        const digits = value.replace(/\D/g, "").slice(0, 14);
-
-        if (digits.length <= 11) {
-            return digits
-                .replace(/^(\d{3})(\d)/, "$1.$2")
-                .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
-                .replace(/\.(\d{3})(\d)/, ".$1-$2");
-        } else {
-            return digits
-                .replace(/^(\d{2})(\d)/, "$1.$2")
-                .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
-                .replace(/\.(\d{3})(\d)/, ".$1/$2")
-                .replace(/(\d{4})(\d)/, "$1-$2");
-        }
     }
 
     return (
@@ -116,10 +83,10 @@ export default function CustomerCard({ customer, setCustomer, isEditing, onDelet
                     </>
                 ) : (
                     <>
-                        <Field label="Nome" value={customer.name} />
-                        <Field label="Email" value={customer.email} />
-                        <Field label="Telefone" value={customer.phone} />
-                        <Field
+                        <TextField label="Nome" value={customer.name} />
+                        <TextField label="Email" value={customer.email} />
+                        <TextField label="Telefone" value={customer.phone} />
+                        <TextField
                             label="CPF/CNPJ"
                             value={customer.document_number}
                         />

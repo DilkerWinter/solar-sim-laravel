@@ -1,7 +1,8 @@
 import { Zap, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
-import Field from "./TextField";
+import TextField from "../../../UI/Fields/TextField";
+import { formatDecimal } from "@/Utils/formatNumber";
 
 export default function EnergyInfoCard({
     customer,
@@ -35,24 +36,12 @@ export default function EnergyInfoCard({
         }));
     }
 
-    function formatMoney(value) {
-        if (value == null || value === "") return "0,00";
-        let digits = String(value).replace(/\D/g, "");
-        if (digits === "") return "0,00";
-
-        const number = parseFloat(digits) / 100;
-        return number.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    }
-
     const resumo =
         editedEnergyInfo?.average_annual_consumption_kwh != null &&
         editedEnergyInfo?.average_energy_bill != null
-            ? `Consumo médio: ${formatMoney(
+            ? `Consumo médio: ${formatDecimal(
                   (editedEnergyInfo.average_annual_consumption_kwh / 12).toFixed(0)
-              )} kWh/mês – R$ ${formatMoney(
+              )} kWh/mês – R$ ${formatDecimal(
                   editedEnergyInfo.average_energy_bill
               )}`
             : "Nova Informação de Energia";
@@ -120,26 +109,26 @@ export default function EnergyInfoCard({
                             <EditableField
                                 label="Consumo Médio Anual (kWh)"
                                 name="average_annual_consumption_kwh"
-                                value={formatMoney(
+                                value={formatDecimal(
                                     editedEnergyInfo.average_annual_consumption_kwh ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
                                         "average_annual_consumption_kwh",
-                                        formatMoney(e.target.value)
+                                        formatDecimal(e.target.value)
                                     )
                                 }
                             />
                             <EditableField
                                 label="Conta de Energia Média (R$)"
                                 name="average_energy_bill"
-                                value={formatMoney(
+                                value={formatDecimal(
                                     editedEnergyInfo.average_energy_bill ?? ""
                                 )}
                                 onChange={(e) =>
                                     handleEnergyInfoChange(
                                         "average_energy_bill",
-                                        formatMoney(e.target.value)
+                                        formatDecimal(e.target.value)
                                     )
                                 }
                             />
@@ -169,25 +158,25 @@ export default function EnergyInfoCard({
                         </>
                     ) : (
                         <>
-                            <Field
+                            <TextField
                                 label="Consumo Médio Anual (kWh)"
-                                value={`${formatMoney(
+                                value={`${formatDecimal(
                                     energyInfo.average_annual_consumption_kwh
                                 )} kWh`}
                             />
-                            <Field
+                            <TextField
                                 label="Conta de Energia Média (R$)"
-                                value={`R$ ${formatMoney(
+                                value={`R$ ${formatDecimal(
                                     energyInfo.average_energy_bill
                                 )}`}
                             />
-                            <Field
+                            <TextField
                                 label="Concessionária de Energia"
                                 value={energyInfo.energy_provider}
                             />
                             {energyInfo.notes && (
                                 <div className="sm:col-span-2">
-                                    <Field
+                                    <TextField
                                         label="Observações"
                                         value={energyInfo.notes}
                                         multiline

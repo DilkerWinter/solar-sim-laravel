@@ -11,8 +11,9 @@ class NumberFormat
     
     public function doubleToInteger(string $value): int
     {
+        $normalized = trim($value);
         $normalized = str_replace('.', '', $value);
-        $normalized = str_replace(',', '.', $normalized);
+        $normalized = str_replace(',', '', $normalized);
 
         return (int) round(floatval($normalized) * 100);
     }

@@ -5,6 +5,7 @@ import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
 import AppLayout from "@/Layouts/AppLayout";
 import { Inertia } from "@inertiajs/inertia";
 import CustomerAddresSection from "@/Components/Customer/Show/Sections/CustomerAddressSection";
+import { capitalize } from "@/Utils/capitalize";
 
 export default function Show({ customer }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -75,7 +76,7 @@ Show.layout = (page) => {
                     items={[
                         { name: "Início", href: "/dashboard" },
                         { name: "Clientes", href: "/customers" },
-                        { name: customer.name || "Detalhes" },
+                        { name: capitalize(customer.name) || "Detalhes" },
                     ]}
                 />
             }

@@ -1,5 +1,6 @@
-import InputField from "@/Components/UI/Inputs/InputText";
+import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
+import { formatDecimal } from "@/Utils/formatNumber";
 import { useEffect, useState } from "react";
 
 export default function InverterCreate({ onDataChange }) {
@@ -23,17 +24,6 @@ export default function InverterCreate({ onDataChange }) {
         { value: "220", label: "220V"},
     ];
 
-    function formatMoney(value) {
-        if (value == null || value === "") return "0,00";
-        let digits = String(value).replace(/\D/g, "");
-        if (digits === "") return "0,00";
-        const number = parseFloat(digits) / 100;
-        return number.toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    }
-
     useEffect(() => {
         onDataChange(inverterFormData);
     }, [inverterFormData, onDataChange]);
@@ -44,7 +34,7 @@ export default function InverterCreate({ onDataChange }) {
         let formattedValue = value;
 
         if (name === "max_power_watts" || name == "supported_panel_max_power_watts") {
-            formattedValue = formatMoney(value);
+            formattedValue = formatDecimal(value);
         } else {
             formattedValue = value;
         } 

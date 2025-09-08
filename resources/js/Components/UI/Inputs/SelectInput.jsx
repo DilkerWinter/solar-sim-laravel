@@ -7,6 +7,7 @@ export default function SelectField({
   value,
   onChange,
   placeholder = "Selecione uma opção",
+  disabled
 }) {
   const hasValue = value && value !== "";
 
@@ -16,8 +17,9 @@ export default function SelectField({
     value: value || "",
     onChange: (e) => onChange(e.target.value),
     className:
-      "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500",
+      "mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-200",
     required,
+    disabled,
   };
 
   return (

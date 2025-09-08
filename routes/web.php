@@ -38,8 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
 
     //All routes for Product Types
-    Route::get('/products/types/count', [ProductTypeController::class, 'count'])->name('products.types.count');
-    Route::resource('products/types', ProductTypeController::class);
+    Route::get('/products-types-count', [ProductTypeController::class, 'count'])->name('products.types.count');
+    Route::resource('product-types', ProductTypeController::class);
     
     //All routes for Costumer
     Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');
