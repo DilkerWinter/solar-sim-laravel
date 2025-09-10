@@ -2,6 +2,8 @@ import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import MultiSelectField from "@/Components/UI/Inputs/SelectInput";
 import { useState, useEffect } from "react";
+import SelectedProducts from "../UI/SelectedProductsTable";
+import SelectedProductsTable from "../UI/SelectedProductsTable";
 
 export default function CreateKitForm({ formData, setFormData, products }) {
     const [selectedInverters, setSelectedInverters] = useState([]);
@@ -24,11 +26,13 @@ export default function CreateKitForm({ formData, setFormData, products }) {
     
     setSelectedList([...selectedList, selectedItem]);
     setOptionsList(optionsList.filter(item => item.id !== Number(value)));
-  }
+  } 
+
 
   return (
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <InputField
+      <section>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<InputField
               label="Nome"
               name="name"
               required
@@ -59,7 +63,6 @@ export default function CreateKitForm({ formData, setFormData, products }) {
               value={""}
               onChange={(value) => handleSelect(value, selectedSolarPanels, setSelectedSolarPanels, optionsSolarPanels, setOptionsSolarPanels)}
           />
-          
           <SelectField
               label="Inversores"
               name="inverters"
@@ -76,6 +79,9 @@ export default function CreateKitForm({ formData, setFormData, products }) {
               value={""}
               onChange={(value) => handleSelect(value, selectedBaseProducts, setSelectedBaseProducts, optionsBaseProducts, setOptionsBaseProducts)}
           />
+        </div>
+          
+        <SelectedProductsTable baseProducts={selectedBaseProducts} solarPanels={selectedSolarPanels} inverters={selectedInverters}/>
       </section>
   );
 }

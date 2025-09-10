@@ -17,10 +17,9 @@ export default function Create( { products } ) {
 
   function handleSubmit(e) {
       e.preventDefault();
-      console.log(formData);
       // Inertia.post(route('kits.store'), formData);
   }
-  console.log(products);
+
   return (
     <div>
       <CreteKitHeader/>
