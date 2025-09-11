@@ -4,6 +4,7 @@ import TableFooter from "./TableFooter";
 import { useEffect, useState } from "react";
 
 export default function SelectedProductsTable({
+    setFormData,
     baseProducts,
     solarPanels,
     inverters,
@@ -18,7 +19,39 @@ export default function SelectedProductsTable({
             ...baseProducts,
         ];
         setProducts(allProducts);
+
+        setFormData(prev => ({
+            ...prev,
+            selectedProducts: allProducts,
+            totalPrice: calculateTotalPrice(allProducts),
+            generatedKwh: calculateGeneratedKwh(solarPanels),
+            inverterCapacityW: calculateInverterCapacity(inverters)
+        }));
     }, [solarPanels, inverters, baseProducts]);
+
+    const calculateTotalPrice = (products) => {
+        return products.reduce((total, product) => {
+            const quantity = Number(product.quantity) || 1;
+            const price = Number(product.price) || 0;
+            return total + (quantity * price);
+        }, 0);
+    };
+
+    const calculateGeneratedKwh = (panels) => {
+        return panels.reduce((total, panel) => {
+            const quantity = Number(panel.quantity) || 1;
+            const dailyEnergy = Number(panel.solarPanel?.average_daily_energy_wh) || 0;
+            return total + (quantity * dailyEnergy);
+        }, 0);
+    };
+
+    const calculateInverterCapacity = (inverters) => {
+        return inverters.reduce((total, inverter) => {
+            const quantity = Number(inverter.quantity) || 1;
+            const power = Number(inverter.inverter?.max_power_watts) || 0;
+            return total + (quantity * power);
+        }, 0);
+    };
 
     const handleQuantityChange = (productId, newQuantity) => {
         setProducts(prevProducts =>

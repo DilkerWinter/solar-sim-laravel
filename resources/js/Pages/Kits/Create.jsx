@@ -10,13 +10,14 @@ export default function Create( { products } ) {
     name: "",
     description: "",
     selectedProducts: [],
-    price: "",
-    monthlyKwh: "",
-    totalSize: "",
+    generatedKwh: "",
+    inverterCapacityW: "",
+    totalPrice: "",
   });
 
   function handleSubmit(e) {
       e.preventDefault();
+      console.log(formData)
       // Inertia.post(route('kits.store'), formData);
   }
 

@@ -86,17 +86,6 @@ export default function CreateKitForm({ formData, setFormData, products }) {
                         })
                     }
                 />
-                <InputField
-                    label="Preço"
-                    name="price"
-                    type="text"
-                    required
-                    value={formData.price}
-                    onChange={(e) =>
-                        setFormData({ ...formData, price: e.target.value })
-                    }
-                    prefix={"R$"}
-                />
                 <SelectField
                     label="Painéis Solares"
                     name="solarPanels"
@@ -157,6 +146,7 @@ export default function CreateKitForm({ formData, setFormData, products }) {
             </div>
 
             <SelectedProductsTable
+                setFormData={setFormData}
                 baseProducts={selectedBaseProducts}
                 solarPanels={selectedSolarPanels}
                 inverters={selectedInverters}
