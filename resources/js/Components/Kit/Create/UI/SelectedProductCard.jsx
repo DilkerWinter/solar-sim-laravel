@@ -1,44 +1,108 @@
+import { useState } from "react";
+import QuantityInput from "./InputQuantity";
+
 export default function SelectedProductCard({ product }) {
-  return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <h2 className="text-lg font-semibold text-gray-900 flex-1 leading-tight">
-          {product.name}
-        </h2>
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 border border-gray-200 whitespace-nowrap">
-          {product.brand}
-        </span>
-      </div>
+    const [quantity, setQuantity] = useState("1");
 
-      <p className="text-gray-600 mb-4 leading-relaxed line-clamp-2">
-        {product.description}
-      </p>
+    const isInverter = product.inverter;
+    const isSolarPanel = product.solarPanel;
 
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <p className="text-lg font-semibold text-gray-900">
-            R$ {product.price}
-          </p>
-          {product.inverter && product.inverter.max_power_watts && (
-            <p className="text-lg font-semibold text-yellow-700">
-              {product.inverter.max_power_watts} W
-            </p>
-          )}
+    const renderSpecifications = () => {
+        if (isInverter) {
+            return (
+                <div className="space-y-0.5 text-gray-600 text-sm">
+                    <div>
+                        <span>Tipo: </span>
+                        <span className="text-gray-900">
+                            {product.inverter.type}
+                        </span>
+                    </div>
+                    <div>
+                        <span>Potência: </span>
+                        <span className="text-gray-900">
+                            {product.inverter.max_power_watts}W
+                        </span>
+                    </div>
+                    <div>
+                        <span>Tensão: </span>
+                        <span className="text-gray-900">
+                            {product.inverter.operating_voltage}V
+                        </span>
+                    </div>
+                </div>
+            );
+        }
+
+        if (isSolarPanel) {
+            return (
+                <div className="space-y-0.5 text-gray-600 text-sm">
+                    <div>
+                        <span>Potência: </span>
+                        <span className="text-gray-900">
+                            {product.solarPanel.potency_watts_formatted}W
+                        </span>
+                    </div>
+                    <div>
+                        <span>Energia diária: </span>
+                        <span className="text-gray-900">
+                            {product.solarPanel.average_daily_energy_wh}Wh
+                        </span>
+                    </div>
+                    <div>
+                        <span>Tensão: </span>
+                        <span className="text-gray-900">
+                            {product.solarPanel.operating_voltage}V
+                        </span>
+                    </div>
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    return (
+        <div className="border border-gray-300 bg-white rounded-lg overflow-hidden">
+            <div className="p-3">
+                <div className="flex items-start justify-between">
+                    <h3 className="text-base font-medium leading-snug">
+                        {product.name}
+                    </h3>
+                    <div>
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-2xl font-medium text-sm bg-gray-100 text-gray-800 border border-gray-300 whitespace-nowrap">
+                            {product.brand}
+                        </span>
+                    </div>
+                </div>
+
+                {product.description && (
+                    <p className="text-gray-600 mb-2 text-sm line-clamp-2">
+                        {product.description}
+                    </p>
+                )}
+
+                <div className="mb-2">{renderSpecifications()}</div>
+            </div>
+
+            <div className="border-t border-gray-200 px-3 py-2 bg-gray-100">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">
+                        Preço Unitário: R$ {product.price}
+                    </span>
+                  </div>
+                    
+                    <div className="flex items-center gap-1 text-sm">
+                        <span>Qtd:</span>
+                        <QuantityInput
+                            name="product_quantity"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            placeholder="1"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          <label htmlFor="quantity" className="text-sm text-gray-600 whitespace-nowrap">
-            Qtd:
-          </label>
-          <input
-            id="quantity"
-            type="number"
-            defaultValue={1}
-            min={1}
-            className="w-16 h-9 border border-gray-300 rounded-md px-2 text-center text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-          />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

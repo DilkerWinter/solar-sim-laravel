@@ -24,7 +24,7 @@ export default function SelectedProductsSection({ title, products, icon: Icon })
                     <Icon className="w-4 h-4" />
                     <h3 className="text-sm font-medium">{title}</h3>
                 </div>
-                <div className="h-px bg-gray-200 flex-1 ml-3" />
+                <div className="h-px bg-gray-100 flex-1 ml-3" />
             </div>
 
             {products && products.length > 0 ? (
