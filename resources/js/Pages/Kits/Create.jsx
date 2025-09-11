@@ -3,6 +3,7 @@ import CreateKitForm from "@/Components/Kit/Create/Sections/CreateKitForm";
 import CreteKitHeader from "@/Components/Kit/Create/Sections/CreateKitHeader";
 import SubmitButton from "@/Components/UI/Inputs/SubmitButton";
 import AppLayout from "@/Layouts/AppLayout";
+import { Inertia } from "@inertiajs/inertia";
 import { useState } from "react";
 
 export default function Create( { products } ) {
@@ -17,8 +18,7 @@ export default function Create( { products } ) {
 
   function handleSubmit(e) {
       e.preventDefault();
-      console.log(formData)
-      // Inertia.post(route('kits.store'), formData);
+      Inertia.post(route('kits.store'), formData);
   }
 
   return (
