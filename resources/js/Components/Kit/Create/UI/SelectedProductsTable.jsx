@@ -1,22 +1,28 @@
 import { Package, Zap, Settings, Sun } from "lucide-react";
 import SelectedProductsSection from "./SelectedProductsSection";
 import TableFooter from "./TableFooter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SelectedProductsTable({
     baseProducts,
     solarPanels,
     inverters,
+    onRemoveProduct
 }) {
-    const [products, setProducts] = useState([
-        ...solarPanels,
-        ...inverters,
-        ...baseProducts,
-    ]);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const allProducts = [
+            ...solarPanels,
+            ...inverters,
+            ...baseProducts,
+        ];
+        setProducts(allProducts);
+    }, [solarPanels, inverters, baseProducts]);
 
     const handleQuantityChange = (productId, newQuantity) => {
-        setProducts((prevProducts) =>
-            prevProducts.map((product) =>
+        setProducts(prevProducts =>
+            prevProducts.map(product =>
                 product.id === productId
                     ? { ...product, quantity: newQuantity }
                     : product
@@ -33,21 +39,24 @@ export default function SelectedProductsTable({
             <div className="p-6 space-y-8">
                 <SelectedProductsSection
                     title="Placas Solar"
-                    products={solarPanels}
+                    products={products.filter(p => p.solarPanel)} 
                     icon={Sun}
                     onQuantityChange={handleQuantityChange}
+                    onRemove={onRemoveProduct}
                 />
                 <SelectedProductsSection
                     title="Inversor"
-                    products={inverters}
+                    products={products.filter(p => p.inverter)}
                     icon={Zap}
                     onQuantityChange={handleQuantityChange}
+                    onRemove={onRemoveProduct}
                 />
                 <SelectedProductsSection
                     title="Outros"
-                    products={baseProducts}
+                    products={products.filter(p => !p.inverter && !p.solarPanel)}
                     icon={Package}
                     onQuantityChange={handleQuantityChange}
+                    onRemove={onRemoveProduct}
                 />
             </div>
 

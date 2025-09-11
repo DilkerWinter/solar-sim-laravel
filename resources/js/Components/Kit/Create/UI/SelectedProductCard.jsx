@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import QuantityInput from "./InputQuantity";
+import { Trash2 } from "lucide-react";
 
-export default function SelectedProductCard({ product, onQuantityChange }) {
-    const [quantity, setQuantity] = useState("1");
+export default function SelectedProductCard({ product, onQuantityChange, onRemove }) {
+    const [quantity, setQuantity] = useState("");
 
     const handleQuantityChange = (e) => {
         const newQuantity = e.target.value;
@@ -12,10 +13,6 @@ export default function SelectedProductCard({ product, onQuantityChange }) {
 
     const isInverter = product.inverter;
     const isSolarPanel = product.solarPanel;
-
-    useEffect(() => {
-        product.quantity = quantity;
-    }, [quantity]);
 
     const renderSpecifications = () => {
         if (isInverter) {
@@ -75,14 +72,22 @@ export default function SelectedProductCard({ product, onQuantityChange }) {
         <div className="border border-gray-300 bg-white rounded-lg overflow-hidden">
             <div className="p-3">
                 <div className="flex items-start justify-between">
-                    <h3 className="text-base font-medium leading-snug">
-                        {product.name}
-                    </h3>
-                    <div>
+                    <div className="flex items-center gap-2">
+                        <h3 className="text-base font-medium leading-snug">
+                            {product.name}
+                        </h3>
                         <span className="inline-flex items-center px-2 py-0.5 rounded-2xl font-medium text-sm bg-gray-100 text-gray-800 border border-gray-300 whitespace-nowrap">
                             {product.brand}
                         </span>
                     </div>
+                    <button
+                        type="button"
+                        onClick={() => onRemove(product.id)}
+                        className="p-1 hover:bg-red-500 hover:text-white rounded-2xl transition-colors"
+                        title="Remover produto"
+                    >
+                        <Trash2 size={16} />
+                    </button>
                 </div>
 
                 {product.description && (

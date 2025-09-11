@@ -1,6 +1,6 @@
 import SelectedProductCard from "./SelectedProductCard";
 
-export default function SelectedProductsSection({ title, products, icon: Icon, onQuantityChange }) {
+export default function SelectedProductsSection({ title, products, icon: Icon, onQuantityChange, onRemove}) {
     let bgColor = "bg-gray-100";
     let textColor = "text-gray-700";
     let borderColor = "border-gray-300";
@@ -34,6 +34,7 @@ export default function SelectedProductsSection({ title, products, icon: Icon, o
                             key={idx} 
                             product={product}
                             onQuantityChange={onQuantityChange}
+                            onRemove={onRemove}
                         />
                     ))}
                 </div>
