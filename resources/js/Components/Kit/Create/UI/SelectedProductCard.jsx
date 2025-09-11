@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuantityInput from "./InputQuantity";
 
-export default function SelectedProductCard({ product }) {
+export default function SelectedProductCard({ product, onQuantityChange }) {
     const [quantity, setQuantity] = useState("1");
+
+    const handleQuantityChange = (e) => {
+        const newQuantity = e.target.value;
+        setQuantity(newQuantity);
+        onQuantityChange(product.id, newQuantity);
+    };
 
     const isInverter = product.inverter;
     const isSolarPanel = product.solarPanel;
+
+    useEffect(() => {
+        product.quantity = quantity;
+    }, [quantity]);
 
     const renderSpecifications = () => {
         if (isInverter) {
@@ -86,18 +96,18 @@ export default function SelectedProductCard({ product }) {
 
             <div className="border-t border-gray-200 px-3 py-2 bg-gray-100">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">
-                        Preço Unitário: R$ {product.price}
-                    </span>
-                  </div>
-                    
+                    <div>
+                        <span className="text-sm font-medium text-gray-900">
+                            Preço Unitário: R$ {product.price}
+                        </span>
+                    </div>
+
                     <div className="flex items-center gap-1 text-sm">
-                        <span>Qtd:</span>
+                        <span>Quantidade: </span>
                         <QuantityInput
                             name="product_quantity"
                             value={quantity}
-                            onChange={(e) => setQuantity(e.target.value)}
+                            onChange={handleQuantityChange}
                             placeholder="1"
                         />
                     </div>

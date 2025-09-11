@@ -1,6 +1,6 @@
 import SelectedProductCard from "./SelectedProductCard";
 
-export default function SelectedProductsSection({ title, products, icon: Icon }) {
+export default function SelectedProductsSection({ title, products, icon: Icon, onQuantityChange }) {
     let bgColor = "bg-gray-100";
     let textColor = "text-gray-700";
     let borderColor = "border-gray-300";
@@ -30,7 +30,11 @@ export default function SelectedProductsSection({ title, products, icon: Icon })
             {products && products.length > 0 ? (
                 <div className="space-y-2">
                     {products.map((product, idx) => (
-                        <SelectedProductCard key={idx} product={product} />
+                        <SelectedProductCard 
+                            key={idx} 
+                            product={product}
+                            onQuantityChange={onQuantityChange}
+                        />
                     ))}
                 </div>
             ) : (
