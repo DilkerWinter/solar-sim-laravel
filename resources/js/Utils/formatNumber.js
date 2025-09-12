@@ -19,3 +19,9 @@ export function formatMoneyWithPrefix(value) {
         maximumFractionDigits: 2,
     });
 }
+
+export function parseToCents(value) {
+  if (value == null || value === "") return 0;
+  let digits = String(value).replace(/\D/g, "");
+  return parseInt(digits, 10) || 0; 
+};

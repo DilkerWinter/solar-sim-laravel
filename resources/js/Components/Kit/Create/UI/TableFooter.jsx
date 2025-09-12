@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function TableFooter({ products }) {
     const [totalPrice, setTotalPrice] = useState("0,00");
     const [totalKwh, setTotalKwh] = useState(0);
-    const [supportedKwh, setSupportedKwh] = useState(0);
+    const [supportedKw, setSupportedKw] = useState(0);
 
     const parsePrice = (priceString) => {
         if (typeof priceString === "number") return priceString;
@@ -50,7 +50,7 @@ export default function TableFooter({ products }) {
             return acc;
         }, 0);
 
-        setSupportedKwh(total);
+        setSupportedKw(total);
     }
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export default function TableFooter({ products }) {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className="flex flex-col  text-gray-900">
                     <span>kWh Gerados/dia: {totalKwh.toFixed(2)} kWh</span>
-                    <span>Capacidade Inversores: {supportedKwh.toFixed(2)} kW</span>
+                    <span>Capacidade Inversores: {supportedKw.toFixed(2)} kW</span>
                 </div>
 
                 <div className="flex items-center gap-1 text-sm">

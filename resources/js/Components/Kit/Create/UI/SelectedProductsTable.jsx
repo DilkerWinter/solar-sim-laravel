@@ -2,6 +2,7 @@ import { Package, Zap, Settings, Sun } from "lucide-react";
 import SelectedProductsSection from "./SelectedProductsSection";
 import TableFooter from "./TableFooter";
 import { useEffect, useState } from "react";
+import { parseToCents } from "@/Utils/formatNumber";
 
 export default function SelectedProductsTable({
     setFormData,
@@ -20,7 +21,7 @@ export default function SelectedProductsTable({
             ...prev,
             selectedProducts: updatedProducts,
             total_price: calculateTotalPrice(updatedProducts),
-            generated_kw: calculateGeneratedKwh(solarPanelProducts),
+            generated_kwh: calculateGeneratedKwh(solarPanelProducts),
             supported_kw: calculateInverterCapacity(inverterProducts)
         }));
     };
@@ -36,11 +37,11 @@ export default function SelectedProductsTable({
     }, [solarPanels, inverters, baseProducts]);
 
     const calculateTotalPrice = (products) => {
-        return products.reduce((total, product) => {
-            const quantity = Number(product.quantity) || 1;
-            const price = Number(product.price) || 0;
-            return total + (quantity * price);
-        }, 0);
+      return products.reduce((total, product) => {
+        const quantity = Number(product.quantity) || 1;
+        const priceInCents = parseToCents(product.price); 
+        return total + (quantity * priceInCents);
+      }, 0);
     };
 
     const calculateGeneratedKwh = (panels) => {
@@ -48,16 +49,15 @@ export default function SelectedProductsTable({
             const quantity = Number(panel.quantity) || 1;
             const dailyEnergy = Number(panel.solarPanel?.average_daily_energy_wh) || 0;
             return total + (quantity * dailyEnergy);
-        }, 0);
+        }, 0); 
     };
 
     const calculateInverterCapacity = (inverters) => {
-        const totalWatts = inverters.reduce((total, inverter) => {
+        return inverters.reduce((total, inverter) => {
             const quantity = Number(inverter.quantity) || 1;
             const power = Number(inverter.inverter?.max_power_watts) || 0;
             return total + (quantity * power);
         }, 0);
-        return totalWatts / 1000;
     };
 
     const handleQuantityChange = (productId, newQuantity) => {
