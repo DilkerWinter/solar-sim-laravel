@@ -18,13 +18,13 @@ function Type({ type }) {
     let borderColor = "border-gray-300";
 
     if (type.toLowerCase() === "placa solar") {
-        bgColor = "bg-yellow-100";
-        textColor = "text-yellow-700";
-        borderColor = "border-yellow-300";
-    } else if (type.toLowerCase() === "inversor") {
         bgColor = "bg-green-100";
         textColor = "text-green-700";
         borderColor = "border-green-300";
+    } else if (type.toLowerCase() === "inversor") {
+        bgColor = "bg-blue-100";
+        textColor = "text-blue-700";
+        borderColor = "border-blue-300";
     }
 
     return (
