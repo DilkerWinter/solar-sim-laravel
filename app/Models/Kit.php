@@ -16,12 +16,13 @@ class Kit extends Model
         'name',
         'description',
         'total_price',
-        'max_potency_kw',
+        'generated_kwh',
+        'supported_kw'
     ];
 
-    public function kitItems()
+    public function products()
     {
-        return $this->hasMany(KitItems::class);
+        return $this->hasMany(KitProducts::class);
     }
 
 }

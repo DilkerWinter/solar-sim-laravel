@@ -10,10 +10,10 @@ export default function Create( { products } ) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    total_price: "",
+    generated_kwh: "",
+    supported_kw: "",
     selectedProducts: [],
-    generatedKwh: "",
-    inverterCapacityW: "",
-    totalPrice: "",
   });
 
   function handleSubmit(e) {

@@ -19,6 +19,7 @@ class KitRepository
 
     public function create($data)
     {
+        dd($data);
         try {
             $kit = new Kit;
             $kit->fill($data);

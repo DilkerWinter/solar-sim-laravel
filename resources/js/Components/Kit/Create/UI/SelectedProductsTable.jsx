@@ -12,6 +12,19 @@ export default function SelectedProductsTable({
 }) {
     const [products, setProducts] = useState([]);
 
+    const updateFormDataWithProducts = (updatedProducts) => {
+        const solarPanelProducts = updatedProducts.filter(p => p.solarPanel);
+        const inverterProducts = updatedProducts.filter(p => p.inverter);
+
+        setFormData(prev => ({
+            ...prev,
+            selectedProducts: updatedProducts,
+            total_price: calculateTotalPrice(updatedProducts),
+            generated_kw: calculateGeneratedKwh(solarPanelProducts),
+            supported_kw: calculateInverterCapacity(inverterProducts)
+        }));
+    };
+
     useEffect(() => {
         const allProducts = [
             ...solarPanels,
@@ -19,14 +32,7 @@ export default function SelectedProductsTable({
             ...baseProducts,
         ];
         setProducts(allProducts);
-
-        setFormData(prev => ({
-            ...prev,
-            selectedProducts: allProducts,
-            totalPrice: calculateTotalPrice(allProducts),
-            generatedKwh: calculateGeneratedKwh(solarPanels),
-            inverterCapacityW: calculateInverterCapacity(inverters)
-        }));
+        updateFormDataWithProducts(allProducts);
     }, [solarPanels, inverters, baseProducts]);
 
     const calculateTotalPrice = (products) => {
@@ -46,21 +52,23 @@ export default function SelectedProductsTable({
     };
 
     const calculateInverterCapacity = (inverters) => {
-        return inverters.reduce((total, inverter) => {
+        const totalWatts = inverters.reduce((total, inverter) => {
             const quantity = Number(inverter.quantity) || 1;
             const power = Number(inverter.inverter?.max_power_watts) || 0;
             return total + (quantity * power);
         }, 0);
+        return totalWatts / 1000;
     };
 
     const handleQuantityChange = (productId, newQuantity) => {
-        setProducts(prevProducts =>
-            prevProducts.map(product =>
-                product.id === productId
-                    ? { ...product, quantity: newQuantity }
-                    : product
-            )
+        const updatedProducts = products.map(product =>
+            product.id === productId
+                ? { ...product, quantity: newQuantity }
+                : product
         );
+        
+        setProducts(updatedProducts);
+        updateFormDataWithProducts(updatedProducts);
     };
 
     return (

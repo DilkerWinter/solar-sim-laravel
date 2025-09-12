@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Products\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,11 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Relational Table to link Products to a Kit
  */
-class KitItems extends Model
+class KitProducts extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'kititems';
+    protected $table = 'kit_products';
 
     protected $fillable = [
         'kit_id',
