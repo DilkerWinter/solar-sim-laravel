@@ -1,29 +1,15 @@
-import { Package, Trash2 } from "lucide-react";
+import { Sun, Trash2 } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import ConfirmModal from "@/Components/ConfirmModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
-import SelectField from "@/Components/UI/Inputs/SelectInput";
-import { useToast } from "@/Contexts/ToastContext";
 import InputField from "@/Components/UI/Inputs/InputField";
 import { formatDecimal } from "@/Utils/formatNumber";
 
-export default function ProductCard({ product, setProduct, isEditing, onDelete}) {
+export default function KitCard({ kit, setKit, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-    const [productTypes, setProductTypes] = useState([]);
-    const { error } = useToast();
 
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
-
-    useEffect(() => {
-        axios.get("/product-types")
-            .then(response => {
-                setProductTypes(response.data);
-            })
-            .catch(err => {
-                error("Erro ao buscar os tipos de produtos");
-            });
-    }, []); 
 
     const confirmDelete = () => {
         onDelete();
@@ -31,7 +17,7 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
     };
 
     function onChange(field, value){
-        setProduct((prev) => ({
+        setKit((prev) => ({
             ...prev,
             [field]: value,
         }));
@@ -41,9 +27,9 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3 px-4 py-2 rounded-full shadow w-fit bg-blue-100 text-blue-700">
-                    <Package className="w-5 h-5" />
+                    <Sun className="w-5 h-5" />
                     <h2 className="font-semibold text-lg">
-                        Informações do Produto
+                        Informações do Kit
                     </h2>
                 </div>
                 {isEditing && (
@@ -63,21 +49,14 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                             required
                             label="Nome"
                             name="name"
-                            value={product.name}
+                            value={kit.name}
                             onChange={(e) => onChange("name", e.target.value)}
-                        />
-                        <EditableField
-                            required
-                            label="Marca"
-                            name="brand"
-                            value={product.brand}
-                            onChange={(e) => onChange("brand", e.target.value)}
                         />
                         <EditableField
                             required
                             label="Descrição"
                             name="description"
-                            value={product.description}
+                            value={kit.description}
                             onChange={(e) =>
                                 onChange("description", e.target.value)
                             }
@@ -86,36 +65,43 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
                             required
                             label="Preço"
                             name="price"
-                            value={formatDecimal(product.price)}
+                            value={formatDecimal(kit.price)}
                             onChange={(e) =>
                                 onChange(
                                     "price", formatDecimal(e.target.value))
                             }
                             prefix="R$"
                         />
-                        <SelectField
-                            label="Categoria"
-                            name="type_id"
-                            disabled
-                            value={product.type_id}
-                            onChange={(value) => {
-                                const selectedType = productTypes.find((t) => t.id === Number(value));
-                                onChange("type_id", value);
-                                onChange("type", selectedType);
-                            }}
-                            options={productTypes.map((type) => ({
-                                value: type.id,
-                                label: type.name,
-                            }))}
+                        <InputField
+                            required
+                            label="Kwh Gerados"
+                            name="generated_kwh"
+                            value={formatDecimal(kit.generated_kwh)}
+                            onChange={(e) =>
+                                onChange(
+                                    "generated_kwh", formatDecimal(e.target.generated_kwh))
+                            }
+                            prefix="R$"
+                        />
+                        <InputField
+                            required
+                            label="Kw Suportados"
+                            name="supported_kw"
+                            value={formatDecimal(kit.supported_kw)}
+                            onChange={(e) =>
+                                onChange(
+                                    "supported_kw", formatDecimal(e.target.supported_kw))
+                            }
+                            prefix="R$"
                         />
                     </>
                 ) : (
                     <>
-                        <TextField label="Nome" value={product.name} />
-                        <TextField label="Marca" value={product.brand}/>
-                        <TextField label="Descrição" value={product.description} />
-                        <TextField label="Preço" value={`R$ ${formatDecimal(product.price)}`} />
-                        <TextField label="Categoria" value={product.type.name} />
+                        <TextField label="Nome" value={kit.name} />
+                        <TextField label="Descrição" value={kit.description} />
+                        <TextField label="Preço" value={`R$ ${formatDecimal(kit.price)}`} />
+                        <TextField label="Kwh Gerados" value={`R$ ${formatDecimal(kit.generated_kwh)}`} />
+                        <TextField label="Kw Suportados" value={`R$ ${formatDecimal(kit.supported_kw)}`} />
                     </>
                 )}
             </div>

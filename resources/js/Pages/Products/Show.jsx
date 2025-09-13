@@ -18,7 +18,7 @@ export default function Show({ product }) {
   
       const handleCancel = () => {
           setEditProduct({ ...product });
-          handleToggleEdit();
+          handleToggleEdit();d
       }
   
       const handleSave = () => {

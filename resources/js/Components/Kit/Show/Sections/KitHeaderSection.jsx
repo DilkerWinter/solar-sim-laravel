@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Edit3, Save, Trash2 } from "lucide-react";
 import ConfirmModal from "@/Components/ConfirmModal";
 
-export default function ProductHeaderSection({
+export default function KitHeaderSection({
   isEditing,
   onToggleEdit,
   onSave,
@@ -33,10 +33,10 @@ export default function ProductHeaderSection({
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-4xl font-bold text-gray-900 mb-2">
-            Detalhes do Produto
+            Detalhes do Kit
           </h2>
           <p className="text-gray-600">
-            Gerencie informações do produto
+            Gerencie informações do kit
           </p>
         </div>
 
@@ -87,7 +87,7 @@ export default function ProductHeaderSection({
       <ConfirmModal
         isOpen={confirmSaveOpen}
         title="Confirmar alterações"
-        message="Deseja salvar as alterações feitas no produto?"
+        message="Deseja salvar as alterações feitas no kit?"
         onConfirm={confirmSave}
         onClose={() => setConfirmSaveOpen(false)}
         theme="success"
