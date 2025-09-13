@@ -26,6 +26,6 @@ class KitProducts extends Model
 
     public function kit()
     {
-        return $this->belongsTo(\App\Models\Kit::class, 'kit_id');
+        return $this->belongsTo(Kit::class, 'kit_id');
     }
 }

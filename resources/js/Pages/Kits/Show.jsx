@@ -22,12 +22,11 @@ export default function Show({ kit, products }) {
       }
   
       const handleSave = () => {
-        console.log(editKit)
-        // Inertia.put(route("kits.update", kit.id), editKit, {
-        //   onSuccess: () => {
-        //       handleToggleEdit();
-        //   },
-        // });
+        Inertia.put(route("kits.update", kit.id), editKit, {
+          onSuccess: () => {
+              handleToggleEdit();
+          },
+        });
       };
 
   return (

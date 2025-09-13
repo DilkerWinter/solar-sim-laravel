@@ -11,8 +11,8 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        Product::factory()->count(10)->create();
-        Inverter::factory()->count(10)->create();
-        SolarPanel::factory()->count(10)->create();
+        Product::factory()->count(3)->create();
+        Inverter::factory()->count(3)->create();
+        SolarPanel::factory()->count(3)->create();
     }
 }

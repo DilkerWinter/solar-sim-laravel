@@ -14,6 +14,7 @@ export default function KitCard({
     isEditing,
     onDelete,
 }) {
+    console.log(kit);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
 
@@ -26,9 +27,11 @@ export default function KitCard({
     const [optionsBaseProducts, setOptionsBaseProducts] = useState([]);
 
     useEffect(() => {
-        setOptionsInverters(products.inverters || []);
-        setOptionsSolarPanels(products.solar_panel || []);
-        setOptionsBaseProducts(products.baseProducts || []);
+        if (products) {
+            setOptionsInverters(products.inverters || []);
+            setOptionsSolarPanels(products.solarPanels || []);
+            setOptionsBaseProducts(products.baseProducts || []);
+        }
     }, [products]);
 
     useEffect(() => {
@@ -37,17 +40,21 @@ export default function KitCard({
             const inverters = [];
             const baseProducts = [];
 
-            const solarOptions = [...products.solarPanels];
-            const inverterOptions = [...products.inverters];
-            const baseOptions = [...products.baseProducts];
+            const solarOptions = products?.solarPanels ? [...products.solarPanels] : [];
+            const inverterOptions = products?.inverters ? [...products.inverters] : [];
+            const baseOptions = products?.baseProducts ? [...products.baseProducts] : [];
 
             kit.kit_products.forEach((kp) => {
-                const p = { ...kp.product, quantity: kp.quantity };
+                const p = {
+                    ...kp.product,
+                    quantity: kp.quantity,
+                    solar_panel: kp.product.solar_panel,
+                    inverter: kp.product.inverter,
+                };
+
                 if (p.solar_panel) {
                     solarPanels.push(p);
-                    const index = solarOptions.findIndex(
-                        (opt) => opt.id === p.id
-                    );
+                    const index = solarOptions.findIndex((opt) => opt.id === p.id);
                     if (index > -1) solarOptions.splice(index, 1);
                 } else if (p.inverter) {
                     inverters.push(p);
@@ -72,7 +79,7 @@ export default function KitCard({
             setOptionsInverters(inverterOptions);
             setOptionsBaseProducts(baseOptions);
         }
-    }, [products]);
+    }, [products, kit.kit_products]);
 
     function handleSelect(
         value,
