@@ -16,7 +16,7 @@ class KitRepository
 
     public function get($id)
     {
-        return Kit::find($id);
+        return Kit::with(['kitProducts.product'])->find($id);
     }
 
     public function create($data)

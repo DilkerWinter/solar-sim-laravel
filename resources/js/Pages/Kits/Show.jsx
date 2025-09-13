@@ -6,7 +6,7 @@ import { capitalize } from '@/Utils/capitalize';
 import { Inertia } from '@inertiajs/inertia';
 import React, { useState } from 'react';
 
-export default function Show({ kit }) {
+export default function Show({ kit, products }) {
       const [isEditing, setIsEditing] = useState(false);
       const [editKit, setEditKit] = useState({ ...kit });
   
@@ -41,6 +41,7 @@ export default function Show({ kit }) {
             <KitSection
                 kit={editKit}
                 setKit={setEditKit}
+                products={products}
                 isEditing={isEditing}
                 onDelete={handleDelete}
             />

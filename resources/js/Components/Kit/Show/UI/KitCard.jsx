@@ -4,6 +4,8 @@ import ConfirmModal from "@/Components/ConfirmModal";
 import { useState, useEffect } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
 import { formatDecimal } from "@/Utils/formatNumber";
+import SelectField from "@/Components/UI/Inputs/SelectInput";
+import EditSelectedProductsTable from "./EditSelectedProductsTable";
 
 export default function KitCard({ kit, setKit, products, isEditing, onDelete}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -184,6 +186,14 @@ export default function KitCard({ kit, setKit, products, isEditing, onDelete}) {
                                     setOptionsBaseProducts
                                 )
                             }
+                        />
+
+                        <EditSelectedProductsTable
+                            setFormData={setKit}
+                            baseProducts={selectedBaseProducts}
+                            solarPanels={selectedSolarPanels}
+                            inverters={selectedInverters}
+                            onRemoveProduct={handleRemoveProduct}
                         />
                     </>
                 ) : (

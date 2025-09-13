@@ -40,16 +40,10 @@ class KitController extends Controller
     {
         try {
             $productService = resolve(ProductService::class);
-            $products = $productService->getAll();
-
-            $grouped = [
-                'inverters'     => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Inversor'))->resolve(),
-                'solarPanels'   => ProductResource::collection($products->filter(fn($product) => $product->type->name === 'Placa Solar'))->resolve(),
-                'baseProducts'  => ProductResource::collection($products->filter(fn($product) => !in_array($product->type->name, ['Inversor', 'Placa Solar'])))->resolve(),
-            ];
+            $products = $productService->getAllGroupedByType();
 
             return Inertia::render('Kits/Create', [
-                'products' => $grouped
+                'products' => $products
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
@@ -81,8 +75,12 @@ class KitController extends Controller
         try {
             $kit = $this->kitService->get($id);
 
+            $productService = resolve(ProductService::class);
+            $products = $productService->getAllGroupedByType();
+
             return Inertia::render('Kits/Show', [
                 'kit' => $kit,
+                'products' => $products,
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
