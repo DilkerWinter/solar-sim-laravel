@@ -7,6 +7,7 @@ import InputField from "@/Components/UI/Inputs/InputField";
 import { formatDecimal } from "@/Utils/formatNumber";
 
 export default function KitCard({ kit, setKit, isEditing, onDelete}) {
+    console.log(kit);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
@@ -63,12 +64,12 @@ export default function KitCard({ kit, setKit, isEditing, onDelete}) {
                         />
                         <InputField
                             required
-                            label="Preço"
-                            name="price"
-                            value={formatDecimal(kit.price)}
+                            label="Preço Total"
+                            name="total_price"
+                            value={formatDecimal(kit.total_price)}
                             onChange={(e) =>
                                 onChange(
-                                    "price", formatDecimal(e.target.value))
+                                    "total_price", formatDecimal(e.target.value))
                             }
                             prefix="R$"
                         />
@@ -79,9 +80,9 @@ export default function KitCard({ kit, setKit, isEditing, onDelete}) {
                             value={formatDecimal(kit.generated_kwh)}
                             onChange={(e) =>
                                 onChange(
-                                    "generated_kwh", formatDecimal(e.target.generated_kwh))
+                                    "generated_kwh", formatDecimal(e.target.value))
                             }
-                            prefix="R$"
+                            suffix="Kwh"
                         />
                         <InputField
                             required
@@ -90,18 +91,18 @@ export default function KitCard({ kit, setKit, isEditing, onDelete}) {
                             value={formatDecimal(kit.supported_kw)}
                             onChange={(e) =>
                                 onChange(
-                                    "supported_kw", formatDecimal(e.target.supported_kw))
+                                    "supported_kw", formatDecimal(e.target.value))
                             }
-                            prefix="R$"
+                            suffix="Kw"
                         />
                     </>
                 ) : (
                     <>
                         <TextField label="Nome" value={kit.name} />
                         <TextField label="Descrição" value={kit.description} />
-                        <TextField label="Preço" value={`R$ ${formatDecimal(kit.price)}`} />
-                        <TextField label="Kwh Gerados" value={`R$ ${formatDecimal(kit.generated_kwh)}`} />
-                        <TextField label="Kw Suportados" value={`R$ ${formatDecimal(kit.supported_kw)}`} />
+                        <TextField label="Preço Total" value={`R$ ${formatDecimal(kit.total_price)}`} />
+                        <TextField label="Kwh Gerados" value={`${formatDecimal(kit.generated_kwh)} Kwh`} />
+                        <TextField label="Kw Suportados" value={`${formatDecimal(kit.supported_kw)} Kw`} />
                     </>
                 )}
             </div>
