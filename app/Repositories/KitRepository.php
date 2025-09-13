@@ -49,11 +49,32 @@ class KitRepository
     public function update($data, $id)
     {
         try {
+            DB::beginTransaction();
+
             $kit = Kit::findOrFail($id);
             $kit->fill($data);
             $kit->save();
+
+            $selectedProductIds = collect($data['selectedProducts'])->pluck('id');
+
+            KitProducts::where('kit_id', $kit->id)
+                ->whereNotIn('product_id', $selectedProductIds)
+                ->delete();
+
+            foreach ($data['selectedProducts'] as $product) {
+                KitProducts::updateOrCreate([
+                    'kit_id' => $kit->id,
+                    'product_id' => $product['id'],
+                    'quantity' => $product['quantity']
+                ]);
+            }
+
+            DB::commit();
+
             return $kit;
+
         } catch (Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }

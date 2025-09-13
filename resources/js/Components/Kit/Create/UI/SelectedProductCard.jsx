@@ -3,7 +3,7 @@ import QuantityInput from "./InputQuantity";
 import { Trash2 } from "lucide-react";
 
 export default function SelectedProductCard({ product, onQuantityChange, onRemove }) {
-    const [quantity, setQuantity] = useState("");
+    const [quantity, setQuantity] = useState(product.quantity || 1);
 
     const handleQuantityChange = (e) => {
         const newQuantity = e.target.value;

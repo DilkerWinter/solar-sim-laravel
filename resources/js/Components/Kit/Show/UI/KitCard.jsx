@@ -7,7 +7,13 @@ import { formatDecimal } from "@/Utils/formatNumber";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import EditSelectedProductsTable from "./EditSelectedProductsTable";
 
-export default function KitCard({ kit, setKit, products, isEditing, onDelete}) {
+export default function KitCard({
+    kit,
+    setKit,
+    products,
+    isEditing,
+    onDelete,
+}) {
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
 
@@ -21,21 +27,52 @@ export default function KitCard({ kit, setKit, products, isEditing, onDelete}) {
 
     useEffect(() => {
         setOptionsInverters(products.inverters || []);
-        setOptionsSolarPanels(products.solarPanels || []);
+        setOptionsSolarPanels(products.solar_panel || []);
         setOptionsBaseProducts(products.baseProducts || []);
     }, [products]);
 
     useEffect(() => {
-        if (kit.products) {
-            setSelectedSolarPanels(kit.products.filter(p => p.solarPanel));
-            setSelectedInverters(kit.products.filter(p => p.inverter));
-            setSelectedBaseProducts(kit.products.filter(p => !p.solarPanel && !p.inverter));
-        }
-    }, [kit]);
+        if (kit.kit_products && kit.kit_products.length) {
+            const solarPanels = [];
+            const inverters = [];
+            const baseProducts = [];
 
-    useEffect(() => {
-        axios.get()
-    }, [isEditing])
+            const solarOptions = [...products.solarPanels];
+            const inverterOptions = [...products.inverters];
+            const baseOptions = [...products.baseProducts];
+
+            kit.kit_products.forEach((kp) => {
+                const p = { ...kp.product, quantity: kp.quantity };
+                if (p.solar_panel) {
+                    solarPanels.push(p);
+                    const index = solarOptions.findIndex(
+                        (opt) => opt.id === p.id
+                    );
+                    if (index > -1) solarOptions.splice(index, 1);
+                } else if (p.inverter) {
+                    inverters.push(p);
+                    const index = inverterOptions.findIndex(
+                        (opt) => opt.id === p.id
+                    );
+                    if (index > -1) inverterOptions.splice(index, 1);
+                } else {
+                    baseProducts.push(p);
+                    const index = baseOptions.findIndex(
+                        (opt) => opt.id === p.id
+                    );
+                    if (index > -1) baseOptions.splice(index, 1);
+                }
+            });
+
+            setSelectedSolarPanels(solarPanels);
+            setSelectedInverters(inverters);
+            setSelectedBaseProducts(baseProducts);
+
+            setOptionsSolarPanels(solarOptions);
+            setOptionsInverters(inverterOptions);
+            setOptionsBaseProducts(baseOptions);
+        }
+    }, [products]);
 
     function handleSelect(
         value,
@@ -78,14 +115,13 @@ export default function KitCard({ kit, setKit, products, isEditing, onDelete}) {
             return prev.filter((p) => p.id !== productId);
         });
     };
-    
 
     const confirmDelete = () => {
         onDelete();
         setConfirmDeleteOpen(false);
     };
 
-    function onChange(field, value){
+    function onChange(field, value) {
         setKit((prev) => ({
             ...prev,
             [field]: value,
@@ -106,104 +142,117 @@ export default function KitCard({ kit, setKit, products, isEditing, onDelete}) {
                         onClick={handleDeleteClick}
                         className="flex items-center gap-2 px-2 py-2 rounded-2xl text-sm font-medium transition-all duration-200 shadow-sm text-red-600  hover:text-red-700 hover:bg-gray-300"
                     >
-                        <Trash2 size={22}/>
+                        <Trash2 size={22} />
                     </button>
                 )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
+            <div>
                 {isEditing ? (
-                    <>
-                        <EditableField
-                            required
-                            label="Nome"
-                            name="name"
-                            value={kit.name}
-                            onChange={(e) => onChange("name", e.target.value)}
-                        />
-                        <EditableField
-                            required
-                            label="Descrição"
-                            name="description"
-                            value={kit.description}
-                            onChange={(e) =>
-                                onChange("description", e.target.value)
-                            }
-                        />
-                        <SelectField
-                            label="Painéis Solares"
-                            name="solarPanels"
-                            placeholder="Selecione um Painel Solar"
-                            options={optionsSolarPanels.map((sp) => ({
-                                value: sp.id,
-                                label: `${sp.name} - ${sp.brand}`,
-                            }))}
-                            value={""}
-                            onChange={(value) =>
-                                handleSelect(
-                                    value,
-                                    selectedSolarPanels,
-                                    setSelectedSolarPanels,
-                                    optionsSolarPanels,
-                                    setOptionsSolarPanels
-                                )
-                            }
-                        />
-                        <SelectField
-                            label="Inversores"
-                            name="inverters"
-                            placeholder="Selecione um Inversor"
-                            options={optionsInverters.map((inv) => ({
-                                value: inv.id,
-                                label: `${inv.name} - ${inv.brand}`,
-                            }))}
-                            value={""}
-                            onChange={(value) =>
-                                handleSelect(
-                                    value,
-                                    selectedInverters,
-                                    setSelectedInverters,
-                                    optionsInverters,
-                                    setOptionsInverters
-                                )
-                            }
-                        />
-                        <SelectField
-                            label="Produtos Base"
-                            name="baseProducts"
-                            placeholder="Selecione um Produto"
-                            options={optionsBaseProducts.map((bp) => ({
-                                value: bp.id,
-                                label: `${bp.name} - ${bp.brand}`,
-                            }))}
-                            value={""}
-                            onChange={(value) =>
-                                handleSelect(
-                                    value,
-                                    selectedBaseProducts,
-                                    setSelectedBaseProducts,
-                                    optionsBaseProducts,
-                                    setOptionsBaseProducts
-                                )
-                            }
-                        />
+                    <div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
+                            <EditableField
+                                required
+                                label="Nome"
+                                name="name"
+                                value={kit.name}
+                                onChange={(e) =>
+                                    onChange("name", e.target.value)
+                                }
+                            />
+                            <EditableField
+                                required
+                                label="Descrição"
+                                name="description"
+                                value={kit.description}
+                                onChange={(e) =>
+                                    onChange("description", e.target.value)
+                                }
+                            />
+                            <SelectField
+                                label="Painéis Solares"
+                                name="solarPanels"
+                                placeholder="Selecione um Painel Solar"
+                                options={optionsSolarPanels.map((sp) => ({
+                                    value: sp.id,
+                                    label: `${sp.name} - ${sp.brand}`,
+                                }))}
+                                value={""}
+                                onChange={(value) =>
+                                    handleSelect(
+                                        value,
+                                        selectedSolarPanels,
+                                        setSelectedSolarPanels,
+                                        optionsSolarPanels,
+                                        setOptionsSolarPanels
+                                    )
+                                }
+                            />
+                            <SelectField
+                                label="Inversores"
+                                name="inverters"
+                                placeholder="Selecione um Inversor"
+                                options={optionsInverters.map((inv) => ({
+                                    value: inv.id,
+                                    label: `${inv.name} - ${inv.brand}`,
+                                }))}
+                                value={""}
+                                onChange={(value) =>
+                                    handleSelect(
+                                        value,
+                                        selectedInverters,
+                                        setSelectedInverters,
+                                        optionsInverters,
+                                        setOptionsInverters
+                                    )
+                                }
+                            />
+                            <SelectField
+                                label="Produtos Base"
+                                name="baseProducts"
+                                placeholder="Selecione um Produto"
+                                options={optionsBaseProducts.map((bp) => ({
+                                    value: bp.id,
+                                    label: `${bp.name} - ${bp.brand}`,
+                                }))}
+                                value={""}
+                                onChange={(value) =>
+                                    handleSelect(
+                                        value,
+                                        selectedBaseProducts,
+                                        setSelectedBaseProducts,
+                                        optionsBaseProducts,
+                                        setOptionsBaseProducts
+                                    )
+                                }
+                            />
+                        </div>
 
                         <EditSelectedProductsTable
-                            setFormData={setKit}
-                            baseProducts={selectedBaseProducts}
-                            solarPanels={selectedSolarPanels}
-                            inverters={selectedInverters}
-                            onRemoveProduct={handleRemoveProduct}
-                        />
-                    </>
+                                setFormData={setKit}
+                                baseProducts={selectedBaseProducts}
+                                solarPanels={selectedSolarPanels}
+                                inverters={selectedInverters}
+                                onRemoveProduct={handleRemoveProduct}
+                            />
+                    </div>
                 ) : (
-                    <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
                         <TextField label="Nome" value={kit.name} />
                         <TextField label="Descrição" value={kit.description} />
-                        <TextField label="Preço Total" value={`R$ ${formatDecimal(kit.total_price)}`} />
-                        <TextField label="Kwh Gerados" value={`${formatDecimal(kit.generated_kwh)} Kwh`} />
-                        <TextField label="Kw Suportados" value={`${formatDecimal(kit.supported_kw)} Kw`} />
-                    </>
+                        <TextField
+                            label="Preço Total"
+                            value={`R$ ${formatDecimal(kit.total_price)}`}
+                        />
+                        <TextField
+                            label="Kwh Gerados"
+                            value={`${formatDecimal(kit.generated_kwh)} Kwh`}
+                        />
+                        <TextField
+                            label="Kw Suportados"
+                            value={`${formatDecimal(kit.supported_kw)} Kw`}
+                        />
+                    </div>
                 )}
             </div>
             <ConfirmModal

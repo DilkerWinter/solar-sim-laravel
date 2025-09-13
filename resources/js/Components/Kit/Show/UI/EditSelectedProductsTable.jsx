@@ -1,8 +1,8 @@
 import { Package, Zap, Settings, Sun } from "lucide-react";
-import SelectedProductsSection from "./SelectedProductsSection";
-import TableFooter from "./TableFooter";
 import { useEffect, useState } from "react";
 import { parseToCents } from "@/Utils/formatNumber";
+import SelectedProductsSection from "../../Create/UI/SelectedProductsSection";
+import EditTableFooter from "./EditTableFooter";
 
 export default function EditSelectedProductsTable({
     setFormData,
@@ -14,7 +14,7 @@ export default function EditSelectedProductsTable({
     const [products, setProducts] = useState([]);
 
     const updateFormDataWithProducts = (updatedProducts) => {
-        const solarPanelProducts = updatedProducts.filter(p => p.solarPanel);
+        const solarPanelProducts = updatedProducts.filter(p => p.solar_panel);
         const inverterProducts = updatedProducts.filter(p => p.inverter);
 
         setFormData(prev => ({
@@ -80,7 +80,7 @@ export default function EditSelectedProductsTable({
             <div className="p-6 space-y-8">
                 <SelectedProductsSection
                     title="Placas Solar"
-                    products={products.filter(p => p.solarPanel)} 
+                    products={products.filter(p => p.solar_panel)} 
                     icon={Sun}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}
@@ -94,14 +94,14 @@ export default function EditSelectedProductsTable({
                 />
                 <SelectedProductsSection
                     title="Outros"
-                    products={products.filter(p => !p.inverter && !p.solarPanel)}
+                    products={products.filter(p => !p.inverter && !p.solar_panel)}
                     icon={Package}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}
                 />
             </div>
 
-            <TableFooter products={products} />
+            <EditTableFooter products={products} />
         </div>
     );
 }
