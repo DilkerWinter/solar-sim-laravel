@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\DataTables\KitDataTable;
 use App\Repositories\KitRepository;
 
 class KitService
 {
-
     protected $kitRepository;
 
     public function __construct(KitRepository $kitRepository)
@@ -36,6 +36,17 @@ class KitService
 
     public function delete($id)
     {
-       return $this->kitRepository->delete($id);
+        return $this->kitRepository->delete($id);
+    }
+
+    public function count()
+    {
+        return $this->kitRepository->count();
+    }
+
+    public function getDataTable($filters)
+    {
+        $dataTable = resolve(KitDataTable::class);
+        return $dataTable->getTable($filters);
     }
 }
