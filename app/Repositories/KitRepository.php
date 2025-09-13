@@ -62,4 +62,10 @@ class KitRepository
     {
         return Kit::destroy($id);
     }
+
+    public function count()
+    {
+        return Kit::count();
+    }
+
 }

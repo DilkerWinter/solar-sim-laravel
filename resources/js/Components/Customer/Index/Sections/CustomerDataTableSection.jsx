@@ -3,9 +3,9 @@ import axios from "axios";
 import CustomerDataTableRow from "../UI/CustomerDataTableRow";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import PageNavigator from "../UI/PageNavigator";
-import CustomerSearchBar from "../UI/CustomerSearchBar";
 import CustomerSearchParameters from "../UI/CustomerSearchParameters";
 import { useToast } from "@/Contexts/ToastContext";
+import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 
 export default function CustomerDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
@@ -70,7 +70,7 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
             <div className="border shadow-md rounded-2xl p-4 border-gray-300 bg-white">
                 <div className="mb-2 flex items-center justify-between gap-4">
                     <div className="flex-grow">
-                        <CustomerSearchBar
+                        <SearchBar
                             search={search}
                             onSearchChange={handleSearchChange}
                             onClear={onClearSerchBar}

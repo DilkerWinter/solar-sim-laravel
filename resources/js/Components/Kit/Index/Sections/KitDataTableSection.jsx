@@ -1,17 +1,17 @@
-import { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import { useToast } from "@/Contexts/ToastContext";
-import LoadingSpinner from "../UI/LoadingSpinner";
-import CustomerSearchFilterButton from "../UI/ProductSearchParameters";
-import PageNavigator from "../UI/PageNavigator";
-import ProductDataTableRow from "../UI/ProductDataTableRow";
+import CustomerSearchFilterButton from "@/Components/Customer/Index/UI/CustomerSearchParameters";
+import LoadingSpinner from "@/Components/Customer/Index/UI/LoadingSpinner";
+import PageNavigator from "@/Components/Customer/Index/UI/PageNavigator";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
+import { useToast } from "@/Contexts/ToastContext";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import KitDataTableRow from "../UI/KitDataTableRow";
 
-export default function ProductDataTableSection({ dataTableUrl }) {
+export default function KitDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
-    const [products, setProducts] = useState([]);
+    const [kits, setKits] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage] = useState(5);
@@ -38,11 +38,11 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                 params: { page, perPage, search, ...filters },
             });
 
-            setProducts(response.data.data);
+            setKits(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error('Erro ao buscar dados dos Produtos')
+            error("Erro ao buscar dados dos Kits");
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
@@ -78,9 +78,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                     </div>
 
                     <div className="flex-shrink-0">
-                        <CustomerSearchFilterButton
-                            onFilter={handleFilterChange}
-                        />
+                        <CustomerSearchFilterButton onFilter={handleFilterChange} />
                     </div>
                 </div>
 
@@ -91,29 +89,29 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                                 {headers.map((header) => (
                                     <th
                                         key={header.key}
-                                        className={`px-4 py-2 text-left text-lg`}
+                                        className="px-4 py-2 text-left text-lg"
                                     >
-                                        <span className="">{header.label}</span>
+                                        <span>{header.label}</span>
                                     </th>
                                 ))}
                             </tr>
                         </thead>
 
                         <tbody>
-                            {products.length === 0 && !loading ? (
+                            {kits.length === 0 && !loading ? (
                                 <tr>
                                     <td
                                         colSpan={headers.length}
                                         className="text-center py-8 text-gray-500 italic select-none border-t border-gray-400"
                                     >
-                                        Nenhum cliente encontrado.
+                                        Nenhum kit encontrado.
                                     </td>
                                 </tr>
                             ) : (
-                                products.map((product) => (
-                                    <ProductDataTableRow
-                                        key={product.id}
-                                        product={product}
+                                kits.map((kit) => (
+                                    <KitDataTableRow
+                                        key={kit.id}
+                                        kit={kit}
                                         headers={headers}
                                     />
                                 ))

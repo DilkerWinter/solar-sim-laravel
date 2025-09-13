@@ -18,10 +18,16 @@ class KitController extends Controller
         $this->kitService = $kitService;
     }
     
-    public function index()
+    public function index(Request $request)
     {
         try {
-            return Inertia::render('Kits/Index', [route('kits.index')]);
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->kitService->getDataTable($request->all());
+            }
+
+            return Inertia::render('Kits/Index', [
+                'kitDataTableUrl' => route('kits.index')
+            ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
@@ -52,7 +58,6 @@ class KitController extends Controller
             ]);
         }
     }
-
 
     public function store(Request $request)
     {
@@ -119,5 +124,27 @@ class KitController extends Controller
                 'message' => 'Erro ao deletar kit: ' . $e->getMessage()
             ]);
         }
+    }
+
+    public function count()
+    {
+        try {
+            return $this->kitService->count();
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar kits: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function requisicaoWithDataTable(Request $request)
+    {
+        return $request->ajax() && (
+            $request->has('page') ||
+            $request->has('perPage') ||
+            $request->has('search') ||
+            $request->has('sortKey')
+        );
     }
 }
