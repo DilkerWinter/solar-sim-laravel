@@ -13,6 +13,7 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
 
     const isInverter = product.inverter;
     const isSolarPanel = product.solar_panel;
+    const isBaseProduct = !isInverter && !isSolarPanel;
 
     const renderSpecifications = () => {
         if (isInverter) {
@@ -65,6 +66,25 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
             );
         }
 
+        if (isBaseProduct && product.type) {
+            return (
+                <div className="space-y-0.5 text-gray-600 text-sm">
+                    <div>
+                        <span>Categoria: </span>
+                        <span className="text-gray-900">
+                            {product.type.name}
+                        </span>
+                    </div>
+                    <div>
+                        <span>Descrição: </span>
+                        <span className="text-gray-900">
+                            {product.description}
+                        </span>
+                    </div>
+                </div>
+            );
+        }
+
         return null;
     };
 
@@ -89,12 +109,6 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                         <Trash2 size={16} />
                     </button>
                 </div>
-
-                {product.description && (
-                    <p className="text-gray-600 mb-2 text-sm line-clamp-2">
-                        {product.description}
-                    </p>
-                )}
 
                 <div className="mb-2">{renderSpecifications()}</div>
             </div>

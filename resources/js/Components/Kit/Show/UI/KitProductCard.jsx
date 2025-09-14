@@ -3,6 +3,7 @@ import { formatMoneyWithPrefix } from "@/Utils/formatNumber";
 export default function KitProductCard({ product }) {
     const isInverter = product.inverter;
     const isSolarPanel = product.solar_panel;
+    const isBaseProduct = !isInverter && !isSolarPanel;
 
     const renderSpecifications = () => {
         if (isInverter) {
@@ -59,9 +60,9 @@ export default function KitProductCard({ product }) {
     };
 
     return (
-        <div className="border border-gray-300 bg-white rounded-lg overflow-hidden">
+        <div className="relative border border-gray-300 bg-white rounded-lg overflow-hidden">
             <div className="p-3">
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                         <h3 className="text-base font-medium leading-snug">
                             {product.name}
@@ -70,6 +71,11 @@ export default function KitProductCard({ product }) {
                             {product.brand}
                         </span>
                     </div>
+                    {isBaseProduct && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-2xl font-medium text-sm bg-gray-100 text-gray-800 border border-gray-300 whitespace-nowrap">
+                            {product.type.name}
+                        </span>
+                    )}
                 </div>
 
                 {product.description && (
