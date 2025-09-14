@@ -1,4 +1,6 @@
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
+import CreateEmployeeForm from "@/Components/Employee/Create/Sections/CreateEmployeeForm";
+import CreteEmployeeHeader from "@/Components/Employee/Create/Sections/CreateEmployeeHeader";
 import CreateKitForm from "@/Components/Kit/Create/Sections/CreateKitForm";
 import CreteKitHeader from "@/Components/Kit/Create/Sections/CreateKitHeader";
 import SubmitButton from "@/Components/UI/Inputs/SubmitButton";
@@ -15,17 +17,16 @@ export default function Create() {
 
   function handleSubmit(e) {
       e.preventDefault();
-      console.log(formData)
-    //   Inertia.post(route('employee.store'), formData);
+      Inertia.post(route('employee.store'), formData);
   }
 
   return (
     <div>
-      <CreteKitHeader/>
+      <CreteEmployeeHeader/>
 
       <form onSubmit={handleSubmit} className="w-full max-w-5xl mx-auto space-y-8 bg-white rounded-2xl p-6">
         
-        <CreateKitForm formData={formData} setFormData={setFormData}/>
+        <CreateEmployeeForm formData={formData} setFormData={setFormData}/>
         
         <div className="flex justify-end">
           <SubmitButton text={"Cadastrar"}onSubmit={handleSubmit} />

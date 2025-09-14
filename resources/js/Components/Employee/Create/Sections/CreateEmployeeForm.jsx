@@ -1,7 +1,7 @@
 import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 
-export default function CreateKitForm({ formData, setFormData }) {
+export default function CreateEmployeeForm({ formData, setFormData }) {
     return (
         <section>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -27,12 +27,11 @@ export default function CreateKitForm({ formData, setFormData }) {
                     }
                 />
                 <SelectField
-                    label="Administrador"
+                    label="Cargo"
                     name="isAdmin"
-                    placeholder="Selecione o tipo de usuário"
                     options={[
-                        { value: "true", label: "Administrador" },
                         { value: "false", label: "Funcionário" },
+                        { value: "true", label: "Administrador" },
                     ]}
                     value={formData.isAdmin ? "true" : "false"}
                     onChange={(value) =>
