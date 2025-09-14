@@ -249,10 +249,6 @@ export default function KitCard({
                             <TextField label="Nome" value={kit.name} />
                             <TextField label="Descrição" value={kit.description} />
                             <TextField
-                                label="Preço Total"
-                                value={`R$ ${formatDecimal(kit.total_price)}`}
-                            />
-                            <TextField
                                 label="Kwh Gerados"
                                 value={`${formatDecimal(kit.generated_kwh)} Kwh`}
                             />
