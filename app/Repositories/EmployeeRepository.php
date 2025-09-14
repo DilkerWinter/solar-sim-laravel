@@ -57,4 +57,18 @@ class EmployeeRepository
         }
         return $query->count();
     }
+
+    public function resetPassword($data)
+    {
+        try {
+            $employee = User::findOrFail($data['id']);
+            $employee->password = bcrypt(env('DEFAULT_EMPLOYEE_PASSWORD'));
+            $employee->save();
+
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
 }

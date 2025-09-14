@@ -44,9 +44,14 @@ class EmployeeService
         return $this->employeeRepository->count($role);
     }
 
-    // public function getDataTable($filters)
-    // {
-    //     $dataTable = resolve(EmployeeDataTable::class);
-    //     return $dataTable->getTable($filters);
-    // }
+    public function getDataTable($filters)
+    {
+        $dataTable = resolve(EmployeeDataTable::class);
+        return $dataTable->getTable($filters);
+    }
+
+    public function resetPassword($id)
+    {
+        return $this->employeeRepository->resetPassword($id);
+    }
 }

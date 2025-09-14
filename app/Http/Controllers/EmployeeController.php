@@ -20,15 +20,13 @@ class EmployeeController extends Controller
     public function index()
     {
         try {
-            $employees = $this->employeeService->getAll(); 
-
             return Inertia::render('Employees/Index', [
-                'employees' => $employees,
+                'employeeDataTableUrl' => route('employees.dataTable')
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
-                'message' => 'Erro ao carregar funcionários: ' . $e->getMessage()
+                'message' => 'Erro ao carregar funcionarios: ' . $e->getMessage()
             ]);
         }
     }
@@ -142,13 +140,25 @@ class EmployeeController extends Controller
         }
     }
 
-    // private function requisicaoWithDataTable(Request $request)
-    // {
-    //     return $request->ajax() && (
-    //         $request->has('page') ||
-    //         $request->has('perPage') ||
-    //         $request->has('search') ||
-    //         $request->has('sortKey')
-    //     );
-    // }
+    public function getDataTable(Request $request)
+    {
+        return $this->employeeService->getDataTable($request->all());
+    }
+
+    public function resetPassword(Request $request)
+    {
+        try {
+            $this->employeeService->resetPassword($request->all());
+
+            return redirect()->route('employees.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Senha restaurada com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao resetar senha: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

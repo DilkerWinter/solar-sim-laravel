@@ -61,6 +61,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', IsAdmin::class])->group(function () {
     
     //All routes for Employees
+    Route::get('/employees/data-table', [EmployeeController::class, 'getDataTable'])->name('employees.dataTable');
+    Route::post('/employees/reset-password', [EmployeeController::class, 'resetPassword'])->name('employees.resetPassword');
     Route::resource('employees', EmployeeController::class);
 
 });
