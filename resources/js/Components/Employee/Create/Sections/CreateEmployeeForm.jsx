@@ -1,4 +1,3 @@
-import EmailInput from "@/Components/Login/UI/EmailInput";
 import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 
