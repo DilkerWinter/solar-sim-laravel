@@ -25,7 +25,7 @@ export default function Create() {
 
       <form onSubmit={handleSubmit} className="w-full max-w-5xl mx-auto space-y-8 bg-white rounded-2xl p-6">
         
-        <CreateKitForm formData={formData} setFormData={setFormData} products={products}/>
+        <CreateKitForm formData={formData} setFormData={setFormData}/>
         
         <div className="flex justify-end">
           <SubmitButton text={"Cadastrar"}onSubmit={handleSubmit} />
@@ -40,7 +40,7 @@ Create.layout = (page) => (
   <AppLayout breadcrumb={<CustomBreadcrumb
   items={[
     { name: "Início", href: "/dashboard" },
-    { name: "Kits", href: "/kits" },
+    { name: "Funcionario", href: "/employees" },
     { name: "Cadastro" }
   ]}
 />
