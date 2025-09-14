@@ -1,3 +1,4 @@
+import EmailInput from "@/Components/Login/UI/EmailInput";
 import InputField from "@/Components/UI/Inputs/InputField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 
@@ -17,7 +18,10 @@ export default function CreateEmployeeForm({ formData, setFormData }) {
                 <InputField
                     label="Email"
                     name="email"
+                    type="email"
                     required
+                    regex="^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$"
+                    placeholder="exemplo@dominio.com"
                     value={formData.email}
                     onChange={(e) =>
                         setFormData({
