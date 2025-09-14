@@ -41,7 +41,6 @@ function Actions({ actions }) {
 }
 
 export default function KitDataTableRow({ kit, headers }) {
-    console.log(kit);
     return (
         <tr className="border-t border-gray-400 shadow-gray-300">
             {headers.map((header) => (

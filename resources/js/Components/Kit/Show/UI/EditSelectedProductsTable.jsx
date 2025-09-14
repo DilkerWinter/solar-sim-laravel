@@ -1,10 +1,10 @@
 import { Package, Zap, Settings, Sun } from "lucide-react";
-import SelectedProductsSection from "./SelectedProductsSection";
-import TableFooter from "./TableFooter";
 import { useEffect, useState } from "react";
 import { parseToCents } from "@/Utils/formatNumber";
+import SelectedProductsSection from "../../Create/UI/SelectedProductsSection";
+import EditTableFooter from "./EditTableFooter";
 
-export default function SelectedProductsTable({
+export default function EditSelectedProductsTable({
     setFormData,
     baseProducts,
     solarPanels,
@@ -101,7 +101,7 @@ export default function SelectedProductsTable({
                 />
             </div>
 
-            <TableFooter products={products} />
+            <EditTableFooter products={products} />
         </div>
     );
 }

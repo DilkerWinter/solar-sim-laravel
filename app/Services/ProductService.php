@@ -50,4 +50,9 @@ class ProductService
         $dataTable = resolve(ProductDataTable::class);
         return $dataTable->getTable($filters);
     }
+    
+    public function getAllGroupedByType()
+    {
+        return $this->productRepository->getAllGroupedByType();
+    }
 }

@@ -20,7 +20,7 @@ class ProductResource extends JsonResource
             'price'       => $this->price_formatted,
             'type'        => $this->type->name ?? null,
 
-            'solarPanel'  => $this->whenLoaded('solarPanel', fn () => $this->solarPanel),
+            'solar_panel'  => $this->whenLoaded('solarPanel', fn () => $this->solarPanel),
             'inverter'    => $this->whenLoaded('inverter', fn () => $this->inverter),
         ];
     }

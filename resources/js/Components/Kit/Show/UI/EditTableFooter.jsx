@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function TableFooter({ products }) {
+export default function EditTableFooter({ products }) {
     const [totalPrice, setTotalPrice] = useState("0,00");
     const [totalKwh, setTotalKwh] = useState(0);
     const [supportedKw, setSupportedKw] = useState(0);

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enum\ProductType;
+use App\Http\Resources\ProductResource;
 use App\Models\Products\Inverter;
 use App\Models\Products\Product;
 use App\Models\Products\ProductType as ProductsProductType;
@@ -102,5 +103,22 @@ class ProductRepository
         return $query->count();
     }
 
+    public function getAllGroupedByType()
+    {
+        $products = Product::with('type')->get();
 
+        return [
+            'inverters' => ProductResource::collection(
+                $products->filter(fn($product) => $product->type->name === 'Inversor')
+            )->resolve(),
+            
+            'solarPanels' => ProductResource::collection(
+                $products->filter(fn($product) => $product->type->name === 'Placa Solar')
+            )->resolve(),
+            
+            'baseProducts' => ProductResource::collection(
+                $products->filter(fn($product) => !in_array($product->type->name, ['Inversor', 'Placa Solar']))
+            )->resolve(),
+        ];
+    }
 }

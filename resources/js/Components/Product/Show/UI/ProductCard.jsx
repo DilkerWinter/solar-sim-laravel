@@ -1,4 +1,4 @@
-import { Trash2, User } from "lucide-react";
+import { Package, Trash2 } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { useEffect, useState } from "react";
@@ -41,7 +41,7 @@ export default function ProductCard({ product, setProduct, isEditing, onDelete})
         <div className="bg-white shadow-2xl rounded-2xl p-8 space-y-8 mb-8">
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3 px-4 py-2 rounded-full shadow w-fit bg-blue-100 text-blue-700">
-                    <User className="w-5 h-5" />
+                    <Package className="w-5 h-5" />
                     <h2 className="font-semibold text-lg">
                         Informações do Produto
                     </h2>

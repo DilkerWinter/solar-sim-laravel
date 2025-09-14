@@ -150,6 +150,11 @@ class ProductController extends Controller
         }
     }
 
+    public function getAllGroupedByType()
+    {
+        return $this->productService->getAllGroupedByType();
+    }
+
     private function requisicaoWithDataTable(Request $request)
     {
         return $request->ajax() && (

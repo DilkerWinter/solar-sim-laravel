@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Relational Table to link Products to a Kit
- */
 class KitProducts extends Model
 {
     use HasFactory, SoftDeletes;
@@ -25,5 +22,10 @@ class KitProducts extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function kit()
+    {
+        return $this->belongsTo(Kit::class, 'kit_id');
     }
 }

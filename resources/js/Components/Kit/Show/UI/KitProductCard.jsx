@@ -1,16 +1,6 @@
-import { useEffect, useState } from "react";
-import QuantityInput from "./InputQuantity";
-import { Trash2 } from "lucide-react";
+import { formatMoneyWithPrefix } from "@/Utils/formatNumber";
 
-export default function SelectedProductCard({ product, onQuantityChange, onRemove }) {
-    const [quantity, setQuantity] = useState(product.quantity || 1);
-
-    const handleQuantityChange = (e) => {
-        const newQuantity = e.target.value;
-        setQuantity(newQuantity);
-        onQuantityChange(product.id, newQuantity);
-    };
-
+export default function KitProductCard({ product }) {
     const isInverter = product.inverter;
     const isSolarPanel = product.solar_panel;
 
@@ -80,14 +70,6 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                             {product.brand}
                         </span>
                     </div>
-                    <button
-                        type="button"
-                        onClick={() => onRemove(product.id)}
-                        className="p-1 hover:bg-red-500 hover:text-white rounded-2xl transition-colors"
-                        title="Remover produto"
-                    >
-                        <Trash2 size={16} />
-                    </button>
                 </div>
 
                 {product.description && (
@@ -103,18 +85,13 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                 <div className="flex items-center justify-between">
                     <div>
                         <span className="text-sm font-medium text-gray-900">
-                            Preço Unitário: R$ {product.price}
+                            Preço Unitário: {formatMoneyWithPrefix(product.price)}
                         </span>
                     </div>
 
                     <div className="flex items-center gap-1 text-sm">
                         <span>Quantidade: </span>
-                        <QuantityInput
-                            name="product_quantity"
-                            value={quantity}
-                            onChange={handleQuantityChange}
-                            placeholder="1"
-                        />
+                        <span>{product.quantity}</span>
                     </div>
                 </div>
             </div>

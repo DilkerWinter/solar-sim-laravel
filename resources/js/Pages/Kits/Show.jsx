@@ -1,28 +1,28 @@
 import CustomBreadcrumb from '@/Components/AppLayout/CustomBreadcrumb';
-import ProductHeaderSection from '@/Components/Product/Show/Sections/ProductHeaderSection';
-import ProductSection from '@/Components/Product/Show/Sections/ProductSection';
+import KitHeaderSection from '@/Components/Kit/Show/Sections/KitHeaderSection';
+import KitSection from '@/Components/Kit/Show/Sections/KitSection';
 import AppLayout from '@/Layouts/AppLayout';
 import { capitalize } from '@/Utils/capitalize';
 import { Inertia } from '@inertiajs/inertia';
 import React, { useState } from 'react';
 
-export default function Show({ product }) {
+export default function Show({ kit, products }) {
       const [isEditing, setIsEditing] = useState(false);
-      const [editProduct, setEditProduct] = useState({ ...product });
+      const [editKit, setEditKit] = useState({ ...kit });
   
       const handleToggleEdit = () => setIsEditing((prev) => !prev);
   
       const handleDelete = () => {
-          Inertia.delete(route("products.destroy", product.id));
+          Inertia.delete(route("kits.destroy", kit.id));
       };
   
       const handleCancel = () => {
-          setEditProduct({ ...product });
+          setEditKit({ ...kit });
           handleToggleEdit();d
       }
   
       const handleSave = () => {
-        Inertia.put(route("products.update", product.id), editProduct, {
+        Inertia.put(route("kits.update", kit.id), editKit, {
           onSuccess: () => {
               handleToggleEdit();
           },
@@ -31,15 +31,16 @@ export default function Show({ product }) {
 
   return (
       <div className="max-w-6xl mx-auto p-6 space-y-6">
-            <ProductHeaderSection
+            <KitHeaderSection
                 isEditing={isEditing}
                 onSave={handleSave}
                 onCancel={handleCancel}
                 onToggleEdit={handleToggleEdit}
             />
-            <ProductSection
-                product={editProduct}
-                setProduct={setEditProduct}
+            <KitSection
+                kit={editKit}
+                setKit={setEditKit}
+                products={products}
                 isEditing={isEditing}
                 onDelete={handleDelete}
             />
@@ -47,10 +48,8 @@ export default function Show({ product }) {
   );
 }
 
-
-
 Show.layout = (page) => {
-    const product = page.props.product;
+    const kit = page.props.kit;
 
     return (
         <AppLayout
@@ -58,8 +57,8 @@ Show.layout = (page) => {
                 <CustomBreadcrumb
                     items={[
                         { name: "Início", href: "/dashboard" },
-                        { name: "Produtos", href: "/products" },
-                        { name: capitalize(product.name) || "Detalhes" },
+                        { name: "Kits", href: "/kits" },
+                        { name: capitalize(kit.name) || "Detalhes" },
                     ]}
                 />
             }
