@@ -83,7 +83,7 @@ export default function KitDataTableSection({ dataTableUrl }) {
                 </div>
 
                 <div className="overflow-x-auto relative min-h-[150px]">
-                    <table className="min-w-full">
+                    <table className="min-w-full table-fixed border-collapse w-full">
                         <thead>
                             <tr>
                                 {headers.map((header) => (
