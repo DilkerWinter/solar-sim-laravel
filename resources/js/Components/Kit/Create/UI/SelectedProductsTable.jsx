@@ -14,7 +14,7 @@ export default function SelectedProductsTable({
     const [products, setProducts] = useState([]);
 
     const updateFormDataWithProducts = (updatedProducts) => {
-        const solarPanelProducts = updatedProducts.filter(p => p.solarPanel);
+        const solarPanelProducts = updatedProducts.filter(p => p.solar_panel);
         const inverterProducts = updatedProducts.filter(p => p.inverter);
 
         setFormData(prev => ({
@@ -47,7 +47,7 @@ export default function SelectedProductsTable({
     const calculateGeneratedKwh = (panels) => {
         return panels.reduce((total, panel) => {
             const quantity = Number(panel.quantity) || 1;
-            const dailyEnergy = Number(panel.solarPanel?.average_daily_energy_wh) || 0;
+            const dailyEnergy = Number(panel.solar_panel?.average_daily_energy_wh) || 0;
             return total + (quantity * dailyEnergy);
         }, 0); 
     };
@@ -80,7 +80,7 @@ export default function SelectedProductsTable({
             <div className="p-6 space-y-8">
                 <SelectedProductsSection
                     title="Placas Solar"
-                    products={products.filter(p => p.solarPanel)} 
+                    products={products.filter(p => p.solar_panel)} 
                     icon={Sun}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}
@@ -94,7 +94,7 @@ export default function SelectedProductsTable({
                 />
                 <SelectedProductsSection
                     title="Outros"
-                    products={products.filter(p => !p.inverter && !p.solarPanel)}
+                    products={products.filter(p => !p.inverter && !p.solar_panel)}
                     icon={Package}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}

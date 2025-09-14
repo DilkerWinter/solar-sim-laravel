@@ -12,7 +12,7 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
     };
 
     const isInverter = product.inverter;
-    const isSolarPanel = product.solarPanel;
+    const isSolarPanel = product.solar_panel;
 
     const renderSpecifications = () => {
         if (isInverter) {
@@ -46,19 +46,19 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                     <div>
                         <span>Potência: </span>
                         <span className="text-gray-900">
-                            {product.solarPanel.potency_watts_formatted}W
+                            {product.solar_panel.potency_watts_formatted}W
                         </span>
                     </div>
                     <div>
                         <span>Energia diária: </span>
                         <span className="text-gray-900">
-                            {product.solarPanel.average_daily_energy_wh}Wh
+                            {product.solar_panel.average_daily_energy_wh}Wh
                         </span>
                     </div>
                     <div>
                         <span>Tensão: </span>
                         <span className="text-gray-900">
-                            {product.solarPanel.operating_voltage}V
+                            {product.solar_panel.operating_voltage}V
                         </span>
                     </div>
                 </div>

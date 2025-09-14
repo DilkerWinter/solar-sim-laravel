@@ -29,9 +29,9 @@ export default function TableFooter({ products }) {
 
     function calculateTotalPower() {
         const total = products.reduce((acc, product) => {
-            if (product.solarPanel) {
+            if (product.solar_panel) {
                 const quantity = Number(product.quantity) || 0;
-                const energyPerDay = product.solarPanel.average_daily_energy_wh || 0;
+                const energyPerDay = product.solar_panel.average_daily_energy_wh || 0;
                 return acc + (energyPerDay * quantity) / 1000;
             }
             return acc;

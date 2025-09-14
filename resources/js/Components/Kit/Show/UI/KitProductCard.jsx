@@ -1,3 +1,5 @@
+import { formatMoneyWithPrefix } from "@/Utils/formatNumber";
+
 export default function KitProductCard({ product }) {
     const isInverter = product.inverter;
     const isSolarPanel = product.solar_panel;
@@ -83,7 +85,7 @@ export default function KitProductCard({ product }) {
                 <div className="flex items-center justify-between">
                     <div>
                         <span className="text-sm font-medium text-gray-900">
-                            Preço Unitário: R$ {product.price}
+                            Preço Unitário: {formatMoneyWithPrefix(product.price)}
                         </span>
                     </div>
 
