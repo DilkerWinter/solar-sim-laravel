@@ -6,6 +6,7 @@ import TextField from "@/Components/UI/Fields/TextField";
 import { formatDecimal } from "@/Utils/formatNumber";
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import EditSelectedProductsTable from "./EditSelectedProductsTable";
+import KitProductsTable from "./KitProductsTable";
 
 export default function KitCard({
     kit,
@@ -14,7 +15,6 @@ export default function KitCard({
     isEditing,
     onDelete,
 }) {
-    console.log(kit);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const handleDeleteClick = () => setConfirmDeleteOpen(true);
 
@@ -244,20 +244,29 @@ export default function KitCard({
                             />
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
-                        <TextField label="Nome" value={kit.name} />
-                        <TextField label="Descrição" value={kit.description} />
-                        <TextField
-                            label="Preço Total"
-                            value={`R$ ${formatDecimal(kit.total_price)}`}
-                        />
-                        <TextField
-                            label="Kwh Gerados"
-                            value={`${formatDecimal(kit.generated_kwh)} Kwh`}
-                        />
-                        <TextField
-                            label="Kw Suportados"
-                            value={`${formatDecimal(kit.supported_kw)} Kw`}
+                    <div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
+                            <TextField label="Nome" value={kit.name} />
+                            <TextField label="Descrição" value={kit.description} />
+                            <TextField
+                                label="Preço Total"
+                                value={`R$ ${formatDecimal(kit.total_price)}`}
+                            />
+                            <TextField
+                                label="Kwh Gerados"
+                                value={`${formatDecimal(kit.generated_kwh)} Kwh`}
+                            />
+                            <TextField
+                                label="Kw Suportados"
+                                value={`${formatDecimal(kit.supported_kw)} Kw`}
+                            />
+                        </div>
+
+                        <KitProductsTable
+                            baseProducts={selectedBaseProducts}
+                            solarPanels={selectedSolarPanels}
+                            inverters={selectedInverters}
+                            kit={kit}
                         />
                     </div>
                 )}
