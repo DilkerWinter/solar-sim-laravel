@@ -22,6 +22,7 @@ class EmployeeRepository
         try {
             $employee = new User;
             $employee->fill($data);
+            $employee->password = bcrypt('solarsim123');
             $employee->save();
 
             return $employee;

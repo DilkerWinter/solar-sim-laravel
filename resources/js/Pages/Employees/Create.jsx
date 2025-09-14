@@ -17,8 +17,7 @@ export default function Create() {
 
   function handleSubmit(e) {
       e.preventDefault();
-      console.log(formData)
-      // Inertia.post(route('employee.store'), formData);
+      Inertia.post(route('employees.store'), formData);
   }
 
   return (
