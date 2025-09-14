@@ -28,14 +28,15 @@ export default function CreateEmployeeForm({ formData, setFormData }) {
                 />
                 <SelectField
                     label="Cargo"
-                    name="isAdmin"
+                    name="role"
+                    placeholder="Selecione o cargo do usuário"
                     options={[
-                        { value: "false", label: "Funcionário" },
-                        { value: "true", label: "Administrador" },
+                        { value: "employee", label: "Funcionário" },
+                        { value: "admin", label: "Administrador" },
                     ]}
-                    value={formData.isAdmin ? "true" : "false"}
+                    value={formData.role}
                     onChange={(value) =>
-                        setFormData({ ...formData, isAdmin: value === "true" })
+                        setFormData({ ...formData, role: value })
                     }
                 />
             </div>

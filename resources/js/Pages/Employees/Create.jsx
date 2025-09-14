@@ -12,12 +12,13 @@ export default function Create() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    isAdmin: false,
+    role: "",
   });
 
   function handleSubmit(e) {
       e.preventDefault();
-      Inertia.post(route('employee.store'), formData);
+      console.log(formData)
+      // Inertia.post(route('employee.store'), formData);
   }
 
   return (
