@@ -17,7 +17,7 @@ class EmployeeDataTable
         $query = User::query();
 
         if ($searchQuery) {
-            $query->where('name', 'ilike', '%' . $searchQuery . '%'); 
+            $query->where('name', 'ilike', '%' . $searchQuery . '%');
         }
 
         if ($sortKey && in_array($sortOrder, ['asc', 'desc'])) {
@@ -60,7 +60,13 @@ class EmployeeDataTable
                 'icon' => 'UserPen',
                 'route' => route('employees.show', ['employee' => $employee->id]),
             ],
+            [
+                'type' => 'delete',
+                'id' => $employee->id,
+                'icon' => 'Trash',
+                'route' => route('employees.destroy', ['employee' => $employee->id]),
+            ],
+
         ];
     }
 }
-

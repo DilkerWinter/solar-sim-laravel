@@ -103,6 +103,7 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
                                         key={employee.id}
                                         employee={employee}
                                         headers={headers}
+                                        refreshData={fetchData}
                                     />
                                 ))
                             )}
