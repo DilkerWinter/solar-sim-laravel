@@ -73,13 +73,13 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
                 </div>
 
                 <div className="overflow-x-auto relative min-h-[150px]">
-                    <table className="min-w-full ">
+                    <table className="min-w-full table-fixed border-collapse w-full">
                         <thead>
                             <tr>
                                 {headers.map((header) => (
                                     <th
                                         key={header.key}
-                                        className="px-4 py-2 text-left text-lg"
+                                        className="px-4 py-2 text-left text-lg w-1/4"
                                     >
                                         <span>{header.label}</span>
                                     </th>
