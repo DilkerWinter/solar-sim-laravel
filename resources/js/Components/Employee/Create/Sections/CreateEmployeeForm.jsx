@@ -31,7 +31,7 @@ export default function CreateEmployeeForm({ formData, setFormData }) {
                     name="role"
                     placeholder="Selecione o cargo do usuário"
                     options={[
-                        { value: "employee", label: "Funcionário" },
+                        { value: "user", label: "Funcionário" },
                         { value: "admin", label: "Administrador" },
                     ]}
                     value={formData.role}
