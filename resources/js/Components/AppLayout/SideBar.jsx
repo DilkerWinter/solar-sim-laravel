@@ -36,7 +36,7 @@ export default function SideBar() {
         ? [
               {
                   title: "Funcionarios",
-                  url: "/configuracoes",
+                  url: "/employees",
                   icon: Settings,
               },
           ]

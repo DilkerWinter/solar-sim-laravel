@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\KitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
@@ -58,6 +59,11 @@ Route::middleware('auth')->group(function () {
  * Routes with Admin
  */
 Route::middleware(['auth', IsAdmin::class])->group(function () {
+    
+    //All routes for Employees
+    Route::get('/employees/data-table', [EmployeeController::class, 'getDataTable'])->name('employees.dataTable');
+    Route::post('/employees/reset-password', [EmployeeController::class, 'resetPassword'])->name('employees.resetPassword');
+    Route::resource('employees', EmployeeController::class);
 
 });
 

@@ -5,13 +5,13 @@ import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 import { useToast } from "@/Contexts/ToastContext";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import KitDataTableRow from "../UI/KitDataTableRow";
+import EmployeeDataTableRow from "../UI/EmployeeDataTableRow";
 
-export default function KitDataTableSection({ dataTableUrl }) {
+export default function EmployeeDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
-    const [kits, setKits] = useState([]);
+    const [employees, setEmployees] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage] = useState(5);
@@ -37,22 +37,16 @@ export default function KitDataTableSection({ dataTableUrl }) {
             const response = await axios.get(dataTableUrl, {
                 params: { page, perPage, search, ...filters },
             });
-
-            setKits(response.data.data);
+            setEmployees(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error("Erro ao buscar dados dos Kits");
+            error("Erro ao buscar dados dos Funcionarios");
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
             setLoading(false);
         }
-    };
-
-    const handleFilterChange = (newFilters) => {
-        setFilters(newFilters);
-        setPage(1);
     };
 
     const handleSearchChange = (e) => {
@@ -76,10 +70,6 @@ export default function KitDataTableSection({ dataTableUrl }) {
                             onClear={onClearSerchBar}
                         />
                     </div>
-
-                    <div className="flex-shrink-0">
-                        <CustomerSearchFilterButton onFilter={handleFilterChange} />
-                    </div>
                 </div>
 
                 <div className="overflow-x-auto relative min-h-[150px]">
@@ -89,7 +79,7 @@ export default function KitDataTableSection({ dataTableUrl }) {
                                 {headers.map((header) => (
                                     <th
                                         key={header.key}
-                                        className="px-4 py-2 text-left text-lg"
+                                        className="px-4 py-2 text-left text-lg w-1/4"
                                     >
                                         <span>{header.label}</span>
                                     </th>
@@ -98,21 +88,22 @@ export default function KitDataTableSection({ dataTableUrl }) {
                         </thead>
 
                         <tbody>
-                            {kits.length === 0 && !loading ? (
+                            {employees.length === 0 && !loading ? (
                                 <tr>
                                     <td
                                         colSpan={headers.length}
                                         className="text-center py-8 text-gray-500 italic select-none border-t border-gray-400"
                                     >
-                                        Nenhum kit encontrado.
+                                        Nenhum funcionario encontrado.
                                     </td>
                                 </tr>
                             ) : (
-                                kits.map((kit) => (
-                                    <KitDataTableRow
-                                        key={kit.id}
-                                        kit={kit}
+                                employees.map((employee) => (
+                                    <EmployeeDataTableRow
+                                        key={employee.id}
+                                        employee={employee}
                                         headers={headers}
+                                        refreshData={fetchData}
                                     />
                                 ))
                             )}

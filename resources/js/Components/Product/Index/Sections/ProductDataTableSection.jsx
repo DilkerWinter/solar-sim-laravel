@@ -42,7 +42,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error('Erro ao buscar dados dos Produtos')
+            error("Erro ao buscar dados dos Produtos");
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
@@ -85,7 +85,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                 </div>
 
                 <div className="overflow-x-auto relative min-h-[150px]">
-                    <table className="min-w-full">
+                    <table className="min-w-full table-fixed border-collapse w-full">
                         <thead>
                             <tr>
                                 {headers.map((header) => (
