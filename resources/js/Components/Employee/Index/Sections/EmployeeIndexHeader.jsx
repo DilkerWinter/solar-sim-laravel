@@ -13,15 +13,6 @@ export default function EmployeesIndexHeader() {
                     Gerencie todos os funcionarios cadastrados no sistema
                 </p>
             </div>
-            <div className="flex gap-3">
-                <RedirectButton
-                    onClick={() => router.visit(route("employees.create"))}
-                    className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 flex items-center gap-2"
-                >
-                    <Plus className="h-4 w-4" />
-                    Cadastrar Funcionario
-                </RedirectButton>
-            </div>
         </div>
     );
 }
