@@ -18,7 +18,6 @@ const itensMenu = [
     { title: "Produtos", url: "/products", icon: Package },
     { title: "Kits Solares", url: "/kits", icon: Sun },
     { title: "Propostas", url: "/propostas", icon: FileText },
-    { title: "Relatórios", url: "/relatorios", icon: BarChart3 },
 ];
 
 /**
