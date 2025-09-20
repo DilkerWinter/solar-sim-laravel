@@ -4,10 +4,10 @@ import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 import { useToast } from "@/Contexts/ToastContext";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import RedirectButton from "@/Components/UI/Buttons/CreateRedirectButton";
 import { Plus } from "lucide-react";
-import { router } from "@inertiajs/react";
 import ProductTypeDataTableRow from "../../UI/ProductTypeDataTableRow";
+import RedirectButton from "@/Components/UI/Buttons/CreateRedirectButton";
+import CreateProductTypeModal from "@/Components/Employee/Index/UI/CreateProductTypeModal";
 
 export default function ProductTypeDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
@@ -20,6 +20,7 @@ export default function ProductTypeDataTableSection({ dataTableUrl }) {
     const [search, setSearch] = useState("");
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({});
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
     const spinnerTimeoutRef = useRef(null);
 
@@ -75,13 +76,11 @@ export default function ProductTypeDataTableSection({ dataTableUrl }) {
                     </div>
                     <div className="flex gap-3">
                         <RedirectButton
-                            onClick={() =>
-                                router.visit(route("productTypes.create"))
-                            }
+                            onClick={() => setIsCreateModalOpen(true)}
                             className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 flex items-center gap-2"
                         >
                             <Plus className="h-4 w-4" />
-                            Cadastrar Categoria de Produto
+                            Categoria de Produto
                         </RedirectButton>
                     </div>
                 </div>
@@ -136,6 +135,12 @@ export default function ProductTypeDataTableSection({ dataTableUrl }) {
                 currentPage={page}
                 totalPages={totalPages}
                 onPageChange={setPage}
+            />
+
+            <CreateProductTypeModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                refreshData={fetchData}
             />
         </div>
     );

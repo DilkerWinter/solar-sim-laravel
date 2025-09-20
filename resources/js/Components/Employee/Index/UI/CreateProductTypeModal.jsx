@@ -1,30 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 import Modal from "@/Components/Modal";
 
-export default function EditProductTypeModal({
-    isOpen,
-    onClose,
-    productType,
-    refreshData,
-}) {
-    const [name, setName] = useState(productType?.name || "");
+export default function CreateProductTypeModal({ isOpen, onClose, refreshData, showToast }) {
+    const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (productType) setName(productType.name);
-    }, [productType]);
-
-    const handleUpdate = async () => {
+    const handleCreate = async () => {
         setLoading(true);
         try {
-            await axios.put(`/product-types/${productType.id}`, { name });
+            await axios.post("/product-types", { name });
             setLoading(false);
             refreshData();
-            onClose();
+            onClose(); 
+            setName("");
             if (showToast) {
                 showToast({
                     type: "success",
-                    message: "Tipo de Produto atualizado com sucesso!",
+                    message: "Tipo de Produto cadastrado com sucesso!",
                 });
             }
         } catch (error) {
@@ -34,7 +27,7 @@ export default function EditProductTypeModal({
                     type: "error",
                     message:
                         error.response?.data?.message ||
-                        "Erro ao atualizar Tipo de Produto",
+                        "Erro ao cadastrar Tipo de Produto",
                 });
             }
         }
@@ -44,13 +37,14 @@ export default function EditProductTypeModal({
         <Modal show={isOpen} onClose={onClose} maxWidth="sm">
             <div className="p-6">
                 <h2 className="text-lg font-semibold mb-4">
-                    Editar Tipo de Produto
+                    Cadastrar Tipo de Produto
                 </h2>
 
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    placeholder="Nome do Tipo de Produto"
                     className="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
@@ -62,9 +56,9 @@ export default function EditProductTypeModal({
                         Cancelar
                     </button>
                     <button
-                        onClick={handleUpdate}
+                        onClick={handleCreate}
                         className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-                        disabled={loading}
+                        disabled={loading || !name.trim()}
                     >
                         {loading ? "Salvando..." : "Salvar"}
                     </button>
