@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Trash2, UserPen } from "lucide-react";
 import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 import { DataTableDeleteButton } from "@/Components/UI/Buttons/DataTableDeleteButton";
 import { DataTableResetPasswordButton } from "./DataTableResetPasswordButton";
 

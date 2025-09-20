@@ -1,6 +1,6 @@
 import { Package, Trash2 } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 import { useEffect, useState } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
 import SelectField from "@/Components/UI/Inputs/SelectInput";

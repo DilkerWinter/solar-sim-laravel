@@ -6,6 +6,7 @@ use App\DataTables\ProductTypeDataTable;
 use Illuminate\Http\Request;
 use App\Services\ProductTypeService;
 use Exception;
+use Inertia\Inertia;
 
 class ProductTypeController extends Controller
 {
@@ -30,8 +31,21 @@ class ProductTypeController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $productType = $this->productTypeService->update($request->all(), $id);
-        return response()->json($productType);
+        try {
+            $this->productTypeService->update($request->all(), $id);
+
+            return Inertia::render('AdminPanel/Index', [
+                'toast' => [
+                    'type' => 'success',
+                    'message' => 'Tipo de Produto atualizado com sucesso.'
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao atualizar Tipo de Produto: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
     public function destroy(string $id)

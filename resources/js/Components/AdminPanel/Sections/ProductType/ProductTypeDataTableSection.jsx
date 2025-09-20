@@ -45,7 +45,8 @@ export default function ProductTypeDataTableSection({ dataTableUrl }) {
         } catch (e) {
             error("Erro ao buscar dados dos Categoria de Produtos");
         } finally {
-            if (spinnerTimeoutRef.current) clearTimeout(spinnerTimeoutRef.current);
+            if (spinnerTimeoutRef.current)
+                clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
             setLoading(false);
         }
@@ -92,7 +93,11 @@ export default function ProductTypeDataTableSection({ dataTableUrl }) {
                                 {headers.map((header) => (
                                     <th
                                         key={header.key}
-                                        className="px-4 py-2 text-left text-lg w-1/4"
+                                        className={`px-4 py-2 text-left text-lg ${
+                                            header.key === "actions"
+                                                ? "w-[15%]"
+                                                : "w-auto"
+                                        }`}
                                     >
                                         <span>{header.label}</span>
                                     </th>

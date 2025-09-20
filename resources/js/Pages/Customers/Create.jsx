@@ -9,7 +9,7 @@ import OptionalMultiSectionFormCard from "@/Components/Customer/Create/MultiSect
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { v4 as uuidv4 } from "uuid";
 import { Inertia } from "@inertiajs/inertia";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 import InputStateField from "@/Components/Customer/Create/InputStateField";
 import AppLayout from "@/Layouts/AppLayout";
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
