@@ -50,8 +50,21 @@ class ProductTypeController extends Controller
 
     public function destroy(string $id)
     {
-        $this->productTypeService->delete($id);
-        return response()->json(null, 200);
+        try {
+            $this->productTypeService->delete($id);
+
+            return Inertia::render('AdminPanel/Index', [
+                'toast' => [
+                    'type' => 'success',
+                    'message' => 'Tipo de Produto deletado com sucesso.'
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao deletar Tipo de Produto: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
     public function count()

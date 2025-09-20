@@ -22,7 +22,7 @@ function Actions({ productType, refreshData }) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const handleDelete = () => {
-        router.delete(`/productTypes/${productType.id}`, {
+        router.delete(`/product-types/${productType.id}`, {
             onSuccess: () => refreshData(),
         });
         setIsDeleteModalOpen(false);
