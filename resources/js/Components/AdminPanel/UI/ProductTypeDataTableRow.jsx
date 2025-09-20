@@ -4,6 +4,7 @@ import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
 import ConfirmModal from "@/Components/ConfirmModal";
 import { DataTableDeleteButton } from "@/Components/UI/Buttons/DataTableDeleteButton";
+import { DataTableEditButton } from "@/Components/UI/Buttons/DataTableEditButton";
 
 function Name({ value }) {
     return (
@@ -29,23 +30,9 @@ function Actions({ productType, refreshData }) {
 
     return (
         <div className="flex gap-6">
-            <button
-                onClick={handleEdit}
-                title="Editar Tipo de Produto"
-                className="flex items-center font-semibold gap-1 text-blue-600 hover:text-blue-800 transition"
-            >
-                <Pencil size={16} />
-                <span>Editar</span>
-            </button>
-
-            <button
-                title="Deletar Tipo de Produto"
-                className="flex items-center font-semibold gap-1 text-red-600 hover:text-red-800 transition"
-            >
-                <Trash2 size={16} />
-                <span>Deletar</span>
-            </button>
                 
+            <DataTableEditButton onClick={handleEdit}/>
+
             <DataTableDeleteButton onClick={() => setIsDeleteModalOpen(true)}/>
 
             <ConfirmModal

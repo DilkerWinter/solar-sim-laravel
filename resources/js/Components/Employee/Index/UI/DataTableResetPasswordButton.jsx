@@ -1,13 +1,13 @@
-import { Eye } from "lucide-react";
+import { UserPen } from "lucide-react";
 
-export function DataTableViewButton({ onClick }) {
+export function DataTableResetPasswordButton({ onClick }) {
   return (
     <button
       onClick={onClick}
       className="p-2 rounded-full border border-gray-600 text-gray-600  hover:text-white hover:bg-gray-600 transition-colors"
-      aria-label="Ver"
+      aria-label="Resetar Senha"
     >
-      <Eye size={16} />
+      <UserPen size={16} />
     </button>
   );
 }
