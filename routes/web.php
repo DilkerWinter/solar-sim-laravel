@@ -65,6 +65,11 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::post('/employees/reset-password', [EmployeeController::class, 'resetPassword'])->name('employees.resetPassword');
     Route::resource('employees', EmployeeController::class);
 
+    Route::get('/adminpanel', function () {
+    return Inertia::render('AdminPanel/Index');
+});
+
+
 });
 
 require __DIR__.'/auth.php';
