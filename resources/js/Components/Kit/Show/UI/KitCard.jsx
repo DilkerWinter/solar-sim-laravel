@@ -1,6 +1,6 @@
 import { Sun, Trash2 } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 import { useState, useEffect } from "react";
 import TextField from "@/Components/UI/Fields/TextField";
 import { formatDecimal } from "@/Utils/formatNumber";

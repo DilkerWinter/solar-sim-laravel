@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import CopyToClipboard from "./CopyToClipboard";
 import { router } from "@inertiajs/react";
+import { DataTableViewButton } from "@/Components/UI/Buttons/DataTableViewButton";
 
 function CustomerInfo({ customer_info = [] }) {
     const [name, email, phone] = customer_info;
@@ -101,17 +102,9 @@ function TotalBill({ total_bill }) {
 
 function Actions({ actions }) {
     return (
-        <button
-            onClick={() => router.visit(actions[0].route)}
-            title="Ver detalhes"
-            className="flex items-center font-semibold gap-1 text-gray-700 hover:text-gray-900 transition"
-        >
-            <Eye size={16} />
-            <span>Ver Detalhes</span>
-        </button>
+        <DataTableViewButton onClick={() => router.visit(actions[0].route)} />
     );
 }
-
 
 export default function CustomerDataTableRow({ customer, headers }) {
     return (

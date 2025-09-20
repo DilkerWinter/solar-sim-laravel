@@ -4,7 +4,7 @@ import { useState } from "react";
 import EditableField from "../../../UI/Inputs/EditableField";
 import EditableSelectField from "@/Components/UI/Inputs/EditableSelectField";
 import TextField from "../../../UI/Fields/TextField";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 
 export default function AddressCard({
     customer,

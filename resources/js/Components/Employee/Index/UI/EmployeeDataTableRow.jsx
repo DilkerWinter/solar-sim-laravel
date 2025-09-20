@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Trash2, UserPen } from "lucide-react";
 import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
+import { DataTableDeleteButton } from "@/Components/UI/Buttons/DataTableDeleteButton";
+import { DataTableResetPasswordButton } from "./DataTableResetPasswordButton";
 
 function Name({ value }) {
     return (
@@ -32,23 +34,10 @@ function Actions({ employee, refreshData }) {
 
     return (
         <div className="flex gap-6"> 
-            <button
-                onClick={() => setIsResetModalOpen(true)}
-                title="Resetar Senha"
-                className="flex items-center font-semibold gap-1 text-gray-600 hover:text-gray-900 transition"
-            >
-                <UserPen size={16} />
-                <span>Resetar Senha</span>
-            </button>
+                
+            <DataTableResetPasswordButton onClick={() => setIsResetModalOpen(true)} />
 
-            <button
-                onClick={() => setIsDeleteModalOpen(true)}
-                title="Deletar Funcionário"
-                className="flex items-center font-semibold gap-1 text-red-600 hover:text-red-800 transition"
-            >
-                <Trash2 size={16} />
-                <span>Deletar</span>
-            </button>
+            <DataTableDeleteButton onClick={() => setIsDeleteModalOpen(true)}/>
 
             <ConfirmModal
                 isOpen={isResetModalOpen}

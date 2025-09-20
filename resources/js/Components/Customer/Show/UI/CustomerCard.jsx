@@ -1,7 +1,7 @@
 import { Trash, Trash2, TrashIcon, User } from "lucide-react";
 import EditableField from "@/Components/UI/Inputs/EditableField";
 import TextField from "../../../UI/Fields/TextField";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 import { useState } from "react";
 import { formatPhone } from "@/Utils/formatPhone";
 import { formatDocumentNumber } from "@/Utils/formatDocumentNumber";

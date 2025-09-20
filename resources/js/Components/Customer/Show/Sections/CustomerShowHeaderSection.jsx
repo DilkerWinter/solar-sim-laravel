@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Edit3, Save, Trash2 } from "lucide-react";
-import ConfirmModal from "@/Components/ConfirmModal";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
 
 export default function CustomerShowHeaderSection({
   isEditing,

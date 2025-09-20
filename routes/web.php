@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\ProductDataTable;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
 
     //All routes for Product Types
+    Route::get('/product-types/datatable', [ProductTypeController::class, 'dataTable'])->name('product-types.dataTable');
     Route::get('/products-types-count', [ProductTypeController::class, 'count'])->name('products.types.count');
     Route::resource('product-types', ProductTypeController::class);
 
@@ -64,6 +66,12 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/employees/data-table', [EmployeeController::class, 'getDataTable'])->name('employees.dataTable');
     Route::post('/employees/reset-password', [EmployeeController::class, 'resetPassword'])->name('employees.resetPassword');
     Route::resource('employees', EmployeeController::class);
+
+    //Admin panel
+    Route::get('/adminpanel', function () {
+        return Inertia::render('AdminPanel/Index');
+    });
+
 
 });
 
