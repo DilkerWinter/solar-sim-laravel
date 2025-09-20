@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ProductTypeDataTable;
 use Illuminate\Http\Request;
 use App\Services\ProductTypeService;
 use Exception;
@@ -14,7 +15,7 @@ class ProductTypeController extends Controller
     {
         $this->productTypeService = $productTypeService;
     }
-    
+
     public function index()
     {
         $productTypes = $this->productTypeService->getAll();
@@ -43,10 +44,21 @@ class ProductTypeController extends Controller
     {
         try {
             return $this->productTypeService->count();
-            
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'Erro ao contar produtos: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function dataTable(Request $request)
+    {
+        try {
+            $productTypeDataTable = resolve(ProductTypeDataTable::class);
+            return $productTypeDataTable->getTable($request->all());
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar dados: ' . $e->getMessage()
             ], 500);
         }
     }

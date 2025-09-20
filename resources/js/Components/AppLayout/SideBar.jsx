@@ -35,9 +35,14 @@ export default function SideBar() {
     const itensSistemaAdmin = isAdmin
         ? [
               {
+                  title: "Painel de Administrador",
+                  url: "/adminpanel",
+                  icon: Settings,
+              },
+              {
                   title: "Funcionarios",
                   url: "/employees",
-                  icon: Settings,
+                  icon: Users,
               },
           ]
         : [];
