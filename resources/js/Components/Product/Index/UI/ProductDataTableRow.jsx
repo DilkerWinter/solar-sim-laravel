@@ -1,6 +1,7 @@
-import {Banknote, Eye} from "lucide-react";
+import { Banknote, Eye } from "lucide-react";
 import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
+import { DataTableViewButton } from "@/Components/UI/Buttons/DataTableViewButton";
 
 function Name({ name }) {
     return (
@@ -48,23 +49,14 @@ function Price({ price }) {
 function Brand({ brand }) {
     return (
         <div className="flex flex-col">
-            <span className=" font-semibold text-gray-700">
-                {brand}
-            </span>
+            <span className=" font-semibold text-gray-700">{brand}</span>
         </div>
     );
 }
 
 function Actions({ actions }) {
     return (
-        <button
-            onClick={() => router.visit(actions[0].route)}
-            title="Ver detalhes"
-            className="flex items-center font-semibold gap-1 text-gray-600 hover:text-gray-900 transition"
-        >
-            <Eye size={16} />
-            <span>Ver Detalhes</span>
-        </button>
+        <DataTableViewButton onClick={() => router.visit(actions[0].route)} />
     );
 }
 
