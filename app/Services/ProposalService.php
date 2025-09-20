@@ -18,6 +18,11 @@ class ProposalService
         return $this->proposalRepository->getAll();
     }
 
+    public function get($id)
+    {
+        return $this->proposalRepository->get($id);
+    }
+
     public function create($data)
     {
         return $this->proposalRepository->create($data);

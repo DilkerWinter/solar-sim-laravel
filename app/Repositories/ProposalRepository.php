@@ -12,6 +12,11 @@ class ProposalRepository
         return Proposal::all();
     }
 
+    public function get($id)
+    {
+        return Proposal::find($id);
+    }
+
     public function create($data)
     {
         try {
