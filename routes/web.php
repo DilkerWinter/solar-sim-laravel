@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/address/count', [AddressController::class, 'count'])->name('address.count');
 
     //All routes for Proposal
+    Route::get('/proposals/datatable', [ProposalController::class, 'dataTable'])->name('proposals.dataTable');
     Route::resource('proposals', ProposalController::class);
 });
 

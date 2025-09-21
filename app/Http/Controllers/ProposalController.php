@@ -19,7 +19,7 @@ class ProposalController extends Controller
     public function index()
     {
         try {
-            return Inertia::render('Proposalss/Index', [
+            return Inertia::render('Proposals/Index', [
                 'proposalDataTableUrl' => route('proposals.dataTable')
             ]);
         } catch (Exception $e) {
