@@ -139,8 +139,8 @@ class ProposalController extends Controller
         }
     }
 
-    // public function getDataTable(Request $request)
-    // {
-    //     return $this->proposalService->getDataTable($request->all());
-    // }
+    public function getDataTable(Request $request)
+    {
+        return $this->proposalService->getDataTable($request->all());
+    }
 }

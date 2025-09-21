@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProposalRepository;
+use App\DataTables\ProposalDataTable;
 
 class ProposalService
 {
@@ -41,5 +42,11 @@ class ProposalService
     public function count()
     {
         return $this->proposalRepository->count();
+    }
+
+    public function getDataTable($filters) 
+    {
+        $dataTable = resolve(ProposalDataTable::class);
+        return $dataTable->getTable($filters);
     }
 }
