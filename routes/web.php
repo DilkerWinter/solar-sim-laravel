@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\KitController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Middleware\IsAdmin;
@@ -55,6 +56,9 @@ Route::middleware('auth')->group(function () {
 
     //All routes for Address
     Route::get('/address/count', [AddressController::class, 'count'])->name('address.count');
+
+    //All routes for Proposal
+    Route::resource('proposals', ProposalController::class);
 });
 
 /**

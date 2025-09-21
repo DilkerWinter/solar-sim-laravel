@@ -17,7 +17,7 @@ const itensMenu = [
     { title: "Clientes", url: "/customers", icon: Users },
     { title: "Produtos", url: "/products", icon: Package },
     { title: "Kits Solares", url: "/kits", icon: Sun },
-    { title: "Propostas", url: "/propostas", icon: FileText },
+    { title: "Propostas", url: "/proposals", icon: FileText },
 ];
 
 /**
@@ -33,17 +33,17 @@ export default function SideBar() {
 
     const itensSistemaAdmin = isAdmin
         ? [
-              {
-                  title: "Painel de Administrador",
-                  url: "/adminpanel",
-                  icon: Settings,
-              },
-              {
-                  title: "Funcionarios",
-                  url: "/employees",
-                  icon: Users,
-              },
-          ]
+            {
+                title: "Painel de Administrador",
+                url: "/adminpanel",
+                icon: Settings,
+            },
+            {
+                title: "Funcionarios",
+                url: "/employees",
+                icon: Users,
+            },
+        ]
         : [];
 
     return (
