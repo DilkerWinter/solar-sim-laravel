@@ -54,4 +54,9 @@ class ProposalService
     {
         return $this->proposalRepository->countOpen();
     }
+
+    public function countClosed()
+    {
+        return $this->proposalRepository->countClosed();
+    }
 }

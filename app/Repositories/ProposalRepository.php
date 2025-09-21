@@ -50,4 +50,9 @@ class ProposalRepository
     {
         return Proposal::where('open', true)->count();
     }
+
+    public function countClosed()
+    {
+        return Proposal::where('open', false)->count();
+    }
 }

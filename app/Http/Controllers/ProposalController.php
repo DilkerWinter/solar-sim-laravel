@@ -148,4 +148,9 @@ class ProposalController extends Controller
     {
         return $this->proposalService->countOpen();
     }
+
+    public function countClosed()
+    {
+        return $this->proposalService->countClosed();
+    }
 }
