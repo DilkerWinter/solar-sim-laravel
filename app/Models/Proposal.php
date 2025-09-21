@@ -18,5 +18,6 @@ class Proposal extends Model
         'price',
         'customer_id',
         'address_id',
+        'open',
     ];
 }
