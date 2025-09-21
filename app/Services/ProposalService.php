@@ -49,4 +49,9 @@ class ProposalService
         $dataTable = resolve(ProposalDataTable::class);
         return $dataTable->getTable($filters);
     }
+
+    public function countOpen()
+    {
+        return $this->proposalRepository->countOpen();
+    }
 }

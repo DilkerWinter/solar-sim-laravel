@@ -143,4 +143,9 @@ class ProposalController extends Controller
     {
         return $this->proposalService->getDataTable($request->all());
     }
+
+    public function countOpen()
+    {
+        return $this->proposalService->countOpen();
+    }
 }

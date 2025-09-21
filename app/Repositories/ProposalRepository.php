@@ -46,8 +46,8 @@ class ProposalRepository
         return Proposal::destroy($id);
     }
 
-    public function count()
+    public function countOpen()
     {
-        return Proposal::count();
+        return Proposal::where('open', true)->count();
     }
 }
