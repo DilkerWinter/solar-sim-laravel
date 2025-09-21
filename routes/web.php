@@ -59,6 +59,8 @@ Route::middleware('auth')->group(function () {
 
     //All routes for Proposal
     Route::get('/proposals/datatable', [ProposalController::class, 'dataTable'])->name('proposals.dataTable');
+    Route::get('/proposals/count/open', [ProposalController::class, 'countOpen'])->name('proposals.countOpen');
+    Route::get('/proposals/count/closed', [ProposalController::class, 'countClosed'])->name('proposals.countClosed');
     Route::resource('proposals', ProposalController::class);
 });
 

@@ -1,12 +1,13 @@
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
-import KitInfoResume from "@/Components/Kit/Index/Sections/KitInfoResume";
 import ProposalIndexHeader from "@/Components/Proposal/Sections/ProposalIndexHeader";
+import ProposalInfoResume from "@/Components/Proposal/Sections/ProposalInfoResume";
 import AppLayout from "@/Layouts/AppLayout";
 
-export default function Index() {
+export default function Index({ proposalDataTableUrl }) {
     return (
         <div className="w-full mx-auto p-8">
             <ProposalIndexHeader />
+            <ProposalInfoResume />
         </div>
     );
 }
