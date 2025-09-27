@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Products\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,9 +14,23 @@ class Proposal extends Model
 
     protected $fillable = [
         'kit_id',
-        'price',
-        'customer_id',
         'address_id',
-        'open',
+        'final_price',
+        'status',
+        'observation',
+        'estimated_annual_consumption_kwh',
+        'estimated_monthly_bill',
+        'generated_kwh',
+        'supported_kw',
     ];
+
+    public function kit()
+    {
+        return $this->belongsTo(Kit::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 }
