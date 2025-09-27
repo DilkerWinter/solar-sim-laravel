@@ -48,11 +48,11 @@ class ProposalRepository
 
     public function countOpen()
     {
-        return Proposal::where('open', true)->count();
+        return Proposal::where('status', "Em Aberto")->count();
     }
 
     public function countClosed()
     {
-        return Proposal::where('open', false)->count();
+        return Proposal::where('status', "Fechada")->count();
     }
 }
