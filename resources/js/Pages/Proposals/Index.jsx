@@ -1,6 +1,6 @@
 import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
-import ProposalIndexHeader from "@/Components/Proposal/Sections/ProposalIndexHeader";
-import ProposalInfoResume from "@/Components/Proposal/Sections/ProposalInfoResume";
+import ProposalIndexHeader from "@/Components/Proposal/Index/Sections/ProposalIndexHeader";
+import ProposalInfoResume from "@/Components/Proposal/Index/Sections/ProposalInfoResume";
 import AppLayout from "@/Layouts/AppLayout";
 
 export default function Index({ proposalDataTableUrl }) {

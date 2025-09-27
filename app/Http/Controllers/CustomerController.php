@@ -64,10 +64,14 @@ class CustomerController extends Controller
         }
     }
 
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         try {
             $customer = $this->customerService->get($id);
+
+            if($this->jsonRequest($request)){
+                return $customer;
+            }
 
             return Inertia::render('Customers/Show', [
                 'customer' => $customer,

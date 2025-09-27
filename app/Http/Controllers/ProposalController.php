@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerSelectResource;
+use App\Http\Resources\KitSelectResource;
+use App\Services\CustomerService;
+use App\Services\KitService;
 use App\Services\ProposalService;
 use Exception;
 use Illuminate\Http\Request;
@@ -32,8 +36,17 @@ class ProposalController extends Controller
 
     public function create()
     {
+        $kitService = resolve(KitService::class);
+        $kits = KitSelectResource::collection($kitService->getAll());
+
+        $customerService = resolve(CustomerService::class);
+        $customers = CustomerSelectResource::collection($customerService->getAll());
+
         try {
-            return Inertia::render('Proposals/Create');
+            return Inertia::render('Proposals/Create', [
+                'kitOptions' => $kits,
+                'customerOptions' => $customers,
+            ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
@@ -41,6 +54,7 @@ class ProposalController extends Controller
             ]);
         }
     }
+
 
     public function store(Request $request)
     {

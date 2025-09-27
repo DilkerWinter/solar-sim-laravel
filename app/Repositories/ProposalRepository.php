@@ -19,6 +19,7 @@ class ProposalRepository
 
     public function create($data)
     {
+        dd($data);
         try {
             $proposal = new Proposal();
             $proposal->fill($data);
