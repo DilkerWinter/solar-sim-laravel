@@ -39,24 +39,14 @@ class ProposalService
        return $this->proposalRepository->delete($id);
     }
 
-    public function count()
-    {
-        return $this->proposalRepository->count();
-    }
-
     public function getDataTable($filters) 
     {
         $dataTable = resolve(ProposalDataTable::class);
         return $dataTable->getTable($filters);
     }
 
-    public function countOpen()
+    public function countByStatus($status)
     {
-        return $this->proposalRepository->countOpen();
-    }
-
-    public function countClosed()
-    {
-        return $this->proposalRepository->countClosed();
+        return $this->proposalRepository->countByStatus($status);
     }
 }

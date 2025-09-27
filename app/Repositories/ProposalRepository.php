@@ -46,13 +46,8 @@ class ProposalRepository
         return Proposal::destroy($id);
     }
 
-    public function countOpen()
+    public static function countByStatus($status)
     {
-        return Proposal::where('status', "Em Aberto")->count();
-    }
-
-    public function countClosed()
-    {
-        return Proposal::where('status', "Fechada")->count();
+        return Proposal::where('status', $status)->count();
     }
 }

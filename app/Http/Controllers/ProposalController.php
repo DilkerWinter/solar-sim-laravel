@@ -15,7 +15,7 @@ class ProposalController extends Controller
     {
         $this->proposalService = $proposalService;
     }
-    
+
     public function index()
     {
         try {
@@ -125,32 +125,13 @@ class ProposalController extends Controller
         }
     }
 
-    public function count(Request $request)
-    {
-        try {
-            $role = $request->input('role');
-        
-            return $this->proposalService->count($role);
-            
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => 'Erro ao contar propostas: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
     public function getDataTable(Request $request)
     {
         return $this->proposalService->getDataTable($request->all());
     }
 
-    public function countOpen()
+    public function countByStatus($status)
     {
-        return $this->proposalService->countOpen();
-    }
-
-    public function countClosed()
-    {
-        return $this->proposalService->countClosed();
+        return $this->proposalService->countByStatus(['status' => $status]);
     }
 }
