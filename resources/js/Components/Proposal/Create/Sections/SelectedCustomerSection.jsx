@@ -2,7 +2,6 @@ import TextField from "@/Components/UI/Fields/TextField";
 import { capitalize } from "@/Utils/capitalize";
 
 export function SelectedCustomerSection({ selectedCustomer, selectedAddress }) {
-    console.log(selectedAddress);
     return (
         <div className="mt-4">
             <h3 className="text-lg font-semibold border-b pb-1 mb-4">
