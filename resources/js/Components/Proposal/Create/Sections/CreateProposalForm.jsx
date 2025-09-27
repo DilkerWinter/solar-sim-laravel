@@ -15,11 +15,11 @@ export default function CreateProposalForm({
                 customerOptions={customerOptions}
             />
 
-            {/* <KitSection
+            <KitSection
                 formData={formData}
                 setFormData={setFormData}
                 kitOptions={kitOptions}
-            /> */}
+            />
         </section>
     );
 }
