@@ -24,6 +24,8 @@ class Kit extends Model
 
     protected $appends = [
         'total_price_formatted',
+        'generated_kwh_formatted',
+        'supported_kw_formatted',
     ];
 
     public function kitProducts()
@@ -39,5 +41,15 @@ class Kit extends Model
     public function getTotalPriceFormattedAttribute()
     {
         return (new NumberFormat())->integerToDouble($this->attributes['total_price']);
+    }
+
+    public function getGeneratedKwHFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['generated_kwh']);
+    }
+
+    public function getSupportedKwFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['supported_kw']);
     }
 }
