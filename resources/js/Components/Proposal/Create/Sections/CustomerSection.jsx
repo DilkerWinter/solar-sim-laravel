@@ -37,18 +37,24 @@ export function CustomerSection({ formData, setFormData, customerOptions }) {
             const customerData = response.data;
             setSelectedCustomer(customerData);
             setSelectedAddress({});
-            setFormData({ ...formData, customer_id: customerData.id });
+            setFormData({ ...formData, 
+                customer_id: customerData.id,
+            });
         } catch (e) {
             error("Erro ao buscar cliente");
         }
     };
-
+    console.log(selectedAddress)
     const handleSelectAddress = (addressId) => {
         const address = validAddresses.find(
             (address) => address.id === parseInt(addressId)
         );
         setSelectedAddress(address);
-        setFormData({ ...formData, address_id: address?.id });
+        setFormData({ ...formData, 
+            address_id: address?.id,
+            estimated_annual_consumption_kwh: address.energy_info.average_annual_consumption_kwh,
+            estimated_monthly_bill: address.energy_info.average_energy_bill,
+        });
     };
 
     return (

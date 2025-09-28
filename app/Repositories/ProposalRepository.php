@@ -19,10 +19,10 @@ class ProposalRepository
 
     public function create($data)
     {
-        dd($data);
         try {
             $proposal = new Proposal();
             $proposal->fill($data);
+            $proposal->status = Proposal::STATUS_PENDING;
             $proposal->save();
             return $proposal;
         } catch (Exception $e) {

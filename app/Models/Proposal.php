@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\NumberFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,7 @@ class Proposal extends Model
 
     protected $fillable = [
         'kit_id',
+        'customer_id',
         'address_id',
         'final_price',
         'status',
@@ -36,5 +38,10 @@ class Proposal extends Model
     public function address()
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function setFinalPriceAttribute($value)
+    {
+        $this->attributes['final_price'] = (new NumberFormat())->doubleToInteger($value);
     }
 }

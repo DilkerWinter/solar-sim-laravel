@@ -31,7 +31,11 @@ export function KitSection({ formData, setFormData, kitOptions }) {
             const response = await api.get(route("kits.show", kitId));
             const kitData = response.data;
             setSelectedKit(kitData);
-            setFormData({ ...formData, kit_id: kitData.id, final_price: formatDecimal(kitData.total_price)
+            setFormData({ ...formData, 
+                kit_id: kitData.id, 
+                final_price: kitData.total_price_formatted,
+                generated_kwh: kitData.generated_kwh,
+                supported_kw: kitData.supported_kw,
              });
         } catch (e) {
             error("Erro ao buscar kit");
