@@ -12,11 +12,9 @@ class Proposal extends Model
 
     protected $table = 'proposals';
 
-    const STATUS_DRAFT = 'Rascunho';
     const STATUS_PENDING = 'Pendente';
     const STATUS_APPROVED = 'Aprovada';
     const STATUS_REJECTED = 'Rejeitada';
-    const STATUS_CANCELED = 'Cancelada';
 
     protected $fillable = [
         'kit_id',

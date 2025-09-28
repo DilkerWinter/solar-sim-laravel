@@ -1,5 +1,6 @@
 import { CustomerSection } from "./CustomerSection";
 import { KitSection } from "./KitSection";
+import { ProposalSection } from "./ProposalSection";
 
 export default function CreateProposalForm({
     formData,
@@ -19,6 +20,11 @@ export default function CreateProposalForm({
                 formData={formData}
                 setFormData={setFormData}
                 kitOptions={kitOptions}
+            />
+
+            <ProposalSection
+                formData={formData}
+                setFormData={setFormData}
             />
         </section>
     );
