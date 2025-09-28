@@ -5,8 +5,8 @@ const STATUS_OPTIONS = ["Pendente", "Aprovada", "Rejeitada"];
 
 export default function ProposalSearchFilterButton({ onFilter }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedStatus, setSelectedStatus] = useState("Pendente");
-    const [selectValue, setSelectValue] = useState("Pendente");
+    const [selectedStatus, setSelectedStatus] = useState("");
+    const [selectValue, setSelectValue] = useState("");
 
     const buttonRef = useRef(null);
     const menuRef = useRef(null);
