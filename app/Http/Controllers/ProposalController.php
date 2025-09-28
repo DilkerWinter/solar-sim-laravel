@@ -153,6 +153,11 @@ class ProposalController extends Controller
         return $this->proposalService->countByStatus(['status' => $status]);
     }
 
+    public function pendingProposal(Request $request)
+    {
+        return $this->proposalService->pendingProposal($request->all());
+    }
+
     public function approveProposal(Request $request)
     {
         return $this->proposalService->approveProposal($request->all());

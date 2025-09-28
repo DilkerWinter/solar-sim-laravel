@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Banknote, FileText, CheckCircle, XCircle } from "lucide-react";
+import { Banknote, FileText, CheckCircle, XCircle, Clock } from "lucide-react";
 import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
 import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
-
 
 function Customer({ name }) {
     return (
@@ -46,7 +45,11 @@ export default function ProposalDataTableRow({ proposal, headers }) {
     const [actionToConfirm, setActionToConfirm] = useState(null);
 
     const handleActionClick = (action) => {
-        if (action.type === "approve" || action.type === "reject") {
+        if (
+            action.type === "approve" ||
+            action.type === "reject" ||
+            action.type === "pending"
+        ) {
             setActionToConfirm(action);
             setModalOpen(true);
         } else if (action.type === "download_pdf" && action.route) {
@@ -81,6 +84,7 @@ export default function ProposalDataTableRow({ proposal, headers }) {
                             <div className="flex gap-2 items-center">
                                 {proposal.actions.map((action) => {
                                     const Icon = {
+                                        pending: Clock,
                                         approve: CheckCircle,
                                         reject: XCircle,
                                         download_pdf: FileText,
@@ -114,12 +118,16 @@ export default function ProposalDataTableRow({ proposal, headers }) {
                 title={
                     actionToConfirm?.type === "approve"
                         ? "Confirmar Aprovação"
-                        : "Confirmar Rejeição"
+                        : actionToConfirm?.type === "reject"
+                        ? "Confirmar Rejeição"
+                        : "Marcar como Pendente"
                 }
                 message={`Tem certeza que deseja ${
                     actionToConfirm?.type === "approve"
                         ? "aprovar"
-                        : "rejeitar"
+                        : actionToConfirm?.type === "reject"
+                        ? "rejeitar"
+                        : "marcar como pendente"
                 } esta proposta?`}
                 onConfirm={handleConfirm}
                 onClose={() => {
@@ -129,7 +137,9 @@ export default function ProposalDataTableRow({ proposal, headers }) {
                 theme={
                     actionToConfirm?.type === "approve"
                         ? "success"
-                        : "danger"
+                        : actionToConfirm?.type === "reject"
+                        ? "danger"
+                        : "info"
                 }
             />
         </>

@@ -5,6 +5,7 @@ import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 import ProposalDataTableRow from "../UI/ProposalDataTableRow";
 import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
 import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
+import ProposalSearchFilterButton from "../UI/ProposalSearchFilterButton";
 
 export default function ProposalDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
@@ -26,7 +27,10 @@ export default function ProposalDataTableSection({ dataTableUrl }) {
 
     const fetchData = async () => {
         setLoading(true);
-        setShowSpinner(false);
+
+        if (spinnerTimeoutRef.current) {
+            clearTimeout(spinnerTimeoutRef.current);
+        }
 
         spinnerTimeoutRef.current = setTimeout(() => {
             setShowSpinner(true);
@@ -34,7 +38,13 @@ export default function ProposalDataTableSection({ dataTableUrl }) {
 
         try {
             const response = await axios.get(dataTableUrl, {
-                params: { withDataTable:true, page, perPage, search, ...filters },
+                params: {
+                    withDataTable: true,
+                    page,
+                    perPage,
+                    search,
+                    ...filters,
+                },
             });
 
             setProposals(response.data.data);
@@ -44,6 +54,7 @@ export default function ProposalDataTableSection({ dataTableUrl }) {
             error("Erro ao buscar dados das propostas");
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
+            spinnerTimeoutRef.current = null;
             setShowSpinner(false);
             setLoading(false);
         }
@@ -77,7 +88,9 @@ export default function ProposalDataTableSection({ dataTableUrl }) {
                     </div>
 
                     <div className="flex-shrink-0">
-                        {/* <ProposalSearchFilterButton onFilter={handleFilterChange} /> */}
+                        <ProposalSearchFilterButton
+                            onFilter={handleFilterChange}
+                        />
                     </div>
                 </div>
 

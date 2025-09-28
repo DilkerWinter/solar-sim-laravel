@@ -11,6 +11,7 @@ class ProposalDataTable
         $perPage = data_get($params, 'perPage', 5);
         $page = data_get($params, 'page', 1);
         $searchQuery = data_get($params, 'search', '');
+        $statusFilter = data_get($params, 'status');
         $sortKey = data_get($params, 'sortKey', 'customer.name');
         $sortOrder = data_get($params, 'sortOrder', 'asc');
 
@@ -25,6 +26,11 @@ class ProposalDataTable
                 });
             });
         }
+
+        if ($statusFilter) {
+            $query->where('status', $statusFilter);
+        }
+
 
         $data = $query->paginate($perPage, ['*'], 'page', $page);
 
@@ -60,6 +66,13 @@ class ProposalDataTable
     private function getActions($proposal): array
     {
         return [
+            [
+                'type' => 'pending',
+                'id' => $proposal->id,
+                'icon' => 'Clock',
+                'route' => route('proposals.pending', ['proposal' => $proposal->id]),
+                'method' => 'POST',
+            ],
             [
                 'type' => 'approve',
                 'id' => $proposal->id,

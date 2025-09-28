@@ -50,6 +50,11 @@ class ProposalService
         return $this->proposalRepository->countByStatus($status);
     }
 
+    public function pendingProposal($data)
+    {
+        return $this->proposalRepository->pendingProposal($data['proposal']);
+    }
+
     public function approveProposal($data)
     {
         return $this->proposalRepository->approveProposal($data['proposal']);
