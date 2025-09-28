@@ -37,10 +37,10 @@ class ProposalService
 
     public function delete($id)
     {
-       return $this->proposalRepository->delete($id);
+        return $this->proposalRepository->delete($id);
     }
 
-    public function getDataTable($filters) 
+    public function getDataTable($filters)
     {
         $dataTable = resolve(ProposalDataTable::class);
         return $dataTable->getTable($filters);
@@ -66,10 +66,14 @@ class ProposalService
         return $this->proposalRepository->rejectProposal($data['proposal']);
     }
 
-    public function generatePDF()
+    public function generatePDF($data)
     {
-        $pdf = Pdf::loadView('Proposal.hello-world');
+        $proposal = $this->proposalRepository->get($data['proposal']);
 
-        return $pdf->download('hello-world.pdf');
+        $pdf = Pdf::loadView('Proposal.solar-proposal', [
+            'proposal' => $proposal
+        ]);
+
+        return $pdf->stream('proposta-energia-solar' . $proposal->id . '.pdf');
     }
 }

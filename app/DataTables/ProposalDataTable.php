@@ -91,7 +91,7 @@ class ProposalDataTable
                 'type' => 'download_pdf',
                 'id' => $proposal->id,
                 'icon' => 'FileText',
-                'route' => null,
+                'route' => route('proposals.generatePdf', ['proposal' => $proposal->id]),
                 'method' => null,
             ],
         ];

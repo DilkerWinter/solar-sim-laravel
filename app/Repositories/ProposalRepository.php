@@ -14,8 +14,14 @@ class ProposalRepository
 
     public function get($id)
     {
-        return Proposal::find($id);
+        return Proposal::with([
+            'customer',
+            'kit.kitProducts.product',
+            'address.energyInfo',
+        ])->where('id', $id)
+        ->first();
     }
+
 
     public function create($data)
     {
@@ -63,13 +69,13 @@ class ProposalRepository
     {
         $proposal = Proposal::find($proposalId);
         $proposal->status = Proposal::STATUS_APPROVED;
-        $proposal->save(); 
+        $proposal->save();
     }
 
     public function rejectProposal($proposalId)
     {
         $proposal = Proposal::find($proposalId);
         $proposal->status = Proposal::STATUS_REJECTED;
-        $proposal->save(); 
+        $proposal->save();
     }
 }
