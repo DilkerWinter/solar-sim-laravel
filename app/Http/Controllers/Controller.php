@@ -10,4 +10,9 @@ abstract class Controller
     {
         return ($request->has('jsonRequest') || $request->input('jsonRequest') === true);
     }
+
+    public function requisicaoWithDataTable(Request $request)
+    {
+        return ($request->has('withDataTable') || $request->input('withDataTable') === true);
+    }
 }

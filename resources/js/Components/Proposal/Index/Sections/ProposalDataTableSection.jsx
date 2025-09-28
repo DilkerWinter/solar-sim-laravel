@@ -1,20 +1,17 @@
-import CustomerSearchFilterButton from "@/Components/Customer/Index/UI/CustomerSearchParameters";
-import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
-import { useToast } from "@/Contexts/ToastContext";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import EmployeeDataTableRow from "../UI/EmployeeDataTableRow";
-import RedirectButton from "@/Components/UI/Buttons/CreateRedirectButton";
-import { Plus } from "lucide-react";
-import { router } from "@inertiajs/react";
+import { useToast } from "@/Contexts/ToastContext";
+import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
+import ProposalDataTableRow from "../UI/ProposalDataTableRow";
 import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
 import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
+import ProposalSearchFilterButton from "../UI/ProposalSearchFilterButton";
 
-export default function EmployeeDataTableSection({ dataTableUrl }) {
+export default function ProposalDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
-    const [employees, setEmployees] = useState([]);
+    const [proposals, setProposals] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage] = useState(5);
@@ -30,7 +27,10 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
 
     const fetchData = async () => {
         setLoading(true);
-        setShowSpinner(false);
+
+        if (spinnerTimeoutRef.current) {
+            clearTimeout(spinnerTimeoutRef.current);
+        }
 
         spinnerTimeoutRef.current = setTimeout(() => {
             setShowSpinner(true);
@@ -38,18 +38,31 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
 
         try {
             const response = await axios.get(dataTableUrl, {
-                params: { page, perPage, search, ...filters },
+                params: {
+                    withDataTable: true,
+                    page,
+                    perPage,
+                    search,
+                    ...filters,
+                },
             });
-            setEmployees(response.data.data);
+
+            setProposals(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error("Erro ao buscar dados dos Funcionarios");
+            error("Erro ao buscar dados das propostas");
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
+            spinnerTimeoutRef.current = null;
             setShowSpinner(false);
             setLoading(false);
         }
+    };
+
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+        setPage(1);
     };
 
     const handleSearchChange = (e) => {
@@ -57,7 +70,7 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
         setPage(1);
     };
 
-    const onClearSerchBar = () => {
+    const onClearSearchBar = () => {
         setSearch("");
         setPage(1);
     };
@@ -70,19 +83,14 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
                         <SearchBar
                             search={search}
                             onSearchChange={handleSearchChange}
-                            onClear={onClearSerchBar}
+                            onClear={onClearSearchBar}
                         />
                     </div>
-                    <div className="flex gap-3">
-                        <RedirectButton
-                            onClick={() =>
-                                router.visit(route("employees.create"))
-                            }
-                            className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 flex items-center gap-2"
-                        >
-                            <Plus className="h-4 w-4" />
-                            Cadastrar Funcionario
-                        </RedirectButton>
+
+                    <div className="flex-shrink-0">
+                        <ProposalSearchFilterButton
+                            onFilter={handleFilterChange}
+                        />
                     </div>
                 </div>
 
@@ -93,31 +101,30 @@ export default function EmployeeDataTableSection({ dataTableUrl }) {
                                 {headers.map((header) => (
                                     <th
                                         key={header.key}
-                                        className="px-4 py-2 text-left text-lg w-1/4"
+                                        className="px-4 py-2 text-left text-lg"
                                     >
-                                        <span>{header.label}</span>
+                                        {header.label}
                                     </th>
                                 ))}
                             </tr>
                         </thead>
 
                         <tbody>
-                            {employees.length === 0 && !loading ? (
+                            {proposals.length === 0 && !loading ? (
                                 <tr>
                                     <td
                                         colSpan={headers.length}
                                         className="text-center py-8 text-gray-500 italic select-none border-t border-gray-400"
                                     >
-                                        Nenhum funcionario encontrado.
+                                        Nenhuma proposta encontrada.
                                     </td>
                                 </tr>
                             ) : (
-                                employees.map((employee) => (
-                                    <EmployeeDataTableRow
-                                        key={employee.id}
-                                        employee={employee}
+                                proposals.map((proposal) => (
+                                    <ProposalDataTableRow
+                                        key={proposal.id}
+                                        proposal={proposal}
                                         headers={headers}
-                                        refreshData={fetchData}
                                     />
                                 ))
                             )}

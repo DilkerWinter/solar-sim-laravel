@@ -154,14 +154,4 @@ class ProductController extends Controller
     {
         return $this->productService->getAllGroupedByType();
     }
-
-    private function requisicaoWithDataTable(Request $request)
-    {
-        return $request->ajax() && (
-            $request->has('page') ||
-            $request->has('perPage') ||
-            $request->has('search') ||
-            $request->has('sortKey')
-        );
-    }
 }

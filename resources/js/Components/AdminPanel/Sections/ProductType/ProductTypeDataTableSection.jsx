@@ -1,5 +1,3 @@
-import LoadingSpinner from "@/Components/Customer/Index/UI/LoadingSpinner";
-import PageNavigator from "@/Components/Customer/Index/UI/PageNavigator";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 import { useToast } from "@/Contexts/ToastContext";
 import axios from "axios";
@@ -8,6 +6,8 @@ import { Plus } from "lucide-react";
 import ProductTypeDataTableRow from "../../UI/ProductTypeDataTableRow";
 import RedirectButton from "@/Components/UI/Buttons/CreateRedirectButton";
 import CreateProductTypeModal from "@/Components/Employee/Index/UI/CreateProductTypeModal";
+import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
+import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
 
 export default function ProductTypeDataTableSection({ dataTableUrl }) {
     const { error } = useToast();

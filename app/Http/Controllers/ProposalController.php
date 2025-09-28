@@ -20,11 +20,15 @@ class ProposalController extends Controller
         $this->proposalService = $proposalService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($this->requisicaoWithDataTable($request)) {
+                return $this->proposalService->getDataTable($request->all());
+            }
+        
         try {
             return Inertia::render('Proposals/Index', [
-                'proposalDataTableUrl' => route('proposals.dataTable')
+                'proposalDataTableUrl' => route('proposals.index')
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
@@ -147,5 +151,20 @@ class ProposalController extends Controller
     public function countByStatus($status)
     {
         return $this->proposalService->countByStatus(['status' => $status]);
+    }
+
+    public function pendingProposal(Request $request)
+    {
+        return $this->proposalService->pendingProposal($request->all());
+    }
+
+    public function approveProposal(Request $request)
+    {
+        return $this->proposalService->approveProposal($request->all());
+    }
+
+    public function rejectProposal(Request $request)
+    {
+        return $this->proposalService->rejectProposal($request->all());
     }
 }

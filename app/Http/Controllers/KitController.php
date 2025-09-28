@@ -139,14 +139,4 @@ class KitController extends Controller
             ], 500);
         }
     }
-
-    private function requisicaoWithDataTable(Request $request)
-    {
-        return $request->ajax() && (
-            $request->has('page') ||
-            $request->has('perPage') ||
-            $request->has('search') ||
-            $request->has('sortKey')
-        );
-    }
 }

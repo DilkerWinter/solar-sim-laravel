@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import CustomerDataTableRow from "../UI/CustomerDataTableRow";
-import LoadingSpinner from "../UI/LoadingSpinner";
-import PageNavigator from "../UI/PageNavigator";
 import CustomerSearchParameters from "../UI/CustomerSearchParameters";
 import { useToast } from "@/Contexts/ToastContext";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
+import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
+import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
 
 export default function CustomerDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
@@ -35,7 +35,13 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
 
         try {
             const response = await axios.get(dataTableUrl, {
-                params: { page, perPage, search, ...filters },
+                params: {
+                    withDataTable: true,
+                    page,
+                    perPage,
+                    search,
+                    ...filters,
+                },
             });
 
             setCustomers(response.data.data);
