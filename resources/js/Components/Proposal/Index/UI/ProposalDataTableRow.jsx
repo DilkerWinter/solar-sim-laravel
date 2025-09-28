@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Banknote, FileText, CheckCircle, XCircle } from "lucide-react";
 import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
+import ConfirmModal from "@/Components/UI/Modal/ConfirmModal";
+
 
 function Customer({ name }) {
     return (
@@ -22,7 +25,7 @@ function Price({ price }) {
 }
 
 function Status({ status }) {
-    let color =
+    const color =
         {
             Pendente: "bg-yellow-100 text-yellow-700 border-yellow-300",
             Aprovada: "bg-green-100 text-green-700 border-green-300",
@@ -38,59 +41,97 @@ function Status({ status }) {
     );
 }
 
-function Actions({ actions }) {
-    return (
-        <div className="flex gap-2 items-center">
-            {actions.map((action) => {
-                const Icon = {
-                    approve: CheckCircle,
-                    reject: XCircle,
-                    download_pdf: FileText,
-                }[action.type];
-
-                if (!Icon) return null;
-
-                return (
-                    <button
-                        key={action.type}
-                        onClick={() =>
-                            action.route
-                                ? router.visit(action.route, {
-                                      method: action.method || "GET",
-                                  })
-                                : null
-                        }
-                        className="text-gray-600 hover:text-gray-900"
-                        title={action.type}
-                    >
-                        <Icon size={18} />
-                    </button>
-                );
-            })}
-        </div>
-    );
-}
-
 export default function ProposalDataTableRow({ proposal, headers }) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [actionToConfirm, setActionToConfirm] = useState(null);
+
+    const handleActionClick = (action) => {
+        if (action.type === "approve" || action.type === "reject") {
+            setActionToConfirm(action);
+            setModalOpen(true);
+        } else if (action.type === "download_pdf" && action.route) {
+            router.visit(action.route);
+        }
+    };
+
+    const handleConfirm = () => {
+        if (actionToConfirm?.route) {
+            router.visit(actionToConfirm.route, {
+                method: actionToConfirm.method || "POST",
+            });
+        }
+        setModalOpen(false);
+        setActionToConfirm(null);
+    };
+
     return (
-        <tr className="border-t border-gray-400 shadow-gray-300">
-            {headers.map((header) => (
-                <td key={header.key} className="p-4 align-middle">
-                    {header.key === "name" ? (
-                        <Customer name={proposal.name} />
-                    ) : header.key === "kit" ? (
-                        <Kit kit={proposal.kit} />
-                    ) : header.key === "final_price" ? (
-                        <Price price={proposal.final_price} />
-                    ) : header.key === "status" ? (
-                        <Status status={proposal.status} />
-                    ) : header.key === "actions" ? (
-                        <Actions actions={proposal.actions} />
-                    ) : (
-                        proposal[header.key]
-                    )}
-                </td>
-            ))}
-        </tr>
+        <>
+            <tr className="border-t border-gray-400 shadow-gray-300">
+                {headers.map((header) => (
+                    <td key={header.key} className="p-4 align-middle">
+                        {header.key === "name" ? (
+                            <Customer name={proposal.name} />
+                        ) : header.key === "kit" ? (
+                            <Kit kit={proposal.kit} />
+                        ) : header.key === "final_price" ? (
+                            <Price price={proposal.final_price} />
+                        ) : header.key === "status" ? (
+                            <Status status={proposal.status} />
+                        ) : header.key === "actions" ? (
+                            <div className="flex gap-2 items-center">
+                                {proposal.actions.map((action) => {
+                                    const Icon = {
+                                        approve: CheckCircle,
+                                        reject: XCircle,
+                                        download_pdf: FileText,
+                                    }[action.type];
+
+                                    if (!Icon) return null;
+
+                                    return (
+                                        <button
+                                            key={action.type}
+                                            onClick={() =>
+                                                handleActionClick(action)
+                                            }
+                                            className="text-gray-600 hover:text-gray-900"
+                                            title={action.type}
+                                        >
+                                            <Icon size={18} />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            proposal[header.key]
+                        )}
+                    </td>
+                ))}
+            </tr>
+
+            <ConfirmModal
+                isOpen={modalOpen}
+                title={
+                    actionToConfirm?.type === "approve"
+                        ? "Confirmar Aprovação"
+                        : "Confirmar Rejeição"
+                }
+                message={`Tem certeza que deseja ${
+                    actionToConfirm?.type === "approve"
+                        ? "aprovar"
+                        : "rejeitar"
+                } esta proposta?`}
+                onConfirm={handleConfirm}
+                onClose={() => {
+                    setModalOpen(false);
+                    setActionToConfirm(null);
+                }}
+                theme={
+                    actionToConfirm?.type === "approve"
+                        ? "success"
+                        : "danger"
+                }
+            />
+        </>
     );
 }
