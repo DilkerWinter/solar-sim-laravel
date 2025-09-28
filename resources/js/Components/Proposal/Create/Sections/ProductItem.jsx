@@ -38,7 +38,7 @@ export function ProductItem({ productItem }) {
                     R$ {productItem.product.price_formatted}
                 </p>
                 <p className="text-sm text-gray-500">
-                    Quantidade: {productItem.quantity}x
+                    Quantidade: {productItem.quantity}
                 </p>
             </div>
         </div>
