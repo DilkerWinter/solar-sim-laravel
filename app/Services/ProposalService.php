@@ -49,4 +49,14 @@ class ProposalService
     {
         return $this->proposalRepository->countByStatus($status);
     }
+
+    public function approveProposal($data)
+    {
+        return $this->proposalRepository->approveProposal($data['proposalId']);
+    }
+
+    public function rejectProposal($data)
+    {
+        return $this->proposalRepository->rejectProposal($data['proposalId']);
+    }
 }

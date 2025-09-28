@@ -47,8 +47,22 @@ class ProposalRepository
         return Proposal::destroy($id);
     }
 
-    public static function countByStatus($status)
+    public function countByStatus($status)
     {
         return Proposal::where('status', $status)->count();
+    }
+
+    public function approveProposal($proposalId)
+    {
+        $proposal = Proposal::get($proposalId);
+        $proposal->status = Proposal::STATUS_APPROVED;
+        $proposal->save(); 
+    }
+
+    public function rejectProposal($proposalId)
+    {
+        $proposal = Proposal::get($proposalId);
+        $proposal->status = Proposal::STATUS_REJECTED;
+        $proposal->save(); 
     }
 }

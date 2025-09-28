@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Proposals\Proposal;
+use App\Models\Proposal;
 
 class ProposalDataTable
 {
@@ -51,18 +51,25 @@ class ProposalDataTable
     {
         return [
             [
-                'type' => 'edit',
+                'type' => 'approve',
                 'id' => $proposal->id,
-                'icon' => 'Pencil',
-                'route' => route('proposals.update', ['proposal' => $proposal->id]),
-                'method' => 'PUT', 
+                'icon' => 'CheckCircle',
+                'route' => route('proposals.approve', ['proposal' => $proposal->id]),
+                'method' => 'POST',
             ],
             [
-                'type' => 'delete',
+                'type' => 'reject',
                 'id' => $proposal->id,
-                'icon' => 'Trash2',
-                'route' => route('proposals.destroy', ['proposal' => $proposal->id]), 
-                'method' => 'DELETE',
+                'icon' => 'XCircle',
+                'route' => route('proposals.reject', ['proposal' => $proposal->id]),
+                'method' => 'POST',
+            ],
+            [
+                'type' => 'download_pdf',
+                'id' => $proposal->id,
+                'icon' => 'FileText',
+                'route' => null,
+                'method' => null,
             ],
         ];
     }

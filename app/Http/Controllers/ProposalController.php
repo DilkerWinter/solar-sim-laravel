@@ -22,6 +22,7 @@ class ProposalController extends Controller
 
     public function index()
     {
+        
         try {
             return Inertia::render('Proposals/Index', [
                 'proposalDataTableUrl' => route('proposals.dataTable')
@@ -147,5 +148,15 @@ class ProposalController extends Controller
     public function countByStatus($status)
     {
         return $this->proposalService->countByStatus(['status' => $status]);
+    }
+
+    public function approveProposal(Request $request)
+    {
+        return $this->proposalService->approveProposal($request->all());
+    }
+
+    public function rejectProposal(Request $request)
+    {
+        return $this->proposalService->rejectProposal($request->all());
     }
 }
