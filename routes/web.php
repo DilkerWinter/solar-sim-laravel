@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/proposals/pending', [ProposalController::class, 'pendingProposal'])->name('proposals.pending');
     Route::post('/proposals/approve', [ProposalController::class, 'approveProposal'])->name('proposals.approve');
     Route::post('/proposals/reject', [ProposalController::class, 'rejectProposal'])->name('proposals.reject');
+    Route::get('/proposals/generate-pdf', [ProposalController::class, 'generatePdf'])->name('proposals.generatePdf');
     Route::resource('proposals', ProposalController::class);
 });
 

@@ -167,4 +167,9 @@ class ProposalController extends Controller
     {
         return $this->proposalService->rejectProposal($request->all());
     }
+
+    public function generatePdf()
+    {
+        return $this->proposalService->generatePDF();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\ProposalRepository;
 use App\DataTables\ProposalDataTable;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProposalService
 {
@@ -63,5 +64,12 @@ class ProposalService
     public function rejectProposal($data)
     {
         return $this->proposalRepository->rejectProposal($data['proposal']);
+    }
+
+    public function generatePDF()
+    {
+        $pdf = Pdf::loadView('Proposal.hello-world');
+
+        return $pdf->download('hello-world.pdf');
     }
 }
