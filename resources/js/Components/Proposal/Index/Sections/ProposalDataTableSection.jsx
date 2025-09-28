@@ -1,17 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import CustomerDataTableRow from "../UI/CustomerDataTableRow";
-import CustomerSearchParameters from "../UI/CustomerSearchParameters";
 import { useToast } from "@/Contexts/ToastContext";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
+import ProposalDataTableRow from "../UI/ProposalDataTableRow";
 import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
 import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
 
-export default function CustomerDataTableSection({ dataTableUrl }) {
+export default function ProposalDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
     const [loading, setLoading] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
-    const [customers, setCustomers] = useState([]);
+    const [proposals, setProposals] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage] = useState(5);
@@ -38,11 +37,11 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                 params: { page, perPage, search, ...filters },
             });
 
-            setCustomers(response.data.data);
+            setProposals(response.data.data);
             setHeaders(response.data.headers);
             setTotalPages(response.data.lastPage);
         } catch (e) {
-            error('Erro ao buscar dados dos Clientes')
+            error("Erro ao buscar dados das propostas");
         } finally {
             clearTimeout(spinnerTimeoutRef.current);
             setShowSpinner(false);
@@ -60,7 +59,7 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
         setPage(1);
     };
 
-    const onClearSerchBar = () => {
+    const onClearSearchBar = () => {
         setSearch("");
         setPage(1);
     };
@@ -73,14 +72,12 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                         <SearchBar
                             search={search}
                             onSearchChange={handleSearchChange}
-                            onClear={onClearSerchBar}
+                            onClear={onClearSearchBar}
                         />
                     </div>
 
                     <div className="flex-shrink-0">
-                        <CustomerSearchParameters
-                            onFilter={handleFilterChange}
-                        />
+                        {/* <ProposalSearchFilterButton onFilter={handleFilterChange} /> */}
                     </div>
                 </div>
 
@@ -91,29 +88,29 @@ export default function CustomerDataTableSection({ dataTableUrl }) {
                                 {headers.map((header) => (
                                     <th
                                         key={header.key}
-                                        className={`px-4 py-2 text-left text-lg`}
+                                        className="px-4 py-2 text-left text-lg"
                                     >
-                                        <span className="">{header.label}</span>
+                                        {header.label}
                                     </th>
                                 ))}
                             </tr>
                         </thead>
 
                         <tbody>
-                            {customers.length === 0 && !loading ? (
+                            {proposals.length === 0 && !loading ? (
                                 <tr>
                                     <td
                                         colSpan={headers.length}
                                         className="text-center py-8 text-gray-500 italic select-none border-t border-gray-400"
                                     >
-                                        Nenhum cliente encontrado.
+                                        Nenhuma proposta encontrada.
                                     </td>
                                 </tr>
                             ) : (
-                                customers.map((customer) => (
-                                    <CustomerDataTableRow
-                                        key={customer.id}
-                                        customer={customer}
+                                proposals.map((proposal) => (
+                                    <ProposalDataTableRow
+                                        key={proposal.id}
+                                        proposal={proposal}
                                         headers={headers}
                                     />
                                 ))

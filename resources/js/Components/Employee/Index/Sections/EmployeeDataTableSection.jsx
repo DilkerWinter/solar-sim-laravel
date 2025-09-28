@@ -1,6 +1,4 @@
 import CustomerSearchFilterButton from "@/Components/Customer/Index/UI/CustomerSearchParameters";
-import LoadingSpinner from "@/Components/Customer/Index/UI/LoadingSpinner";
-import PageNavigator from "@/Components/Customer/Index/UI/PageNavigator";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 import { useToast } from "@/Contexts/ToastContext";
 import axios from "axios";
@@ -9,6 +7,8 @@ import EmployeeDataTableRow from "../UI/EmployeeDataTableRow";
 import RedirectButton from "@/Components/UI/Buttons/CreateRedirectButton";
 import { Plus } from "lucide-react";
 import { router } from "@inertiajs/react";
+import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
+import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
 
 export default function EmployeeDataTableSection({ dataTableUrl }) {
     const { error } = useToast();

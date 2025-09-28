@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useToast } from "@/Contexts/ToastContext";
-import LoadingSpinner from "../UI/LoadingSpinner";
 import CustomerSearchFilterButton from "../UI/ProductSearchParameters";
-import PageNavigator from "../UI/PageNavigator";
 import ProductDataTableRow from "../UI/ProductDataTableRow";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
+import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
+import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
 
 export default function ProductDataTableSection({ dataTableUrl }) {
     const { error } = useToast();
@@ -106,7 +106,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                                         colSpan={headers.length}
                                         className="text-center py-8 text-gray-500 italic select-none border-t border-gray-400"
                                     >
-                                        Nenhum cliente encontrado.
+                                        Nenhum produto encontrado.
                                     </td>
                                 </tr>
                             ) : (

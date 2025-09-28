@@ -1,11 +1,11 @@
 import CustomerSearchFilterButton from "@/Components/Customer/Index/UI/CustomerSearchParameters";
-import LoadingSpinner from "@/Components/Customer/Index/UI/LoadingSpinner";
-import PageNavigator from "@/Components/Customer/Index/UI/PageNavigator";
 import SearchBar from "@/Components/UI/DataTableUI/SearchBar";
 import { useToast } from "@/Contexts/ToastContext";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import KitDataTableRow from "../UI/KitDataTableRow";
+import LoadingSpinner from "@/Components/UI/DataTableUI/LoadingSpinner";
+import PageNavigator from "@/Components/UI/DataTableUI/PageNavigator";
 
 export default function KitDataTableSection({ dataTableUrl }) {
     const { error } = useToast();

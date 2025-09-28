@@ -25,7 +25,7 @@ class ProposalController extends Controller
         
         try {
             return Inertia::render('Proposals/Index', [
-                'proposalDataTableUrl' => route('proposals.dataTable')
+                'proposalDataTableUrl' => route('proposals.index')
             ]);
         } catch (Exception $e) {
             return redirect()->back()->with('toast', [
