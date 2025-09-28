@@ -70,10 +70,14 @@ class KitController extends Controller
         }
     }
 
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         try {
             $kit = $this->kitService->get($id);
+
+            if($this->jsonRequest($request)) {
+                return $kit;
+            }
 
             $productService = resolve(ProductService::class);
             $products = $productService->getAllGroupedByType();

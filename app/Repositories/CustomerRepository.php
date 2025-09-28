@@ -95,4 +95,9 @@ class CustomerRepository
     {
         return Customer::count();
     }
+
+    public function getAllWithAddressAndEnergyInfo() 
+    {
+        return Customer::with('addresses.energyInfo')->get();
+    }
 }

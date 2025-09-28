@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Products\Product;
+use App\Utils\NumberFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,6 +22,12 @@ class Kit extends Model
         'supported_kw'
     ];
 
+    protected $appends = [
+        'total_price_formatted',
+        'generated_kwh_formatted',
+        'supported_kw_formatted',
+    ];
+
     public function kitProducts()
     {
         return $this->hasMany(KitProducts::class, 'kit_id');
@@ -29,5 +36,20 @@ class Kit extends Model
     public function products()
     {
         return $this->hasManyThrough(Product::class, KitProducts::class, 'kit_id', 'id', 'id', 'product_id');
+    }
+
+    public function getTotalPriceFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['total_price']);
+    }
+
+    public function getGeneratedKwHFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['generated_kwh']);
+    }
+
+    public function getSupportedKwFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['supported_kw']);
     }
 }
