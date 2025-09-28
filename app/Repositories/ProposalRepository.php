@@ -54,14 +54,14 @@ class ProposalRepository
 
     public function approveProposal($proposalId)
     {
-        $proposal = Proposal::get($proposalId);
+        $proposal = Proposal::find($proposalId);
         $proposal->status = Proposal::STATUS_APPROVED;
         $proposal->save(); 
     }
 
     public function rejectProposal($proposalId)
     {
-        $proposal = Proposal::get($proposalId);
+        $proposal = Proposal::find($proposalId);
         $proposal->status = Proposal::STATUS_REJECTED;
         $proposal->save(); 
     }

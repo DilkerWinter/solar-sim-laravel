@@ -52,11 +52,11 @@ class ProposalService
 
     public function approveProposal($data)
     {
-        return $this->proposalRepository->approveProposal($data['proposalId']);
+        return $this->proposalRepository->approveProposal($data['proposal']);
     }
 
     public function rejectProposal($data)
     {
-        return $this->proposalRepository->rejectProposal($data['proposalId']);
+        return $this->proposalRepository->rejectProposal($data['proposal']);
     }
 }

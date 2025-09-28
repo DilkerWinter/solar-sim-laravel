@@ -35,6 +35,11 @@ class Proposal extends Model
         return $this->belongsTo(Kit::class);
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function address()
     {
         return $this->belongsTo(Address::class);

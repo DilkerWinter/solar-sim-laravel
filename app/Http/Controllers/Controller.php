@@ -13,11 +13,6 @@ abstract class Controller
 
     public function requisicaoWithDataTable(Request $request)
     {
-        return $request->ajax() && (
-            $request->has('page') ||
-            $request->has('perPage') ||
-            $request->has('search') ||
-            $request->has('sortKey')
-        );
+        return ($request->has('withDataTable') || $request->input('withDataTable') === true);
     }
 }

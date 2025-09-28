@@ -2,16 +2,14 @@ import { Banknote, FileText, CheckCircle, XCircle } from "lucide-react";
 import { router } from "@inertiajs/react";
 import { capitalize } from "@/Utils/capitalize";
 
-function Customer({ customer }) {
+function Customer({ name }) {
     return (
-        <span className="font-semibold text-gray-700">{capitalize(customer?.name)}</span>
+        <span className="font-semibold text-gray-700">{capitalize(name)}</span>
     );
 }
 
 function Kit({ kit }) {
-    return (
-        <span className="text-gray-700">{kit?.name || "—"}</span>
-    );
+    return <span className="text-gray-700">{kit?.name || "—"}</span>;
 }
 
 function Price({ price }) {
@@ -24,14 +22,17 @@ function Price({ price }) {
 }
 
 function Status({ status }) {
-    let color = {
-        Pendente: "bg-yellow-100 text-yellow-700 border-yellow-300",
-        Aprovada: "bg-green-100 text-green-700 border-green-300",
-        Rejeitada: "bg-red-100 text-red-700 border-red-300",
-    }[status] || "bg-gray-100 text-gray-700 border-gray-300";
+    let color =
+        {
+            Pendente: "bg-yellow-100 text-yellow-700 border-yellow-300",
+            Aprovada: "bg-green-100 text-green-700 border-green-300",
+            Rejeitada: "bg-red-100 text-red-700 border-red-300",
+        }[status] || "bg-gray-100 text-gray-700 border-gray-300";
 
     return (
-        <div className={`inline-flex items-center px-3 py-1 rounded-2xl text-sm font-medium border ${color}`}>
+        <div
+            className={`inline-flex items-center px-3 py-1 rounded-2xl text-sm font-medium border ${color}`}
+        >
             {status}
         </div>
     );
@@ -54,7 +55,9 @@ function Actions({ actions }) {
                         key={action.type}
                         onClick={() =>
                             action.route
-                                ? router.visit(action.route, { method: action.method || 'GET' })
+                                ? router.visit(action.route, {
+                                      method: action.method || "GET",
+                                  })
                                 : null
                         }
                         className="text-gray-600 hover:text-gray-900"
@@ -74,7 +77,7 @@ export default function ProposalDataTableRow({ proposal, headers }) {
             {headers.map((header) => (
                 <td key={header.key} className="p-4 align-middle">
                     {header.key === "name" ? (
-                        <Customer customer={proposal.customer} />
+                        <Customer name={proposal.name} />
                     ) : header.key === "kit" ? (
                         <Kit kit={proposal.kit} />
                     ) : header.key === "final_price" ? (

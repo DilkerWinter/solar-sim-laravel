@@ -11,17 +11,19 @@ class ProposalDataTable
         $perPage = data_get($params, 'perPage', 5);
         $page = data_get($params, 'page', 1);
         $searchQuery = data_get($params, 'search', '');
-        $sortKey = data_get($params, 'sortKey', 'name');
+        $sortKey = data_get($params, 'sortKey', 'customer.name');
         $sortOrder = data_get($params, 'sortOrder', 'asc');
 
-        $query = Proposal::query();
+        $query = Proposal::with(['customer', 'kit']);
 
         if ($searchQuery) {
-            $query->where('name', 'ilike', '%' . $searchQuery . '%');
-        }
-
-        if ($sortKey && in_array($sortOrder, ['asc', 'desc'])) {
-            $query->orderBy($sortKey, $sortOrder);
+            $query->where(function ($q) use ($searchQuery) {
+                $q->whereHas('customer', function ($subQuery) use ($searchQuery) {
+                    $subQuery->where('name', 'ilike', '%' . $searchQuery . '%');
+                })->orWhereHas('kit', function ($subQuery) use ($searchQuery) {
+                    $subQuery->where('name', 'ilike', '%' . $searchQuery . '%');
+                });
+            });
         }
 
         $data = $query->paginate($perPage, ['*'], 'page', $page);
@@ -29,13 +31,21 @@ class ProposalDataTable
         $formattedData = $data->getCollection()->map(function ($proposal) {
             return [
                 'id' => $proposal->id,
-                'name' => $proposal->name,
+                'name' => optional($proposal->customer)->name,
+                'kit' => [
+                    'name' => optional($proposal->kit)->name,
+                ],
+                'final_price' => number_format($proposal->final_price / 100, 2, ',', '.'),
+                'status' => $proposal->status,
                 'actions' => $this->getActions($proposal),
             ];
         });
 
         $headers = [
-            ['key' => 'name', 'label' => 'Nome'],
+            ['key' => 'name', 'label' => 'Cliente'],
+            ['key' => 'kit', 'label' => 'Kit Escolhido'],
+            ['key' => 'final_price', 'label' => 'Preço'],
+            ['key' => 'status', 'label' => 'Status'],
             ['key' => 'actions', 'label' => 'Ações'],
         ];
 

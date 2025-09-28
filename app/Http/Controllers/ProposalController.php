@@ -20,8 +20,11 @@ class ProposalController extends Controller
         $this->proposalService = $proposalService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($this->requisicaoWithDataTable($request)) {
+                return $this->proposalService->getDataTable($request->all());
+            }
         
         try {
             return Inertia::render('Proposals/Index', [
