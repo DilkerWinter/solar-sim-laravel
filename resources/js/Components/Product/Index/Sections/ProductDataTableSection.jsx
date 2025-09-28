@@ -35,7 +35,7 @@ export default function ProductDataTableSection({ dataTableUrl }) {
 
         try {
             const response = await axios.get(dataTableUrl, {
-                params: { page, perPage, search, ...filters },
+                params: { withDataTable: true, page, perPage, search, ...filters },
             });
 
             setProducts(response.data.data);

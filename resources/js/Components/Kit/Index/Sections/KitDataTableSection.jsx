@@ -35,7 +35,7 @@ export default function KitDataTableSection({ dataTableUrl }) {
 
         try {
             const response = await axios.get(dataTableUrl, {
-                params: { page, perPage, search, ...filters },
+                params: { withDataTable: true, page, perPage, search, ...filters },
             });
 
             setKits(response.data.data);
