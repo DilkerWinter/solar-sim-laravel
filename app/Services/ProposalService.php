@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\ProposalRepository;
 use App\DataTables\ProposalDataTable;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProposalService
 {
@@ -36,10 +37,10 @@ class ProposalService
 
     public function delete($id)
     {
-       return $this->proposalRepository->delete($id);
+        return $this->proposalRepository->delete($id);
     }
 
-    public function getDataTable($filters) 
+    public function getDataTable($filters)
     {
         $dataTable = resolve(ProposalDataTable::class);
         return $dataTable->getTable($filters);
@@ -63,5 +64,16 @@ class ProposalService
     public function rejectProposal($data)
     {
         return $this->proposalRepository->rejectProposal($data['proposal']);
+    }
+
+    public function generatePDF($data)
+    {
+        $proposal = $this->proposalRepository->get($data['proposal']);
+
+        $pdf = Pdf::loadView('Proposal.solar-proposal', [
+            'proposal' => $proposal
+        ]);
+
+        return $pdf->stream('proposta-energia-solar' . $proposal->id . '.pdf');
     }
 }

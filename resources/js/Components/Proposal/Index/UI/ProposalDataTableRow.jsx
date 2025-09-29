@@ -53,7 +53,7 @@ export default function ProposalDataTableRow({ proposal, headers }) {
             setActionToConfirm(action);
             setModalOpen(true);
         } else if (action.type === "download_pdf" && action.route) {
-            router.visit(action.route);
+            window.open(action.route, '_blank');
         }
     };
 
