@@ -25,6 +25,8 @@ class Address extends Model
         'cep'
     ];
 
+    protected $with = ['energyInfo'];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
