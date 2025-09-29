@@ -337,62 +337,82 @@
         }
 
         /* Benefits */
-        .benefits-list {
-            display: table;
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 10px;
-        }
-
-        .benefit-item {
-            display: table-row;
-        }
-
-        .benefit-icon {
-            display: table-cell;
-            width: 50px;
-            padding: 12px;
-            vertical-align: top;
-            background-color: #f0fdf4;
-            border: 2px solid #22c55e;
-            border-right: none;
-            border-radius: 5px 0 0 5px;
-        }
-
-        .benefit-icon-circle {
-            width: 30px;
-            height: 30px;
-            background-color: #22c55e;
-            border-radius: 50%;
+        .benefits-grid {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            flex-wrap: wrap;
+            gap: 20px;
+            page-break-inside: avoid;
+        }
+
+        .benefit-card {
+            flex: 1 1 calc(50% - 10px);
+            padding: 25px;
+            border: 3px solid #d1d5db;
+            background-color: #f9fafb;
+            border-left-width: 6px;
+            box-sizing: border-box;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .benefit-card h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
             font-weight: bold;
-            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .benefit-content {
-            display: table-cell;
-            padding: 12px 15px;
-            vertical-align: top;
-            background-color: white;
-            border: 2px solid #22c55e;
-            border-left: none;
-            border-radius: 0 5px 5px 0;
-        }
-
-        .benefit-content h3 {
-            font-size: 15px;
-            margin-bottom: 5px;
-            color: #166534;
-            font-weight: bold;
-        }
-
-        .benefit-content p {
-            font-size: 13px;
+        .benefit-card p {
+            font-size: 14px;
             color: #4b5563;
-            line-height: 1.5;
+            line-height: 1.7;
+        }
+
+        .benefit-green {
+            border-left-color: #16a34a;
+            background-color: #f0fdf4;
+        }
+
+        .benefit-green h3 {
+            color: #15803d;
+        }
+
+        .benefit-blue {
+            border-left-color: #2563eb;
+            background-color: #eff6ff;
+        }
+
+        .benefit-blue h3 {
+            color: #1e40af;
+        }
+
+        .benefit-yellow {
+            border-left-color: #f59e0b;
+            background-color: #fffbeb;
+        }
+
+        .benefit-yellow h3 {
+            color: #d97706;
+        }
+
+        .keep-together {
+            page-break-inside: avoid;
+            break-inside: avoid;
+            page-break-before: always;
+        }
+
+        @media print {
+            .keep-together {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        
+            .keep-together .section,
+            .keep-together .footer {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
         }
 
         /* Observation */
@@ -768,55 +788,44 @@
             @endif
         </div>
         @endif
-
+<div class="keep-together">
         <!-- Benefícios -->
-        <div class="section">
-            <h2 class="section-title">Benefícios do Investimento</h2>
-            
-            <div class="benefits-grid">
-                <div class="benefits-row">
-                    <div class="benefit-cell">
-                        <div class="benefit-card benefit-green">
-                            <h3>Economia Sustentável</h3>
-                            <p>Reduza significativamente sua conta de energia e proteja-se contra aumentos nas tarifas.</p>
-                        </div>
-                    </div>
-                    <div class="benefit-cell">
-                        <div class="benefit-card benefit-blue">
-                            <h3>Valorização do Imóvel</h3>
-                            <p>Imóveis com energia solar têm valorização média de 6% no mercado imobiliário.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="benefits-row">
-                    <div class="benefit-cell">
-                        <div class="benefit-card benefit-yellow">
-                            <h3>Energia Limpa</h3>
-                            <p>Contribua para um planeta mais sustentável com energia 100% renovável.</p>
-                        </div>
-                    </div>
-                    <div class="benefit-cell">
-                        <div class="benefit-card benefit-green">
-                            <h3>Retorno do Investimento</h3>
-                            <p>Sistema se paga em média entre 4 a 6 anos com economia na conta de luz.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="section">
+    <h2 class="section-title">Benefícios do Investimento</h2>
 
-            @if(!empty($proposal['observation']))
-            <div class="observation-box">
-                <p class="observation-title">Observações</p>
-                <p class="observation-text">{{ $proposal['observation'] }}</p>
-            </div>
-            @endif
+    <div class="benefits-grid">
+        <div class="benefit-card benefit-green">
+            <h3>Economia Sustentável</h3>
+            <p>Reduza significativamente sua conta de energia e proteja-se contra aumentos nas tarifas.</p>
         </div>
+        <div class="benefit-card benefit-blue">
+            <h3>Valorização do Imóvel</h3>
+            <p>Imóveis com energia solar têm valorização média de 6% no mercado imobiliário.</p>
+        </div>
+        <div class="benefit-card benefit-yellow">
+            <h3>Energia Limpa</h3>
+            <p>Contribua para um planeta mais sustentável com energia 100% renovável.</p>
+        </div>
+        <div class="benefit-card benefit-green">
+            <h3>Retorno do Investimento</h3>
+            <p>Sistema se paga em média entre 4 a 6 anos com economia na conta de luz.</p>
+        </div>
+    </div>
+
+    @if(!empty($proposal['observation']))
+    <div class="observation-box">
+        <p class="observation-title">Observações</p>
+        <p class="observation-text">{{ $proposal['observation'] }}</p>
+    </div>
+    @endif
+</div>
 
         <!-- Footer -->
         <div class="footer">
             <p class="footer-label">Valor Total do Investimento</p>
             <p class="footer-price">R$ {{ number_format($proposal['final_price'] / 100, 2, ',', '.') }}</p>
             <p class="footer-date">Proposta gerada em {{ date('d/m/Y', strtotime($proposal['created_at'])) }}</p>
+        </div>
         </div>
     </div>
 </body>
