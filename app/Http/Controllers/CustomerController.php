@@ -128,4 +128,15 @@ class CustomerController extends Controller
             ], 500);
         }
     }
+
+    public function getDashboardCustomers() 
+    {
+        try {
+            return $this->customerService->getDashboardCustomers();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar clientes: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -26,7 +26,7 @@ Route::get('/login', function () {
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard/Index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 /**
@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     
     //All routes for Costumer
     Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');
+    Route::get('/customers/dashboard', [CustomerController::class, 'getDashboardCustomers'])->name('customers.getDashboardCustomers');
     Route::resource('customers', CustomerController::class);
 
     //All routes for Address
