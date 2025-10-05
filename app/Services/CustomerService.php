@@ -51,4 +51,9 @@ class CustomerService
     {
         return $this->customerRepository->count();
     }
+
+    public function getDashboardCustomers() 
+    {
+        return $this->customerRepository->getDashboardCustomers();
+    }
 }

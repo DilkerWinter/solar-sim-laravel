@@ -23,9 +23,9 @@ class ProposalController extends Controller
     public function index(Request $request)
     {
         if ($this->requisicaoWithDataTable($request)) {
-                return $this->proposalService->getDataTable($request->all());
-            }
-        
+            return $this->proposalService->getDataTable($request->all());
+        }
+
         try {
             return Inertia::render('Proposals/Index', [
                 'proposalDataTableUrl' => route('proposals.index')
@@ -171,5 +171,15 @@ class ProposalController extends Controller
     public function generatePdf(Request $request)
     {
         return $this->proposalService->generatePDF($request->all());
+    }
+
+    public function groupedByStatus()
+    {
+        return $this->proposalService->groupedByStatus();
+    }
+
+    public function count()
+    {
+        return $this->proposalService->count();
     }
 }

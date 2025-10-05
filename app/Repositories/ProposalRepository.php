@@ -19,7 +19,7 @@ class ProposalRepository
             'kit.kitProducts.product',
             'address.energyInfo',
         ])->where('id', $id)
-        ->first();
+            ->first();
     }
 
 
@@ -55,7 +55,7 @@ class ProposalRepository
 
     public function countByStatus($status)
     {
-        return Proposal::where('status', $status)->count();
+        return Proposal::whereIn('status', $status)->count();
     }
 
     public function pendingProposal($proposalId)
@@ -77,5 +77,15 @@ class ProposalRepository
         $proposal = Proposal::find($proposalId);
         $proposal->status = Proposal::STATUS_REJECTED;
         $proposal->save();
+    }
+
+    public function groupedByStatus()
+    {
+        return Proposal::all()->pluck('status')->countBy();
+    }
+
+    public function count()
+    {
+        return Proposal::count();
     }
 }

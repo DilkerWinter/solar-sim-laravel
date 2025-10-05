@@ -26,7 +26,7 @@ Route::get('/login', function () {
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard/Index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 /**
@@ -52,17 +52,20 @@ Route::middleware('auth')->group(function () {
     
     //All routes for Costumer
     Route::get('/customers/count', [CustomerController::class, 'count'])->name('customers.count');
+    Route::get('/customers/dashboard', [CustomerController::class, 'getDashboardCustomers'])->name('customers.getDashboardCustomers');
     Route::resource('customers', CustomerController::class);
 
     //All routes for Address
     Route::get('/address/count', [AddressController::class, 'count'])->name('address.count');
 
     //All routes for Proposal
+    Route::get('/proposals/count', [ProposalController::class, 'count'])->name('proposals.count');
     Route::get('/proposals/count/{status}', [ProposalController::class, 'countByStatus'])->name('proposals.countByStatus');
     Route::post('/proposals/pending', [ProposalController::class, 'pendingProposal'])->name('proposals.pending');
     Route::post('/proposals/approve', [ProposalController::class, 'approveProposal'])->name('proposals.approve');
     Route::post('/proposals/reject', [ProposalController::class, 'rejectProposal'])->name('proposals.reject');
     Route::get('/proposals/generate-pdf', [ProposalController::class, 'generatePdf'])->name('proposals.generatePdf');
+    Route::get('/proposals/grouped-by-status', [ProposalController::class, 'groupedByStatus'])->name('proposals.groupedByStatus');
     Route::resource('proposals', ProposalController::class);
 });
 

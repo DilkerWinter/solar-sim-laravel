@@ -23,7 +23,7 @@ class CustomerRepository
     {
         DB::beginTransaction();
         try {
-            
+
             $customer = new Customer;
             $customer->fill($data);
             $customer->save();
@@ -36,7 +36,6 @@ class CustomerRepository
 
             DB::commit();
             return $customer;
-
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
@@ -96,8 +95,16 @@ class CustomerRepository
         return Customer::count();
     }
 
-    public function getAllWithAddressAndEnergyInfo() 
+    public function getAllWithAddressAndEnergyInfo()
     {
         return Customer::with('addresses.energyInfo')->get();
+    }
+
+    public function getDashboardCustomers()
+    {
+        return Customer::withCount('addresses')
+            ->latest()
+            ->limit(5)
+            ->get();
     }
 }
