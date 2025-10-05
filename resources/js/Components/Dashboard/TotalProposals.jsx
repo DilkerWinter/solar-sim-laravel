@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     PieChart,
     Pie,
@@ -9,29 +9,55 @@ import {
 } from "recharts";
 import { ArrowRight, FileText, TrendingUp } from "lucide-react";
 import { router } from "@inertiajs/react";
+import axios from "axios";
 
 export function TotalProposals() {
-    const proposalsData = [
-        { name: "Aprovadas", value: 145, status: "Aprovadas" },
-        { name: "Pendentes", value: 89, status: "Pendentes" },
-        { name: "Rejeitadas", value: 34, status: "Rejeitadas" },
-    ];
+    const [proposalsData, setProposalsData] = useState([]);
+    const [totalProposals, setTotalProposals] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const COLORS = {
-        Aprovadas: "#22c55e",
-        Pendentes: "#eab308",
-        Rejeitadas: "#ef4444",
+        Aprovada: "#22c55e",
+        Pendente: "#eab308",
+        Rejeitada: "#ef4444",
     };
 
-    const totalProposals = proposalsData.reduce(
-        (sum, item) => sum + item.value,
-        0
-    );
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const [groupedResponse, countResponse] = await Promise.all([
+                    axios.get('/proposals/grouped-by-status'),
+                    axios.get('/proposals/count')
+                ]);
+                
+                // Transformar objeto em array
+                const dataObject = groupedResponse.data;
+                const dataArray = Object.keys(dataObject).map(status => ({
+                    name: status,
+                    value: dataObject[status]
+                }));
+                
+                setProposalsData(dataArray);
+                setTotalProposals(countResponse.data || 0);
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+                setProposalsData([]);
+                setTotalProposals(0);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             const data = payload[0];
-            const percentage = ((data.value / totalProposals) * 100).toFixed(1);
+            const percentage = totalProposals > 0 
+                ? ((data.value / totalProposals) * 100).toFixed(1)
+                : 0;
             return (
                 <div className="bg-white px-4 py-2 rounded-lg shadow-lg border border-gray-200">
                     <p className="text-sm font-semibold text-gray-800">
@@ -67,6 +93,16 @@ export function TotalProposals() {
         );
     };
 
+    if (loading) {
+        return (
+            <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-blue-500">
+                <div className="flex items-center justify-center h-96">
+                    <p className="text-gray-500">Carregando...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-blue-500">
             <div className="flex items-center justify-between mb-6">
@@ -82,34 +118,40 @@ export function TotalProposals() {
                 </div>
             </div>
 
-            <div className="h-96">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie
-                            data={proposalsData}
-                            cx="50%"
-                            cy="45%"
-                            labelLine={false}
-                            label={({ percent }) =>
-                                `${(percent * 100).toFixed(0)}%`
-                            }
-                            outerRadius={100}
-                            fill="#8884d8"
-                            dataKey="value"
-                        >
-                            {proposalsData.map((entry, index) => (
-                                <Cell
-                                    key={`cell-${index}`}
-                                    fill={COLORS[entry.status]}
-                                    className="hover:opacity-80 transition-opacity cursor-pointer"
-                                />
-                            ))}
-                        </Pie>
-                        <Tooltip content={<CustomTooltip />} />
-                        <Legend content={<CustomLegend />} />
-                    </PieChart>
-                </ResponsiveContainer>
-            </div>
+            {proposalsData.length === 0 ? (
+                <div className="flex items-center justify-center h-96">
+                    <p className="text-gray-500">Nenhuma proposta encontrada</p>
+                </div>
+            ) : (
+                <div className="h-96">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Pie
+                                data={proposalsData}
+                                cx="50%"
+                                cy="45%"
+                                labelLine={false}
+                                label={({ percent }) =>
+                                    `${(percent * 100).toFixed(0)}%`
+                                }
+                                outerRadius={100}
+                                fill="#8884d8"
+                                dataKey="value"
+                            >
+                                {proposalsData.map((entry, index) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[entry.name]}
+                                        className="hover:opacity-80 transition-opacity cursor-pointer"
+                                    />
+                                ))}
+                            </Pie>
+                            <Tooltip content={<CustomTooltip />} />
+                            <Legend content={<CustomLegend />} />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            )}
 
             <div className="mt-4">
                 <button

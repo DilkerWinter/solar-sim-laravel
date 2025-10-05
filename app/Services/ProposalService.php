@@ -76,4 +76,14 @@ class ProposalService
 
         return $pdf->stream('proposta-energia-solar' . $proposal->id . '.pdf');
     }
+
+    public function groupedByStatus()
+    {
+        return $this->proposalRepository->groupedByStatus();
+    }
+
+    public function count()
+    {
+        return $this->proposalRepository->count();
+    }
 }
