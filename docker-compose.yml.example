@@ -3,71 +3,38 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: development
+    user: "${UID}:${GID}"
     container_name: solarsim
-    restart: unless-stopped
     volumes:
       - ./:/var/www/html
-      - /var/www/html/node_modules
-      - /var/www/html/vendor
     ports:
-      - "9000:9000"   # Laravel
-      - "5173:5173"   # Vite dev server
-    environment:
-      - PHP_IDE_CONFIG=serverName=Docker
+      - "9000:9000"
+      - "5173:5173"
     depends_on:
       - solarsim_postgres
-    networks:
-      - solarsim_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    # Adicione estas linhas para melhor desenvolvimento
-    stdin_open: true
-    tty: true
 
   solarsim_postgres:
-    image: postgres:16-alpine
+    image: postgres:16
     container_name: solarsim_postgres
-    restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-solarsim}
-      POSTGRES_USER: ${DB_USERNAME:-solarsimuser}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-solarsimpassword}
+      POSTGRES_DB: solarsim
+      POSTGRES_USER: solarsimuser
+      POSTGRES_PASSWORD: solarsimpassword
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "${DB_PORT:-5432}:5432"
-    networks:
-      - solarsim_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-solarsimuser}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - "5432:5432"
 
   solarsim_nginx:
-    image: nginx:alpine
+    image: nginx:latest
     container_name: solarsim_nginx
-    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
-      - ./:/var/www/html:ro
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - solarsim
-    networks:
-      - solarsim_network
 
 volumes:
   pgdata:
-    driver: local
-  redis_data:
-    driver: local
-
-networks:
-  solarsim_network:
-    driver: bridge
