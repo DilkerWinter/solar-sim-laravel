@@ -14,6 +14,7 @@ class ProductDataTable
         $searchQuery = data_get($params, 'search', '');
         $sortKey = data_get($params, 'sortKey', 'name');
         $sortOrder = data_get($params, 'sortOrder', 'asc');
+        $typeId = data_get($params, 'type');
 
         $query = Product::with('type')
             ->orderBy($sortKey, $sortOrder);
@@ -23,6 +24,10 @@ class ProductDataTable
                 $q->where('name', 'ilike', '%' . $searchQuery . '%')
                     ->orWhere('brand', 'ilike', '%' . $searchQuery . '%');
             });
+        }
+        
+        if (!empty($typeId)) {
+            $query->where('product_type_id', $typeId);
         }
 
         $data = $query->paginate($perPage, ['*'], 'page', $page);

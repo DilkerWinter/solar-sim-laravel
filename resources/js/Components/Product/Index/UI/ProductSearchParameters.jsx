@@ -1,36 +1,47 @@
 import SelectField from "@/Components/UI/Inputs/SelectInput";
 import { Filter } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
 
 export default function ProductSearchFilterButton({ onFilter }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedTypes, setSelectedTypes] = useState([]);
+    const [selectedType, setSelectedType] = useState("");
+    const [productTypes, setProductTypes] = useState([]);
     const buttonRef = useRef(null);
     const menuRef = useRef(null);
     const [menuPosition, setMenuPosition] = useState("left");
 
-    const toggleType = (type) => {
-        setSelectedTypes((prev) =>
-            prev.includes(type)
-                ? prev.filter((t) => t !== type)
-                : [...prev, type]
-        );
-    };
+    useEffect(() => {
+        async function fetchProductTypes() {
+            try {
+                const response = await axios.get("/product-types");
+                console.log(response)
+                setProductTypes(
+                    response.data.map((type) => ({
+                        value: type.id,
+                        label: type.name,
+                    }))
+                );
+            } catch (error) {
+                console.error("Erro ao buscar tipos de produto:", error);
+            }
+        }
+
+        fetchProductTypes();
+    }, []);
 
     const clearFilters = () => {
-        setSelectedTypes([]);
+        setSelectedType("");
         onFilter({});
         setIsOpen(false);
     };
 
     const applyFilters = () => {
-        const hasFilters = selectedTypes.length > 0;
+        const hasFilters = !!selectedType;
 
         const payload = hasFilters
             ? {
-                  types: selectedTypes,
-                  withoutAddress: onlyWithoutAddresses,
-                  withoutEnergyInfo: onlyWithEnergyInfo,
+                  type: selectedType,
               }
             : {};
 
@@ -67,15 +78,14 @@ export default function ProductSearchFilterButton({ onFilter }) {
 
     return (
         <div className="relative inline-block text-left" ref={menuRef}>
-
-        <button
-            ref={buttonRef}
-            onClick={() => setIsOpen(!isOpen)}
-            className="bg-gray-200 text-gray-700 px-5 py-2 rounded-2xl hover:bg-gray-300 transition focus:outline-none border border-gray-300 flex items-center gap-2"
-        >
-            <Filter className="w-4 h-4" /> 
-            <p>Filtrar Produtos</p>    
-        </button>
+            <button
+                ref={buttonRef}
+                onClick={() => setIsOpen(!isOpen)}
+                className="bg-gray-200 text-gray-700 px-5 py-2 rounded-2xl hover:bg-gray-300 transition focus:outline-none border border-gray-300 flex items-center gap-2"
+            >
+                <Filter className="w-4 h-4" />
+                <p>Filtrar Produtos</p>
+            </button>
 
             {isOpen && (
                 <div
@@ -89,17 +99,14 @@ export default function ProductSearchFilterButton({ onFilter }) {
                     </h2>
 
                     <div>
-                        <h3 className="text-gray-700 font-semibold text-sm mb-2">
-                            Categoria
-                        </h3>
-                    </div>
-
-                    <hr className="border-t border-gray-300" />
-
-                    <div>
-                        <h3 className="text-gray-700 font-semibold text-sm mb-2">
-                            Preço
-                        </h3>
+                        <SelectField
+                            label="Categoria"
+                            name="productType"
+                            options={productTypes}
+                            value={selectedType}
+                            onChange={(value) => setSelectedType(value)}
+                            placeholder="Selecione uma categoria"
+                        />
                     </div>
 
                     <div className="flex justify-between gap-4 pt-2">

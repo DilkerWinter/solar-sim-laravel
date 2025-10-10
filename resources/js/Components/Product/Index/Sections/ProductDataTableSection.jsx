@@ -50,11 +50,6 @@ export default function ProductDataTableSection({ dataTableUrl }) {
         }
     };
 
-    const handleFilterChange = (newFilters) => {
-        setFilters(newFilters);
-        setPage(1);
-    };
-
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
         setPage(1);
@@ -77,11 +72,6 @@ export default function ProductDataTableSection({ dataTableUrl }) {
                         />
                     </div>
 
-                    <div className="flex-shrink-0">
-                        <CustomerSearchFilterButton
-                            onFilter={handleFilterChange}
-                        />
-                    </div>
                 </div>
 
                 <div className="overflow-x-auto relative min-h-[150px]">
