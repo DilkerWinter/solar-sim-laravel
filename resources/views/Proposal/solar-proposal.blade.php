@@ -718,13 +718,13 @@
                             @endif
                             
                             @php
-                                $dailyEnergy = $solarPanel['average_daily_energy_wh'] ?? $solarPanel->average_daily_energy_wh ?? null;
-                                $dailyEnergyFormatted = $solarPanel['average_daily_energy_wh_formatted'] ?? $solarPanel->average_daily_energy_wh_formatted ?? null;
+                                $monthlyEnergy = $solarPanel['average_monthly_energy_wh'] ?? $solarPanel->average_monthly_energy_wh ?? null;
+                                $monthlyEnergyFormatted = $solarPanel['average_monthly_energy_wh_formatted'] ?? $solarPanel->average_monthly_energy_wh_formatted ?? null;
                             @endphp
-                            @if(!empty($dailyEnergy))
+                            @if(!empty($monthlyEnergy))
                             <div class="spec-cell">
-                                <p class="spec-label">Geração Diária</p>
-                                <p class="spec-value">{{ $dailyEnergyFormatted }}Wh</p>
+                                <p class="spec-label">Geração Mensal</p>
+                                <p class="spec-value">{{ $monthlyEnergyFormatted }}W</p>
                             </div>
                             @endif
                             

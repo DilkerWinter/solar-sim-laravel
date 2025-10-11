@@ -53,12 +53,12 @@ export default function SolarPanelCard({ product, setProduct, isEditing }) {
                         />
                         <InputField
                             required
-                            label="Energia Diária Média"
-                            name="average_daily_energy_wh"
+                            label="Energia Mensal Média"
+                            name="average_monthly_energy_wh"
                             type="text"
-                            value={formatDecimal(solar_panel.average_daily_energy_wh) ?? ""}
-                            onChange={(e) => onChange("average_daily_energy_wh", e.target.value)}
-                            suffix="Wh"
+                            value={formatDecimal(solar_panel.average_monthly_energy_wh) ?? ""}
+                            onChange={(e) => onChange("average_monthly_energy_wh", e.target.value)}
+                            suffix="W"
                         />
                         <InputField
                             required
@@ -109,7 +109,7 @@ export default function SolarPanelCard({ product, setProduct, isEditing }) {
                     <>
                         <TextField label="Potência" value={`${formatDecimal(solar_panel.potency_watts)} W`} />
                         <TextField label="Eficiência" value={`${formatDecimal(solar_panel.efficiency_percentage)} %`} />
-                        <TextField label="Energia Diária Média" value={`${formatDecimal(solar_panel.average_daily_energy_wh)} Wh`} />
+                        <TextField label="Energia Mensal Média" value={`${formatDecimal(solar_panel.average_monthly_energy_wh)} W`} />
                         <TextField label="Temperatura Máxima de Operação" value={`${formatDecimal(solar_panel.max_operating_temperature)} °C`} />
                         <TextField label="Tensão de Operação" value={`${solar_panel.operating_voltage} V`} />
                         <TextField label="Altura" value={`${formatDecimal(solar_panel.height)} M`} />

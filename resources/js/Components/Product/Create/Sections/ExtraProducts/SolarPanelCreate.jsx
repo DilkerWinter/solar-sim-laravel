@@ -7,7 +7,7 @@ export default function SolarPanelCreate({ onDataChange }) {
   const [solarPanelFormData, setSolarPanelFormData] = useState({
     potency_watts: "",
     efficiency_percentage: "",
-    average_daily_energy_wh: "",
+    average_monthly_energy_wh: "",
     max_operating_temperature: "",
     operating_voltage: "",
     height: "",
@@ -62,13 +62,13 @@ export default function SolarPanelCreate({ onDataChange }) {
       />
 
       <InputField
-        label="Energia Diária Média"
-        name="average_daily_energy_wh"
+        label="Energia Mensal Média"
+        name="average_monthly_energy_wh"
         type="text"
         required
-        value={solarPanelFormData.average_daily_energy_wh}
+        value={solarPanelFormData.average_monthly_energy_wh}
         onChange={handleChange}
-        suffix="Wh"
+        suffix="W"
       />
 
       <InputField
