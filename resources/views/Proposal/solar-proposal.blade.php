@@ -600,22 +600,23 @@
                 <div class="stat-cards">
                     @php
                         $generatedKwh = $kit['generated_kwh'] ?? $kit->generated_kwh ?? null;
-                        $generatedKwhFormatted = $kit['generated_kwh_formatted'] ?? $kit->generated_kwh_formatted ?? null;
+                        $monthlyGeneration = $generatedKwh * 30;
+                        $monthlyGenerationFormatted = number_format($monthlyGeneration, 2, ',', '.');
                     @endphp
                     @if(!empty($generatedKwh))
                     <div class="stat-card">
-                        <p class="stat-card-label">Geração Diária</p>
-                        <p class="stat-card-value stat-green">{{ $generatedKwhFormatted }} kWh</p>
+                        <p class="stat-card-label">Geração Mensal</p>
+                        <p class="stat-card-value stat-green">{{ $monthlyGenerationFormatted }} kW</p>
                     </div>
                     @endif
                     
                     @php
                         $supportedKw = $kit['supported_kw'] ?? $kit->supported_kw ?? null;
-                        $supportedKwFormatted = $kit['supported_kw_formatted'] ?? $kit->supported_kw_formatted ?? null;
+                        $supportedKwFormatted = number_format($supportedKw, 2, ',', '.');
                     @endphp
                     @if(!empty($supportedKw))
                     <div class="stat-card">
-                        <p class="stat-card-label">Potência</p>
+                        <p class="stat-card-label">Potência do Sistema</p>
                         <p class="stat-card-value stat-blue">{{ $supportedKwFormatted }} kW</p>
                     </div>
                     @endif
