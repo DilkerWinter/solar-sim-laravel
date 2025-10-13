@@ -47,8 +47,8 @@ export default function EditSelectedProductsTable({
     const calculateGeneratedKwh = (panels) => {
         return panels.reduce((total, panel) => {
             const quantity = Number(panel.quantity) || 1;
-            const dailyEnergy = Number(panel.solar_panel?.average_daily_energy_wh) || 0;
-            return total + (quantity * dailyEnergy);
+            const monthlyEnergy = Number(panel.solar_panel?.average_monthly_energy_wh) || 0;
+            return total + (quantity * monthlyEnergy);
         }, 0); 
     };
 

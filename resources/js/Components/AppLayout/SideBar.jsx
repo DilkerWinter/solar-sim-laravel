@@ -34,7 +34,7 @@ export default function SideBar() {
     const itensSistemaAdmin = isAdmin
         ? [
             {
-                title: "Painel de Administrador",
+                title: "Tipo de produtos",
                 url: "/adminpanel",
                 icon: Settings,
             },

@@ -20,7 +20,7 @@ class SolarPanelFactory extends Factory
             'product_id' => $product->id,
             'potency_watts' => $this->faker->numberBetween(100, 500),
             'efficiency_percentage' => $this->faker->numberBetween(15, 25),
-            'average_daily_energy_wh' => $this->faker->numberBetween(1000, 5000),
+            'average_monthly_energy_wh' => $this->faker->numberBetween(1000, 5000),
             'max_operating_temperature' => $this->faker->numberBetween(40, 80),
             'height' => $this->faker->numberBetween(100, 200),
             'width' => $this->faker->numberBetween(50, 100),

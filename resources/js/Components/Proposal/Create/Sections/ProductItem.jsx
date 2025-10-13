@@ -13,7 +13,7 @@ export function ProductItem({ productItem }) {
                     <div className="flex flex-row gap-4 mt-1">
                         <p className="text-sm text-gray-500">
                             Geração média diária:{" "}
-                            {productItem.product.solar_panel.average_daily_energy_wh_formatted} W
+                            {productItem.product.solar_panel.average_monthly_energy_wh_formatted} W
                         </p>
 
                         <p className="text-sm text-gray-500">

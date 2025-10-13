@@ -31,7 +31,7 @@ export default function TableFooter({ products }) {
         const total = products.reduce((acc, product) => {
             if (product.solar_panel) {
                 const quantity = Number(product.quantity) || 0;
-                const energyPerDay = product.solar_panel.average_daily_energy_wh || 0;
+                const energyPerDay = product.solar_panel.average_monthly_energy_wh || 0;
                 return acc + (energyPerDay * quantity) / 1000;
             }
             return acc;
@@ -59,12 +59,16 @@ export default function TableFooter({ products }) {
         calculateSupportedPower();
     }, [products]);
 
+    const isInverterInsufficient = supportedKw < totalKwh;
+
     return (
         <div className="border-t border-gray-200 px-3 py-2 bg-gray-100">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className="flex flex-col  text-gray-900">
-                    <span>kWh Gerados/dia: {totalKwh.toFixed(2)} kWh</span>
-                    <span>Capacidade Inversores: {supportedKw.toFixed(2)} kW</span>
+                    <span>kWh Gerados/mês: {totalKwh.toFixed(2)} kWh</span>
+                    <span className={isInverterInsufficient ? "text-red-600 font-semibold" : ""}>
+                        Capacidade Inversores: {supportedKw.toFixed(2)} kW
+                    </span>
                 </div>
 
                 <div className="flex items-center gap-1 text-sm">

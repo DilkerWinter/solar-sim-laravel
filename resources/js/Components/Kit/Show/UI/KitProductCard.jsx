@@ -43,7 +43,7 @@ export default function KitProductCard({ product }) {
                     <div>
                         <span>Energia diária: </span>
                         <span className="text-gray-900">
-                            {product.solar_panel.average_daily_energy_wh}Wh
+                            {product.solar_panel.average_monthly_energy_wh}W
                         </span>
                     </div>
                     <div>

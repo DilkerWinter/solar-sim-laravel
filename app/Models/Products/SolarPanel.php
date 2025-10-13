@@ -16,7 +16,7 @@ class SolarPanel extends Product
         'product_id',
         'potency_watts',
         'efficiency_percentage',
-        'average_daily_energy_wh',
+        'average_monthly_energy_wh',
         'max_operating_temperature',
         'operating_voltage',
         'height',
@@ -27,7 +27,7 @@ class SolarPanel extends Product
     protected $appends = [
         'potency_watts_formatted',
         'efficiency_percentage_formatted',
-        'average_daily_energy_wh_formatted',
+        'average_monthly_energy_wh_formatted',
         'max_operating_temperature_formatted',
         'height_formatted',
         'width_formatted',
@@ -49,9 +49,9 @@ class SolarPanel extends Product
         $this->attributes['efficiency_percentage'] = (new NumberFormat())->doubleToInteger($value);
     }
 
-    public function setAverageDailyEnergyWhAttribute($value)
+    public function setAverageMonthlyEnergyWhAttribute($value)
     {
-        $this->attributes['average_daily_energy_wh'] = (new NumberFormat())->doubleToInteger($value);
+        $this->attributes['average_monthly_energy_wh'] = (new NumberFormat())->doubleToInteger($value);
     }
 
     public function setMaxOperatingTemperatureAttribute($value)
@@ -84,9 +84,9 @@ class SolarPanel extends Product
         return (new NumberFormat())->integerToDouble($this->attributes['efficiency_percentage']);
     }
 
-    public function getAverageDailyEnergyWhFormattedAttribute()
+    public function getAverageMonthlyEnergyWhFormattedAttribute()
     {
-        return (new NumberFormat())->integerToDouble($this->attributes['average_daily_energy_wh']);
+        return (new NumberFormat())->integerToDouble($this->attributes['average_monthly_energy_wh']);
     }
 
     public function getMaxOperatingTemperatureFormattedAttribute()

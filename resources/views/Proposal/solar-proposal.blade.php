@@ -601,37 +601,65 @@
                     @php
                         $generatedKwh = $kit['generated_kwh'] ?? $kit->generated_kwh ?? null;
                         $generatedKwhFormatted = $kit['generated_kwh_formatted'] ?? $kit->generated_kwh_formatted ?? null;
+                        // Calcula geração mensal (geração diária * 30 dias)
+                        $monthlyGeneration = $generatedKwh ? number_format(($generatedKwh / 100) * 30, 2, ',', '.') : null;
                     @endphp
                     @if(!empty($generatedKwh))
                     <div class="stat-card">
-                        <p class="stat-card-label">Geração Diária</p>
-                        <p class="stat-card-value stat-green">{{ $generatedKwhFormatted }} kWh</p>
+                        <p class="stat-card-label">Geração Mensal</p>
+                        <p class="stat-card-value stat-green">{{ $monthlyGeneration }} kWh</p>
                     </div>
                     @endif
                     
                     @php
-                        $supportedKw = $kit['supported_kw'] ?? $kit->supported_kw ?? null;
-                        $supportedKwFormatted = $kit['supported_kw_formatted'] ?? $kit->supported_kw_formatted ?? null;
+                        // Calcula a potência total das placas solares (soma de todas as placas em Watts)
+                        $totalSolarPanelPower = 0;
+                        $kitProducts = $kit['kit_products'] ?? $kit->kitProducts ?? $kit->kit_products ?? [];
+                        
+                        foreach($kitProducts as $kitProduct) {
+                            $product = $kitProduct['product'] ?? $kitProduct->product ?? null;
+                            $quantity = $kitProduct['quantity'] ?? $kitProduct->quantity ?? 1;
+                            $solarPanel = $product['solar_panel'] ?? $product->solarPanel ?? $product->solar_panel ?? null;
+                            
+                            if (!empty($solarPanel)) {
+                                $potencyWatts = $solarPanel['potency_watts'] ?? $solarPanel->potency_watts ?? 0;
+                                $totalSolarPanelPower += ($potencyWatts * $quantity);
+                            }
+                        }
+                        
+                        $totalSolarPanelPowerFormatted = $totalSolarPanelPower > 0 ? number_format($totalSolarPanelPower / 100, 2, ',', '.') : null;
                     @endphp
-                    @if(!empty($supportedKw))
+                    @if(!empty($totalSolarPanelPower))
                     <div class="stat-card">
-                        <p class="stat-card-label">Potência</p>
-                        <p class="stat-card-value stat-blue">{{ $supportedKwFormatted }} kW</p>
+                        <p class="stat-card-label">Potência Gerada</p>
+                        <p class="stat-card-value stat-blue">{{ $totalSolarPanelPowerFormatted }} W</p>
                     </div>
                     @endif
                     
                     @php
-                        $totalPrice = $kit['total_price'] ?? $kit->total_price ?? null;
-                        $totalPriceFormatted = $kit['total_price_formatted'] ?? $kit->total_price_formatted ?? null;
+                        // Calcula a potência total suportada pelos inversores (soma de todos os inversores)
+                        $totalInverterPower = 0;
+                        
+                        foreach($kitProducts as $kitProduct) {
+                            $product = $kitProduct['product'] ?? $kitProduct->product ?? null;
+                            $quantity = $kitProduct['quantity'] ?? $kitProduct->quantity ?? 1;
+                            $inverter = $product['inverter'] ?? $product->inverter ?? null;
+                            
+                            if (!empty($inverter)) {
+                                $maxPowerWatts = $inverter['max_power_watts'] ?? $inverter->max_power_watts ?? 0;
+                                $totalInverterPower += ($maxPowerWatts * $quantity);
+                            }
+                        }
+                        
+                        $totalInverterPowerFormatted = $totalInverterPower > 0 ? number_format($totalInverterPower / 100, 2, ',', '.') : null;
                     @endphp
-                    @if(!empty($totalPrice))
+                    @if(!empty($totalInverterPower))
                     <div class="stat-card">
-                        <p class="stat-card-label">Investimento</p>
-                        <p class="stat-card-value stat-yellow">R$ {{ $totalPriceFormatted }}</p>
+                        <p class="stat-card-label">Potência Suportada</p>
+                        <p class="stat-card-value stat-yellow">{{ $totalInverterPowerFormatted }} W</p>
                     </div>
                     @endif
                 </div>
-            </div>
 
             <!-- Produtos do Kit -->
             @php
