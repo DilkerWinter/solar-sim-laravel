@@ -15,14 +15,11 @@ class Inverter extends Model
     protected $fillable = [
         'product_id',
         'type',
-        'supported_panel_count',
-        'supported_panel_max_power_watts',
         'max_power_watts',
         'operating_voltage',
     ];
 
     protected $appends = [
-        'supported_panel_max_power_watts_formatted',
         'max_power_watts_formatted',
     ];
 
@@ -31,19 +28,9 @@ class Inverter extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function setSupportedPanelMaxPowerWattsAttribute($value)
-    {
-        $this->attributes['supported_panel_max_power_watts'] = (new NumberFormat())->doubleToInteger($value);
-    }
-
     public function setMaxPowerWattsAttribute($value)
     {
         $this->attributes['max_power_watts'] = (new NumberFormat())->doubleToInteger($value);
-    }
-
-    public function getSupportedPanelMaxPowerWattsFormattedAttribute()
-    {
-        return (new NumberFormat())->integerToDouble($this->attributes['supported_panel_max_power_watts']);
     }
 
     public function getMaxPowerWattsFormattedAttribute()

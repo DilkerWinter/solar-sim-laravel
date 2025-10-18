@@ -54,10 +54,10 @@ export default function SolarPanelCard({ product, setProduct, isEditing }) {
                         <InputField
                             required
                             label="Energia Mensal Média"
-                            name="average_monthly_energy_wh"
+                            name="average_monthly_energy_w"
                             type="text"
-                            value={formatDecimal(solar_panel.average_monthly_energy_wh) ?? ""}
-                            onChange={(e) => onChange("average_monthly_energy_wh", e.target.value)}
+                            value={formatDecimal(solar_panel.average_monthly_energy_w) ?? ""}
+                            onChange={(e) => onChange("average_monthly_energy_w", e.target.value)}
                             suffix="W"
                         />
                         <InputField
