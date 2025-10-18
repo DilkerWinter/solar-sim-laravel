@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 export default function InverterCreate({ onDataChange }) {
     const [inverterFormData, setInverterFormData] = useState({
         type: "",
-        supported_panel_count: "",
         supported_panel_max_power_watts: "",
         max_power_watts: "",
         operating_voltage: "",
@@ -69,15 +68,6 @@ export default function InverterCreate({ onDataChange }) {
                 value={inverterFormData.type}
                 onChange={handleTypeSelectChange}
                 placeholder="Selecione o tipo do inversor"
-            />
-
-            <InputField
-                label="Quantidade de Painéis Suportados"
-                name="supported_panel_count"
-                type="number"
-                required
-                value={inverterFormData.supported_panel_count}
-                onChange={handleChange}
             />
 
             <InputField

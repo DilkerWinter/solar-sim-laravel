@@ -19,7 +19,6 @@ class InverterFactory extends Factory
         return [
             'product_id' => $product->id,
             'type' => $this->faker->randomElement(['Microinversor', 'Bifásico', 'Trifásico', 'Hibrido']),
-            'supported_panel_count' => $this->faker->numberBetween(1, 10),
             'supported_panel_max_power_watts' => $this->faker->numberBetween(100, 500),
             'max_power_watts' => $this->faker->numberBetween(500, 5000),
             'operating_voltage' => $this->faker->numberBetween(200, 600),
