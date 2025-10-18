@@ -68,16 +68,19 @@ class Kit extends Model
 
     public function getGeneratedKwMonthFormattedAttribute()
     {
-        return $this->generated_kw_month / 1000;
+        $value = $this->generated_kw_month / 1000;
+        return number_format($value, 2, ',', '.');
     }
 
     public function getSupportedKwFormattedAttribute()
     {
-        return $this->supported_kw / 1000;
+        $value = $this->supported_kw / 1000;
+        return number_format($value, 2, ',', '.');
     }
 
     public function getTotalPotencyKwFormattedAttribute()
     {
-        return $this->total_potency_kw / 1000;
+        $value = $this->total_potency_kw / 1000;
+        return number_format($value, 2, ',', '.');
     }
 }

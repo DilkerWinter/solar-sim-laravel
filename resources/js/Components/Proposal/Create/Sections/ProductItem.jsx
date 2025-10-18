@@ -1,7 +1,6 @@
 import { capitalize } from "@/Utils/capitalize";
 
 export function ProductItem({ productItem }) {
-    console.log(productItem);
     return (
         <div className="flex items-center justify-between">
             <div className="flex flex-col">
@@ -13,12 +12,20 @@ export function ProductItem({ productItem }) {
                     <div className="flex flex-row gap-4 mt-1">
                         <p className="text-sm text-gray-500">
                             Geração média diária:{" "}
-                            {productItem.product.solar_panel.average_monthly_energy_wh_formatted} W
+                            {
+                                productItem.product.solar_panel
+                                    .average_monthly_energy_w_formatted
+                            }{" "}
+                            W
                         </p>
 
                         <p className="text-sm text-gray-500">
-                            Potência do painel:{" "}
-                            {productItem.product.solar_panel.potency_watts_formatted} W
+                            Potência Total Gerada:{" "}
+                            {
+                                productItem.product.solar_panel
+                                    .potency_watts_formatted
+                            }{" "}
+                            W
                         </p>
                     </div>
                 )}
@@ -26,8 +33,12 @@ export function ProductItem({ productItem }) {
                 {productItem.product.inverter && (
                     <div className="flex flex-row gap-4 mt-1">
                         <p className="text-sm text-gray-500">
-                            Potência máxima do inversor:{" "}
-                            {productItem.product.inverter.max_power_watts_formatted} W
+                            Potência Suportada pelos Inversores:{" "}
+                            {
+                                productItem.product.inverter
+                                    .max_power_watts_formatted
+                            }{" "}
+                            W
                         </p>
                     </div>
                 )}
