@@ -40,23 +40,44 @@ class Kit extends Model
         return $this->hasManyThrough(Product::class, KitProducts::class, 'kit_id', 'id', 'id', 'product_id');
     }
 
-    public function getTotalPriceFormattedAttribute()
+    public function setTotalPriceFormattedAttribute($value)
     {
-        return (new NumberFormat())->integerToDouble($this->attributes['total_price']);
+        $this->attributes['total_price'] = (new NumberFormat())->doubleToInteger($value);
     }
 
-    public function getTotalPotencyFormattedAttribute()
+    public function setGeneratedKwMonthAttribute($value)
     {
-        return (new NumberFormat())->integerToDouble($this->attributes['total_potency_kw']);
+        $this->attributes['generated_kw_month'] = round($value * 1000);
+    }
+
+    public function setSupportedKwAttribute($value)
+    {
+        $this->attributes['supported_kw'] = round($value * 1000);
+    }
+
+    public function setTotalPotencyKwAttribute($value)
+    {
+        $this->attributes['total_potency_kw'] = round($value * 1000);
+    }
+
+
+    public function getTotalPriceFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['total_price'] ?? 0);
     }
 
     public function getGeneratedKwMonthFormattedAttribute()
     {
-        return (new NumberFormat())->integerToDouble($this->attributes['generated_kw_month']);
+        return $this->generated_kw_month / 1000;
     }
 
     public function getSupportedKwFormattedAttribute()
     {
-        return (new NumberFormat())->integerToDouble($this->attributes['supported_kw']);
+        return $this->supported_kw / 1000;
+    }
+
+    public function getTotalPotencyKwFormattedAttribute()
+    {
+        return $this->total_potency_kw / 1000;
     }
 }

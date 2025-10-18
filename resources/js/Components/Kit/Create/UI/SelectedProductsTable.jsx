@@ -9,64 +9,79 @@ export default function SelectedProductsTable({
     baseProducts,
     solarPanels,
     inverters,
-    onRemoveProduct
+    onRemoveProduct,
 }) {
     const [products, setProducts] = useState([]);
 
     const updateFormDataWithProducts = (updatedProducts) => {
-        const solarPanelProducts = updatedProducts.filter(p => p.solar_panel);
-        const inverterProducts = updatedProducts.filter(p => p.inverter);
+        const solarPanelProducts = updatedProducts.filter((p) => p.solar_panel);
+        const inverterProducts = updatedProducts.filter((p) => p.inverter);
 
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             selectedProducts: updatedProducts,
             total_price: calculateTotalPrice(updatedProducts),
-            generated_kw: calculateGeneratedKw(solarPanelProducts),
-            supported_kw: calculateInverterCapacity(inverterProducts)
+            generated_kw_month: calculateGeneratedKwMonth(solarPanelProducts),
+            supported_kw: calculateInverterCapacity(inverterProducts),
+            total_potency_kw: calculateTotalPotency(solarPanelProducts),
         }));
     };
 
     useEffect(() => {
-        const allProducts = [
-            ...solarPanels,
-            ...inverters,
-            ...baseProducts,
-        ];
+        const allProducts = [...solarPanels, ...inverters, ...baseProducts];
         setProducts(allProducts);
         updateFormDataWithProducts(allProducts);
     }, [solarPanels, inverters, baseProducts]);
 
     const calculateTotalPrice = (products) => {
-      return products.reduce((total, product) => {
-        const quantity = Number(product.quantity) || 1;
-        const priceInCents = parseToCents(product.price); 
-        return total + (quantity * priceInCents);
-      }, 0);
-    };
-
-    const calculateGeneratedKw = (panels) => {
-        return panels.reduce((total, panel) => {
-            const quantity = Number(panel.quantity) || 1;
-            const monthlyEnergy = Number(panel.solar_panel?.average_monthly_energy_w) || 0;
-            return total + (quantity * monthlyEnergy);
-        }, 0); 
-    };
-
-    const calculateInverterCapacity = (inverters) => {
-        return inverters.reduce((total, inverter) => {
-            const quantity = Number(inverter.quantity) || 1;
-            const power = Number(inverter.inverter?.max_power_watts) || 0;
-            return total + (quantity * power);
+        return products.reduce((total, product) => {
+            const quantity = Number(product.quantity) || 1;
+            const priceInCents = parseToCents(product.price);
+            return total + quantity * priceInCents;
         }, 0);
     };
 
+    const calculateGeneratedKwMonth = (panels) => {
+        const totalWatts = panels.reduce((total, panel) => {
+            const quantity = Number(panel.quantity) || 1;
+            const monthlyEnergy =
+                Number(panel.solar_panel?.average_monthly_energy_w) || 0;
+            return total + quantity * monthlyEnergy;
+        }, 0);
+
+        return totalWatts / 1000;
+    };
+
+    const calculateInverterCapacity = (inverters) => {
+        const totalWatts = inverters.reduce((total, inverter) => {
+            const quantity = Number(inverter.quantity) || 1;
+            const power = Number(inverter.inverter?.max_power_watts) || 0;
+            return total + quantity * power;
+        }, 0);
+
+        return totalWatts / 1000;
+    };
+
+    function calculateTotalPotency(panels) {
+        const total = panels.reduce((acc, panel) => {
+            if (panel.solar_panel) {
+                const quantity = Number(panel.quantity) || 0;
+                const potency = panel.solar_panel.potency_watts || 0;
+                return acc + (potency * quantity) / 1000;
+            }
+            return acc;
+        }, 0);
+
+        return total;
+    }
+
     const handleQuantityChange = (productId, newQuantity) => {
-        const updatedProducts = products.map(product =>
+        const updatedProducts = products.map((product) =>
             product.id === productId
                 ? { ...product, quantity: newQuantity }
                 : product
         );
-        
+
         setProducts(updatedProducts);
         updateFormDataWithProducts(updatedProducts);
     };
@@ -80,21 +95,23 @@ export default function SelectedProductsTable({
             <div className="p-6 space-y-8">
                 <SelectedProductsSection
                     title="Placas Solar"
-                    products={products.filter(p => p.solar_panel)} 
+                    products={products.filter((p) => p.solar_panel)}
                     icon={Sun}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}
                 />
                 <SelectedProductsSection
                     title="Inversor"
-                    products={products.filter(p => p.inverter)}
+                    products={products.filter((p) => p.inverter)}
                     icon={Zap}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}
                 />
                 <SelectedProductsSection
                     title="Outros"
-                    products={products.filter(p => !p.inverter && !p.solar_panel)}
+                    products={products.filter(
+                        (p) => !p.inverter && !p.solar_panel
+                    )}
                     icon={Package}
                     onQuantityChange={handleQuantityChange}
                     onRemove={onRemoveProduct}
