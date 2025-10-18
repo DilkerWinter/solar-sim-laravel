@@ -34,7 +34,7 @@ export function KitSection({ formData, setFormData, kitOptions }) {
             setFormData({ ...formData, 
                 kit_id: kitData.id, 
                 final_price: kitData.total_price_formatted,
-                generated_kwh: kitData.generated_kwh,
+                generated_kw_month: kitData.generated_kw_month,
                 supported_kw: kitData.supported_kw,
              });
         } catch (e) {

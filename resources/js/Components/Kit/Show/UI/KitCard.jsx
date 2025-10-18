@@ -40,9 +40,15 @@ export default function KitCard({
             const inverters = [];
             const baseProducts = [];
 
-            const solarOptions = products?.solarPanels ? [...products.solarPanels] : [];
-            const inverterOptions = products?.inverters ? [...products.inverters] : [];
-            const baseOptions = products?.baseProducts ? [...products.baseProducts] : [];
+            const solarOptions = products?.solarPanels
+                ? [...products.solarPanels]
+                : [];
+            const inverterOptions = products?.inverters
+                ? [...products.inverters]
+                : [];
+            const baseOptions = products?.baseProducts
+                ? [...products.baseProducts]
+                : [];
 
             kit.kit_products.forEach((kp) => {
                 const p = {
@@ -54,7 +60,9 @@ export default function KitCard({
 
                 if (p.solar_panel) {
                     solarPanels.push(p);
-                    const index = solarOptions.findIndex((opt) => opt.id === p.id);
+                    const index = solarOptions.findIndex(
+                        (opt) => opt.id === p.id
+                    );
                     if (index > -1) solarOptions.splice(index, 1);
                 } else if (p.inverter) {
                     inverters.push(p);
@@ -236,25 +244,36 @@ export default function KitCard({
                         </div>
 
                         <EditSelectedProductsTable
-                                setFormData={setKit}
-                                baseProducts={selectedBaseProducts}
-                                solarPanels={selectedSolarPanels}
-                                inverters={selectedInverters}
-                                onRemoveProduct={handleRemoveProduct}
-                            />
+                            setFormData={setKit}
+                            baseProducts={selectedBaseProducts}
+                            solarPanels={selectedSolarPanels}
+                            inverters={selectedInverters}
+                            onRemoveProduct={handleRemoveProduct}
+                        />
                     </div>
                 ) : (
                     <div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-700">
                             <TextField label="Nome" value={kit.name} />
-                            <TextField label="Descrição" value={kit.description} />
                             <TextField
-                                label="Kwh Gerados"
-                                value={`${formatDecimal(kit.generated_kwh)} Kwh`}
+                                label="Descrição"
+                                value={kit.description}
                             />
                             <TextField
-                                label="Kw Suportados"
-                                value={`${formatDecimal(kit.supported_kw)} Kw`}
+                                label="kW Gerados por Mês"
+                                value={`${formatDecimal(
+                                    kit.generated_kw_month
+                                )} kW`}
+                            />
+                            <TextField
+                                label="Potência Total (kW)"
+                                value={`${formatDecimal(
+                                    kit.total_potency_kw
+                                )} kW`}
+                            />
+                            <TextField
+                                label="kW Suportados"
+                                value={`${formatDecimal(kit.supported_kw)} kW`}
                             />
                         </div>
 

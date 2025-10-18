@@ -51,9 +51,9 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                         </span>
                     </div>
                     <div>
-                        <span>Energia diária: </span>
+                        <span>Energia Mensal: </span>
                         <span className="text-gray-900">
-                            {product.solar_panel.average_monthly_energy_wh}W
+                            {product.solar_panel.average_monthly_energy_w}W
                         </span>
                     </div>
                     <div>
@@ -117,7 +117,7 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                 <div className="flex items-center justify-between">
                     <div>
                         <span className="text-sm font-medium text-gray-900">
-                            Preço Unitário: R$ {product.price}
+                            Preço Unitário: R$ {product.price_formatted || product.price}
                         </span>
                     </div>
 

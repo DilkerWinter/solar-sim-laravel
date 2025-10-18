@@ -58,14 +58,6 @@ export default function InverterCard({ product, setProduct, isEditing }) {
                         />
                         <InputField
                             required
-                            label="Potência Máxima dos Painéis Suportados"
-                            name="supported_panel_max_power_watts"
-                            value={formatDecimal(inverter.supported_panel_max_power_watts) ?? ""}
-                            onChange={(e) => onChange("supported_panel_max_power_watts", e.target.value)}
-                            suffix="W"
-                        />
-                        <InputField
-                            required
                             label="Potência Máxima"
                             name="max_power_watts"
                             value={formatDecimal(inverter.max_power_watts) ?? ""}
@@ -85,7 +77,6 @@ export default function InverterCard({ product, setProduct, isEditing }) {
                     <>
                         <TextField label="Tipo" value={inverter.type} />
                         <TextField label="Quantidade de Painéis Suportados" value={inverter.supported_panel_count} />
-                        <TextField label="Potência Máxima dos Painéis Suportados" value={`${inverter.supported_panel_max_power_watts_formatted} W`} />
                         <TextField label="Potência Máxima" value={`${inverter.max_power_watts_formatted} W`} />
                         <TextField label="Tensão de Operação" value={`${inverter.operating_voltage} V`} />
                     </>
