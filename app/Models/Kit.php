@@ -18,13 +18,15 @@ class Kit extends Model
         'name',
         'description',
         'total_price',
-        'generated_kwh',
-        'supported_kw'
+        'generated_kw_month',
+        'total_potency_kw',
+        'supported_kw',
     ];
 
     protected $appends = [
         'total_price_formatted',
-        'generated_kwh_formatted',
+        'total_potency_kw_formatted',
+        'generated_kw_month_formatted',
         'supported_kw_formatted',
     ];
 
@@ -43,9 +45,14 @@ class Kit extends Model
         return (new NumberFormat())->integerToDouble($this->attributes['total_price']);
     }
 
-    public function getGeneratedKwHFormattedAttribute()
+    public function getTotalPotencyFormattedAttribute()
     {
-        return (new NumberFormat())->integerToDouble($this->attributes['generated_kwh']);
+        return (new NumberFormat())->integerToDouble($this->attributes['total_potency_kw']);
+    }
+
+    public function getGeneratedKwMonthFormattedAttribute()
+    {
+        return (new NumberFormat())->integerToDouble($this->attributes['generated_kw_month']);
     }
 
     public function getSupportedKwFormattedAttribute()
