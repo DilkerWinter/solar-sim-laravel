@@ -82,7 +82,6 @@ export default function TableFooter({ products }) {
         <div className="border-t border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="px-4 py-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Left side - Technical info */}
                     <div className="space-y-3">
                         <div className="flex items-center gap-2 text-sm text-gray-700">
                             <Zap className="w-4 h-4 text-yellow-500 flex-shrink-0" />
