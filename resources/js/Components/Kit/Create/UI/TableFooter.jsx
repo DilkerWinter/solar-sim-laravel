@@ -130,7 +130,7 @@ export default function TableFooter({ products }) {
                     </div>
 
                     <div className="flex items-center justify-start md:justify-end">
-                        <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
                             <div className="bg-green-100 p-2 rounded-full">
                                 <DollarSign className="w-5 h-5 text-green-600" />
                             </div>
