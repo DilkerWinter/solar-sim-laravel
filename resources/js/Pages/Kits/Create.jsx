@@ -11,7 +11,7 @@ export default function Create( { products } ) {
     name: "",
     description: "",
     total_price: "",
-    generated_kwh: "",
+    generated_kw: "",
     supported_kw: "",
     selectedProducts: [],
   });

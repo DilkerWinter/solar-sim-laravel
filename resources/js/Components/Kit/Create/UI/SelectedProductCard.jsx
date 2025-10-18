@@ -51,9 +51,9 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                         </span>
                     </div>
                     <div>
-                        <span>Energia diária: </span>
+                        <span>Energia Mensal: </span>
                         <span className="text-gray-900">
-                            {product.solar_panel.average_monthly_energy_wh}W
+                            {product.solar_panel.average_monthly_energy_w}W
                         </span>
                     </div>
                     <div>
