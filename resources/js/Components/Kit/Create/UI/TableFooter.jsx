@@ -86,7 +86,7 @@ export default function TableFooter({ products }) {
                         <div className="flex items-center gap-2 text-sm text-gray-700">
                             <Zap className="w-4 h-4 text-yellow-500 flex-shrink-0" />
                             <span className="font-medium whitespace-nowrap">
-                                kWh Gerados/mês:
+                                kW Gerados/mês:
                             </span>
                             <span className="text-gray-900 font-semibold">
                                 {totalKw.toFixed(2)} kW

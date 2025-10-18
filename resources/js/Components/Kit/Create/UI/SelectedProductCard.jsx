@@ -117,7 +117,7 @@ export default function SelectedProductCard({ product, onQuantityChange, onRemov
                 <div className="flex items-center justify-between">
                     <div>
                         <span className="text-sm font-medium text-gray-900">
-                            Preço Unitário: R$ {product.price}
+                            Preço Unitário: R$ {product.price_formatted || product.price}
                         </span>
                     </div>
 
