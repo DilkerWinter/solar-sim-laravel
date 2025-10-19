@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Address extends Model
+{
+    use HasFactory, SoftDeletes;
+    protected $table = 'addresses';
+
+    protected $fillable = [
+        'customer_id',
+        'type',
+        'roof_type',
+        'neighborhood',
+        'street',
+        'number',
+        'city',
+        'state',
+        'cep'
+    ];
+
+    protected $with = ['energyInfo'];
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function energyInfo(): HasOne
+    {
+        return $this->hasOne(EnergyInfo::class);
+    }
+}

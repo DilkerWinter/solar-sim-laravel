@@ -1,26 +1,38 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { useToast } from '@/Contexts/ToastContext';
+import AppLayout from '@/Layouts/AppLayout';
 
-export default function Dashboard() {
-    return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
-            }
+function Dashboard() {
+  const { toast, success, error } = useToast();
+
+  return (
+    <>
+      <h1> Dashboard do sistema </h1>
+
+      <div className="flex gap-4 mt-6">
+        <button
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          onClick={() => error("Algo deu errado!")}
         >
-            <Head title="Dashboard" />
+          Erro
+        </button>
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </AuthenticatedLayout>
-    );
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={() => toast("Informação importante!", "info")}
+        >
+          Info
+        </button>
+
+        <button
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          onClick={() => success("Operação realizada com sucesso!")}
+        >
+          Success
+        </button>
+      </div>
+    </>
+  );
 }
+
+Dashboard.layout = (page) => <AppLayout>{page}</AppLayout>;
+export default Dashboard;

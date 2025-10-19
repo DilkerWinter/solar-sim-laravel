@@ -2,119 +2,141 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Services\CustomerService;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $customerService;
+
+    public function __construct(CustomerService $customerService)
     {
-        $customers = Customer::all();
-        return Inertia::render('Customers/Index', ['Customers' => $customers]);
+        $this->customerService = $customerService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index(Request $request)
+    {
+        try {
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->customerService->getDataTable($request->all());
+            }
+
+            return Inertia::render('Customers/Index', [
+                'customerDataTableUrl' => route('customers.index')
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar clientes: ' . $e->getMessage()
+            ]);
+        }
+    }
+
     public function create()
     {
-        return Inertia::render('Customers/Create');
+        try {
+            return Inertia::render('Customers/Create');
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao abrir formulário de cadastro: ' . $e->getMessage()
+            ]);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'street' => 'nullable|string|max:255',
-            'number' => 'nullable|string|max:50',
-            'neighborhood' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'average_monthly_consumption_kwh' => 'nullable|numeric',
-            'average_annual_consumption_kwh' => 'nullable|numeric',
-            'average_energy_bill' => 'nullable|numeric',
-            'energy_provider' => 'nullable|string|max:255',
-            'installation_type' => 'nullable|in:residential,industrial,commercial',
-            'roof_type' => 'nullable|string|max:255',
-            'notes' => 'nullable|string',
-        ]);
+        try {
+            $this->customerService->create($request->all());
 
-        Customer::create($validated);
-
-        return redirect()->route('customers.index')->with('success', 'Customer created successfuly.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $customer = Customer::findOrFail($id);
-
-        return Inertia::render('Customers/Show', props: [
-            'Customer' => $customer,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $customer = Customer::findOrFail($id);
-
-        return Inertia::render('Customers/Edit', [
-            'Customer' => $customer,
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $customer = Customer::findOrFail($id);
-        
-        $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'phone' => 'nullable|string|max:20',
-                'email' => 'nullable|email|max:255',
-                'street' => 'nullable|string|max:255',
-                'number' => 'nullable|string|max:50',
-                'neighborhood' => 'nullable|string|max:255',
-                'city' => 'nullable|string|max:255',
-                'state' => 'nullable|string|max:255',
-                'average_monthly_consumption_kwh' => 'nullable|numeric',
-                'average_annual_consumption_kwh' => 'nullable|numeric',
-                'average_energy_bill' => 'nullable|numeric',
-                'energy_provider' => 'nullable|string|max:255',
-                'installation_type' => 'nullable|in:residential,industrial,commercial',
-                'roof_type' => 'nullable|string|max:255',
-                'notes' => 'nullable|string',
+            return redirect()->route('customers.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Cliente cadastrado com sucesso.'
             ]);
 
-        $customer->update($validated);
-
-        return redirect()->route('customers.index')->with('success', 'Customer updated successfuly.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao cadastrar cliente: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function show(Request $request, string $id)
+    {
+        try {
+            $customer = $this->customerService->get($id);
+
+            if($this->jsonRequest($request)){
+                return $customer;
+            }
+
+            return Inertia::render('Customers/Show', [
+                'customer' => $customer,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar cliente: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function update(Request $request, string $id)
+    {
+        try {
+            $customer = $this->customerService->update($request->all(), $id);
+
+            return redirect()->route('customers.show', $customer->id)->with('toast', [
+                'type' => 'success',
+                'message' => 'Cliente atualizado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao atualizar cliente: ' . $e->getMessage()
+            ])->withInput();
+        }
+    }
+
     public function destroy(string $id)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->delete();
+        try {
+            $this->customerService->delete($id);
 
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+            return redirect()->route('customers.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Cliente deletado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao deletar cliente: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function count()
+    {
+        try {
+            return $this->customerService->count();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar clientes: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getDashboardCustomers() 
+    {
+        try {
+            return $this->customerService->getDashboardCustomers();
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar clientes: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

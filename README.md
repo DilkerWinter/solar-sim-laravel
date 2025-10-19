@@ -13,6 +13,8 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - [Node.js 24](https://nodejs.org/)
 - [React](https://reactjs.org/) com [Inertia.js](https://inertiajs.com/)
 - [PHPUnit](https://phpunit.de/) para testes automatizados
+- [Docker](https://www.docker.com/) para desenvolvimento e produção containerizados
+- [GitHub Actions](https://github.com/features/actions) para integração e entrega contínua (CI/CD)
 
 ---
 
@@ -26,49 +28,37 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - PostgreSQL >= 16
 - NPM ou Yarn
 
+Ou utilize Docker para rodar os containers de desenvolvimento
+
 ---
 
 ## ⚙️ Instalação
 
 ### Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-```
-### Instale as dependências do backend
-```bash
-composer install
+git clone git@github.com:DilkerWinter/solar-sim-laravel.git
+cd solar-sim-laravel
 ```
 
 ### Copie o arquivo de ambiente e configure
 ```bash
 cp .env.example .env
-php artisan key:generate
+cp docker-compose.yml.example docker-compose.yml
 ```
 
-### Configure o banco de dados PostgreSQL no arquivo .env
+### Suba os containers
 ```bash
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=nome_do_banco
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
+docker compose up -d --build
+```
+
+### Gerar chave de app
+```bash
+./dartisan key:generate
 ```
 
 ### Execute as migrações
 ```bash
-php artisan migrate
-```
-
-### Instale as dependências do frontend
-```bash
-npm install
-```
-
-### Compile os assets
-```bash
-npm run dev
+./dartisan migrate:fresh --seed
 ```
 
 ---
@@ -78,29 +68,26 @@ npm run dev
 Para rodar os testes com PHPUnit:
 
 ```bash
-php artisan test
-# ou
-vendor/bin/phpunit
+./dartisan test
 ```
 
 ---
 
 ## 🧠 Estrutura do Projeto
 
-O projeto segue a arquitetura padrão Laravel com Inertia.js:
+O projeto segue a arquitetura padrão Laravel com Inertia.js e React:
 
 ```
-├── app/
+├── app/            # Código Laravel
 ├── bootstrap/
 ├── database/
 ├── public/
 ├── resources/
 │   ├── js/         # Código React
-│   └── views/      # Views blade (apenas para fallback)
+│   └── views/      
 ├── routes/
-│   └── web.php
+│   └── web.php     # Rotas 
 ├── tests/
-└── .env
 ```
 
 ---
@@ -119,4 +106,4 @@ Desenvolvido por [Bruno Winter](https://github.com/DilkerWinter)
 
 
 ## 🤖 Tecnologias
-![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)![PostgreSQL](https://img.shields.io/badge/PostgreSQL-000?style=for-the-badge&logo=postgresql)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)![PostgreSQL](https://img.shields.io/badge/PostgreSQL-000?style=for-the-badge&logo=postgresql)![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)

@@ -1,19 +1,27 @@
-import React from 'react';
+import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
+import ProductDataTableSection from "@/Components/Product/Index/Sections/ProductDataTableSection";
+import ProductIndexHeader from "@/Components/Product/Index/Sections/ProductIndexHeader";
+import ProductInfoResume from "@/Components/Product/Index/Sections/ProductInfoResume";
+import AppLayout from "@/Layouts/AppLayout";
 
-export default function Index({ products }) {
-  return (
-    <div>
-      <h1>Lista de Produtos</h1>
-      <ul>
-        {products.map(product => (
-          <li key={product.id}>
-            <strong>{product.name}</strong> - R$ {product.price.toFixed(2)}{' '}
-            <button onClick={() => Inertia.visit(`/products/${product.id}`)}>Ver</button>{' '}
-            <button onClick={() => Inertia.visit(`/products/${product.id}/edit`)}>Editar</button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => Inertia.visit('/products/create')}>Criar novo produto</button>
-    </div>
-  );
+export default function Index({ productDataTableUrl }) {
+    return (
+        <div className="w-full mx-auto p-8">
+            <ProductIndexHeader />
+
+            <ProductInfoResume/>
+
+            <ProductDataTableSection dataTableUrl={productDataTableUrl} />
+        </div>
+    );
 }
+
+Index.layout = (page) => (
+  <AppLayout breadcrumb={<CustomBreadcrumb
+  items={[
+    { name: "Início", href: "/dashboard" },
+    { name: "Produtos" },
+  ]}
+/>
+}>{page}</AppLayout>
+);

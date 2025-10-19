@@ -1,0 +1,85 @@
+import { Banknote, Eye } from "lucide-react";
+import { router } from "@inertiajs/react";
+import { capitalize } from "@/Utils/capitalize";
+import { DataTableViewButton } from "@/Components/UI/Buttons/DataTableViewButton";
+
+function Name({ name }) {
+    return (
+        <div className="flex flex-col">
+            <span className="font-semibold text-gray-700">
+                {capitalize(name)}
+            </span>
+        </div>
+    );
+}
+
+function Type({ type }) {
+    let bgColor = "bg-gray-100";
+    let textColor = "text-gray-700";
+    let borderColor = "border-gray-300";
+
+    if (type.toLowerCase() === "placa solar") {
+        bgColor = "bg-green-100";
+        textColor = "text-green-700";
+        borderColor = "border-green-300";
+    } else if (type.toLowerCase() === "inversor") {
+        bgColor = "bg-blue-100";
+        textColor = "text-blue-700";
+        borderColor = "border-blue-300";
+    }
+
+    return (
+        <div
+            className={`inline-flex items-center gap-1 px-3 py-1 rounded-2xl text-sm font-medium border ${bgColor} ${textColor} ${borderColor}`}
+        >
+            {type}
+        </div>
+    );
+}
+
+function Price({ price }) {
+    return (
+        <div className="inline-flex items-center gap-2 text-gray-700">
+            <Banknote size={16} className="text-green-500" />
+            <span className="font-semibold">R$ {price}</span>
+        </div>
+    );
+}
+
+function Brand({ brand }) {
+    return (
+        <div className="flex flex-col">
+            <span className=" font-semibold text-gray-700">{brand}</span>
+        </div>
+    );
+}
+
+function Actions({ actions }) {
+    return (
+        <DataTableViewButton onClick={() => router.visit(actions[0].route)} />
+    );
+}
+
+export default function ProductDataTableRow({ product, headers }) {
+    return (
+        <tr className="border-t border-gray-400 shadow-gray-300">
+            {headers.map((header) => (
+                <td key={header.key} className="p-4">
+                    {header.key === "name" ? (
+                        <Name name={product.name} />
+                    ) : header.key === "brand" ? (
+                        <Brand brand={product.brand} />
+                    ) : header.key === "type" ? (
+                        <Type type={product.type} />
+                    ) : header.key === "price" ? (
+                        <Price price={product.price} />
+                    ) : header.key === "actions" ? (
+                        <Actions actions={product.actions} />
+                    ) : (
+                        product[header.key]
+                    )}
+                </td>
+            ))}
+        </tr>
+    );
+}

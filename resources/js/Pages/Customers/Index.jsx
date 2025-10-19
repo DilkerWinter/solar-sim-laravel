@@ -1,19 +1,27 @@
-import React from 'react';
+import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
+import CustomerDataTableSection from "@/Components/Customer/Index/Sections/CustomerDataTableSection";
+import CustomerIndexHeader from "@/Components/Customer/Index/Sections/CustomerIndexHeader";
+import CustomerInfoResume from "@/Components/Customer/Index/Sections/CustomerInfoResume";
+import AppLayout from "@/Layouts/AppLayout";
 
-export default function Index({ customers }) {
-  return (
-    <div>
-      <h1>Lista de Costumers</h1>
-      <ul>
-        {costumers.map(costumer => (
-          <li key={costumer.id}>
-            <strong>{costumer.name}</strong>
-            <button onClick={() => Inertia.visit(`/costumers/${costumer.id}`)}>Ver</button>{' '}
-            <button onClick={() => Inertia.visit(`/costumers/${costumer.id}/edit`)}>Editar</button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => Inertia.visit('/costumers/create')}>Criar novo produto</button>
-    </div>
-  );
+export default function Index({ customerDataTableUrl }) {
+    return (
+        <div className="w-full mx-auto p-8">
+            <CustomerIndexHeader />
+
+            <CustomerInfoResume/>
+
+            <CustomerDataTableSection dataTableUrl={customerDataTableUrl} />
+        </div>
+    );
 }
+
+Index.layout = (page) => (
+  <AppLayout breadcrumb={<CustomBreadcrumb
+  items={[
+    { name: "Início", href: "/dashboard" },
+    { name: "Clientes" },
+  ]}
+/>
+}>{page}</AppLayout>
+);

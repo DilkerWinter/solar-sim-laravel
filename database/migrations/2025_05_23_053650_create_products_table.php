@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('description');
             $table->decimal('price', 10, 2);
             $table->string('brand');
-            $table->string('category');
             $table->json('data')->nullable();
             $table->timestamps();
         });

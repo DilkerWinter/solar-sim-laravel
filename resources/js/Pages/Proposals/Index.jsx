@@ -1,0 +1,25 @@
+import CustomBreadcrumb from "@/Components/AppLayout/CustomBreadcrumb";
+import ProposalDataTableSection from "@/Components/Proposal/Index/Sections/ProposalDataTableSection";
+import ProposalIndexHeader from "@/Components/Proposal/Index/Sections/ProposalIndexHeader";
+import ProposalInfoResume from "@/Components/Proposal/Index/Sections/ProposalInfoResume";
+import AppLayout from "@/Layouts/AppLayout";
+
+export default function Index({ proposalDataTableUrl }) {
+    return (
+        <div className="w-full mx-auto p-8">
+            <ProposalIndexHeader />
+            <ProposalInfoResume />
+            <ProposalDataTableSection dataTableUrl={proposalDataTableUrl} />
+        </div>
+    );
+}
+
+Index.layout = (page) => (
+    <AppLayout breadcrumb={<CustomBreadcrumb
+        items={[
+            { name: "Início", href: "/dashboard" },
+            { name: "Propostas" },
+        ]}
+    />
+    }>{page}</AppLayout>
+);

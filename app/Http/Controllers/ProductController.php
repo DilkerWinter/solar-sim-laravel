@@ -2,80 +2,156 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Services\ProductService;
+use App\Services\ProductTypeService;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function index()
+    protected $productService;
+
+    public function __construct(ProductService $productService)
     {
-        return Inertia::render('Products/Index', [
-            'products' => Product::all(),
-        ]);
+        $this->productService = $productService;
+    }
+    
+    public function index(Request $request)
+    {
+        try {
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->productService->getDataTable($request->all());
+            }
+
+            return Inertia::render('Products/Index', [
+                'productDataTableUrl' => route('products.index')
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar produtos: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function create()
     {
-        return Inertia::render('Products/Create');
+        try {
+            $productTypeService = resolve(ProductTypeService::class);
+            $productTypes = $productTypeService->getAll();
+
+            return Inertia::render('Products/Create', [
+                'productTypes' => $productTypes
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao abrir formulário de produtos: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'required|string',
-            'price'       => 'required|numeric|min:0',
-            'brand'       => 'required|string|max:255',
-            'category'    => 'required|string|max:255',
-            'data'        => 'nullable|json',
-        ]);
+        try {
+            $this->productService->create($request->all());
 
-        Product::create($validated);
-
-        return redirect()
-            ->route('products.index')
-            ->with('success', 'Product created successfully!');
+            return redirect()->route('products.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Produto criado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao criar produto: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
-    public function show(Product $product)
+    public function show(string $id)
     {
-        return Inertia::render('Products/Show', [
-            'product' => $product,
-        ]);
+        try {
+            $product = $this->productService->get($id);
+
+            return Inertia::render('Products/Show', [
+                'product' => $product,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar produto: ' . $e->getMessage()
+            ]);
+        }
     }
 
-    public function edit(Product $product)
+    public function edit(string $id)
     {
-        return Inertia::render('Products/Edit', [
-            'product' => $product,
-        ]);
+        try {
+            $product = $this->productService->get($id);
+
+            return Inertia::render('Products/Edit', [
+                'product' => $product,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao editar produto: ' . $e->getMessage()
+            ]);
+        }
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'required|string',
-            'price'       => 'required|numeric|min:0',
-            'brand'       => 'required|string|max:255',
-            'category'    => 'required|string|max:255',
-            'data'        => 'nullable|json',
-        ]);
+        try {
+            $this->productService->update($request->all(), $id);
 
-        $product->update($validated);
-
-        return redirect()
-            ->route('products.index')
-            ->with('success', 'Product updated successfully!');
+            return redirect()->route('products.show', $id)->with('toast', [
+                'type' => 'success',
+                'message' => 'Produto atualizado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao atualizar produto: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
-    public function destroy(Product $product)
+    public function destroy(string $id)
     {
-        $product->delete();
+        try {
+            $this->productService->delete($id);
 
-        return redirect()
-            ->route('products.index')
-            ->with('success', 'Product deleted successfully!');
+            return redirect()->route('products.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Produto deletado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao deletar produto: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    
+    public function count(Request $request)
+    {
+        try {
+            $type = $request->input('type');
+        
+            return $this->productService->count($type);
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar produtos: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getAllGroupedByType()
+    {
+        return $this->productService->getAllGroupedByType();
     }
 }

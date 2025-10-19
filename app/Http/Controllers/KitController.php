@@ -2,88 +2,141 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kit;
+use App\Http\Resources\ProductResource;
+use App\Services\KitService;
+use App\Services\ProductService;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Services\KitPowerCalculatorService;
 
 class KitController extends Controller
 {
-    protected $calculator;
+    protected $kitService;
 
-    public function __construct(KitPowerCalculatorService $calculator)
+    public function __construct(KitService $kitService)
     {
-        $this->calculator = $calculator;
+        $this->kitService = $kitService;
     }
-
-    public function index()
+    
+    public function index(Request $request)
     {
-        return Inertia::render('Kits/Index', [
-            'kits' => Kit::all(),
-        ]);
+        try {
+            if ($this->requisicaoWithDataTable($request)) {
+                return $this->kitService->getDataTable($request->all());
+            }
+
+            return Inertia::render('Kits/Index', [
+                'kitDataTableUrl' => route('kits.index')
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar kits: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function create()
     {
-        return Inertia::render('Kits/Create');
+        try {
+            $productService = resolve(ProductService::class);
+            $products = $productService->getAllGroupedByType();
+
+            return Inertia::render('Kits/Create', [
+                'products' => $products
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao abrir formulário de kits: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'         => 'required|string|max:255',
-            'totalPrice'   => 'required|numeric|min:0',
-            'maxPotencyKw' => 'required|numeric|min:0',
-        ]);
+        try {
+            $this->kitService->create($request->all());
 
-        $kit = Kit::create($validated);
-
-        // Optionally calculate power after creation if kit items exist
-        $this->calculator->calculateAndSetTotalPower($kit);
-
-        return redirect()
-            ->route('kits.index')
-            ->with('success', 'Kit created successfully!');
+            return redirect()->route('kits.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Kit criado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao criar kit: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
-    public function show(Kit $kit)
+    public function show(Request $request, string $id)
     {
-        return Inertia::render('Kits/Show', [
-            'kit' => $kit,
-        ]);
+        try {
+            $kit = $this->kitService->get($id);
+
+            if($this->jsonRequest($request)) {
+                return $kit;
+            }
+
+            $productService = resolve(ProductService::class);
+            $products = $productService->getAllGroupedByType();
+
+            return Inertia::render('Kits/Show', [
+                'kit' => $kit,
+                'products' => $products,
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao carregar kit: ' . $e->getMessage()
+            ]);
+        }
     }
 
-    public function edit(Kit $kit)
+    public function update(Request $request, string $id)
     {
-        return Inertia::render('Kits/Edit', [
-            'kit' => $kit,
-        ]);
+        try {
+            $this->kitService->update($request->all(), $id);
+
+            return redirect()->route('kits.show', $id)->with('toast', [
+                'type' => 'success',
+                'message' => 'Kit atualizado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao atualizar kit: ' . $e->getMessage()
+            ])->withInput();
+        }
     }
 
-    public function update(Request $request, Kit $kit)
+    public function destroy(string $id)
     {
-        $validated = $request->validate([
-            'name'         => 'required|string|max:255',
-            'totalPrice'   => 'required|numeric|min:0',
-            'maxPotencyKw' => 'required|numeric|min:0',
-        ]);
+        try {
+            $this->kitService->delete($id);
 
-        $kit->update($validated);
-
-        // Recalculate totalKw after update
-        $this->calculator->calculateAndSetTotalPower($kit);
-
-        return redirect()
-            ->route('kits.index')
-            ->with('success', 'Kit updated successfully!');
+            return redirect()->route('kits.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Kit deletado com sucesso.'
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Erro ao deletar kit: ' . $e->getMessage()
+            ]);
+        }
     }
 
-    public function destroy(Kit $kit)
+    public function count()
     {
-        $kit->delete();
-
-        return redirect()
-            ->route('kits.index')
-            ->with('success', 'Kit deleted successfully!');
+        try {
+            return $this->kitService->count();
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao contar kits: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
